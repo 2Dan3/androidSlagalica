@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Slagalica</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">\@danilo2312</string>
+    <string name="nav_header_subtitle">dan23.ftn@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Podesavanja</string>
+    <string name="rank_list_tab_title">Rang</string>
+    <string name="search_players_tab_title">Igraci</string>
+    <string name="main_tab_title">Igre</string>
+
+    <string name="menu_home">Pocetna</string>
+    <string name="menu_profile">Moj profil</string>
+    <string name="menu_logout">Odjavi se</string>
+</resources>

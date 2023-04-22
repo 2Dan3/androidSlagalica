@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+
+<!--    Primary colors (blue, orange, white) & their variants-->
+    <color name="white_clear">#FFFFFF</color>
+    <color name="white_smoked">#FAFAFA</color>
+    <color name="orange_light">#FFAE0D</color>
+    <color name="orange_dark">#FF5722</color>
+    <color name="blue_dark">#060C30</color>
+    <color name="blue_dark_2">#0A1349</color>
+    <color name="blue_midnight">#091663</color>
+    <color name="blue_light">#155C95</color>
+
+<!--    Do not remove (referenced by left-overs in themes.xml)-->
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="purple_200">#673AB7</color>
+    <color name="purple_700">#8D58EC</color>
+
+</resources>
