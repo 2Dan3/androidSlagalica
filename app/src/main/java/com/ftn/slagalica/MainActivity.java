@@ -37,49 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setupToolbarAndActionbar();
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setupNavigationAndDrawer();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            menuItem.setChecked(true);
-            mDrawerLayout.closeDrawers();
-            Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
-            return true;
-        });
-
-//        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Snackbar.make(findViewById(R.id.coordinator), "I'm a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(MainActivity.this, "Snackbar Action", Toast.LENGTH_LONG).show();
-//                    }
-//                }).show();
-//            }
-//        });
-
-        DesignDemoPagerAdapter adapter = new DesignDemoPagerAdapter(getSupportFragmentManager());
-        ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        //      * Selects default "GAMES" Tab upon activity creation
-        tabLayout.getTabAt(1).select();
-        //      * Middle Tab "GAMES" is main (wider bottom scroll indicator than other tabs)
-        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        layoutParams.weight = 1.5f;
-        layout.setLayoutParams(layoutParams);
+        loadMainFragment();
     }
 
     @Override
@@ -107,70 +69,43 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class DesignDemoFragment extends Fragment {
-        private static final String TAB_POSITION = "tab_position";
-
-        public DesignDemoFragment() {
-
-        }
-
-        public static DesignDemoFragment newInstance(int tabPosition) {
-            DesignDemoFragment fragment = new DesignDemoFragment();
-            Bundle args = new Bundle();
-            args.putInt(TAB_POSITION, tabPosition);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            Bundle args = getArguments();
-            int tabPosition = args.getInt(TAB_POSITION);
-            View v = null;
-//            ArrayList<String> items = new ArrayList<String>();
-
-//            *TODO: ubacivanje fragmenata u Tabove
-//             TODO to ce resiti vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
-            if (tabPosition==0) {
-//                v = inflater.inflate(R.layout.activity_rankings, container, false);
-            }
-            else if (tabPosition==1) {
-//                v = inflater.inflate(R.layout.activity_game_launcher, container, false);
-            }
-            else if (tabPosition==2) {
-//                v = inflater.inflate(R.layout.activity_search_people, container, false);
-            }
-
-            return v;
-        }
+    private void loadMainFragment(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).commit();
     }
+    private void setupNavigationAndDrawer(){
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-    static class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            menuItem.setChecked(true);
+            mDrawerLayout.closeDrawers();
+            Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
+            switch (menuItem.getItemId()) {
+                case R.id.nav_home:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).commit();
+                    return true;
+                case R.id.nav_profile:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new ProfileFragment() ).commit();
+                    return true;
+                case R.id.nav_logout:
+//                    *TODO: new Intent to login page?
+                    return true;
+            }
+            return true;
+        });
+    }
+    private void setupToolbarAndActionbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        public DesignDemoPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return DesignDemoFragment.newInstance(position);
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            String retval ="n/a";
-            if(position==0) retval = "Rang";
-            else if (position==1) retval = "Igre";
-            else if (position==2) retval = "Igraci";
-
-            return retval;
-        }
+        replaceToolbarTextWithIcon(actionBar, toolbar);
+    }
+    private void replaceToolbarTextWithIcon(ActionBar actionBar, Toolbar toolbar) {
+        actionBar.setDisplayShowTitleEnabled(false);
+        toolbar.setLogo(R.mipmap.ic_default_profile);
     }
 
 }

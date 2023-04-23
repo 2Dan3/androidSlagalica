@@ -26,40 +26,14 @@
                 android:background="@drawable/side_nav_bar"
                 app:layout_scrollFlags="scroll|enterAlways"/>
 
+        <FrameLayout
+            android:id="@+id/fragment_container_main"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/side_nav_bar"
-                app:tabTextColor="@color/orange_light"
-                app:tabIndicatorColor="@color/orange_light">
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/ranktab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rank_list_tab_title"
-                    />
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/maintab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_tab_title"
-                    />
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/playerstab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_players_tab_title"
-                    />
-            </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

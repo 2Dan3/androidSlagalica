@@ -13,7 +13,7 @@
                     android:title="@string/menu_profile"
                     android:icon="@drawable/menu_profile" />
                 <item
-                    android:id="@+id/nav_slideshow"
+                    android:id="@+id/nav_logout"
                     android:title="@string/menu_logout"
                     android:icon="@drawable/menu_logout" />
 
