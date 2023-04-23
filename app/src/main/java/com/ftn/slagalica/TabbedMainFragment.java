@@ -1,9 +1,11 @@
 package com.ftn.slagalica;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -76,19 +79,20 @@ public class TabbedMainFragment extends Fragment {
 //        *TODO implement tablayout + viewpager + adapter here
 
         DesignDemoPagerAdapter adapter = new DesignDemoPagerAdapter(getChildFragmentManager());
-        ViewPager viewPager = (ViewPager)getActivity().findViewById(R.id.viewpager);
+        ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout)getActivity().findViewById(R.id.tablayout);
+        TabLayout tabLayout = getActivity().findViewById(R.id.tablayout);
 
         tabLayout.setupWithViewPager(viewPager);
 
-        //      * Selects default "GAMES" Tab upon activity creation
-        tabLayout.getTabAt(1).select();
-        //      * Middle Tab "GAMES" is main (wider bottom scroll indicator than other tabs)
-        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        layoutParams.weight = 1.5f;
-        layout.setLayoutParams(layoutParams);
+//        *TODO: Uncomment and run !   View initial creation & frag inflation "difference" Needs BUGFIX !
+//        //      * Selects default "GAMES" Tab upon activity creation
+//        tabLayout.getTabAt(1).select();
+//        //      * Middle Tab "GAMES" is main (wider bottom scroll indicator than other tabs)
+//        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
+//        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
+//        layoutParams.weight = 1.5f;
+//        layout.setLayoutParams(layoutParams);
     }
 
     public static class DesignDemoFragment extends Fragment {
@@ -106,6 +110,7 @@ public class TabbedMainFragment extends Fragment {
             return fragment;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,6 +118,7 @@ public class TabbedMainFragment extends Fragment {
             int tabPosition = args.getInt(TAB_POSITION);
             View v = null;
 //            ArrayList<String> items = new ArrayList<String>();
+            Toast.makeText(getActivity(), container.getClass().toString(), Toast.LENGTH_SHORT).show();
 
 //            *TODO: ubacivanje fragmenata u Tabove
 //             TODO to ce resiti vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
@@ -120,7 +126,7 @@ public class TabbedMainFragment extends Fragment {
 //                v = inflater.inflate(R.layout.activity_rankings, container, false);
             }
             else if (tabPosition==1) {
-//                v = inflater.inflate(R.layout.activity_game_launcher, container, false);
+//                v = inflater.inflate(R.layout.fragment_match_finding, container, false);
             }
             else if (tabPosition==2) {
 //                v = inflater.inflate(R.layout.activity_search_people, container, false);

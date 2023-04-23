@@ -52,4 +52,9 @@
         "emulated by manipulating the y-axis."
         "Light and shadow."
         </string>
+    <string name="random_match">Pronadji nasumicnog igraca</string>
+    <string name="friendly_match">Izazovi prijatelja</string>
+    <string name="textSizeButtons">21dp</string>
+    <string name="buttonHorizontalPadding">20dp</string>
+    <string name="buttonVerticalPadding">4dp</string>
 </resources>
