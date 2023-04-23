@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -82,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE).commit();
                     return true;
                 case R.id.nav_profile:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new ProfileFragment() ).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new ProfileFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
                     return true;
                 case R.id.nav_logout:
 //                    *TODO: new Intent to login page?
