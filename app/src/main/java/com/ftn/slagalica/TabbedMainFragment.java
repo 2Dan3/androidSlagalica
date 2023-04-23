@@ -26,6 +26,10 @@ import com.google.android.material.tabs.TabLayout;
  */
 public class TabbedMainFragment extends Fragment {
 
+    private DesignDemoPagerAdapter adapter;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -57,6 +61,23 @@ public class TabbedMainFragment extends Fragment {
         return fragment;
     }
 
+//    *TODO might prove helpful with bug/issue described below in onViewCreated() comment
+//    @Override
+//    public void onDestroyView() {
+//        adapter = null;
+//        viewPager = null;
+//        tabLayout = null;
+//        super.onDestroyView();
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        adapter = null;
+//        viewPager = null;
+//        tabLayout = null;
+//        super.onDestroy();
+//    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,27 +93,45 @@ public class TabbedMainFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tabbed_main, container, false);
     }
+//    @Override
+//    public void onAttachFragment(@NonNull Fragment childFragment) {
+//        adapter = new DesignDemoPagerAdapter(getChildFragmentManager());
+//        viewPager = getActivity().findViewById(R.id.viewpager);
+//        viewPager.setAdapter(adapter);
+//        tabLayout = getActivity().findViewById(R.id.tablayout);
+//
+//        tabLayout.setupWithViewPager(viewPager);
+//
+//        super.onAttachFragment(childFragment);
+//    }
+
+
+    @Override
+    public void onDetach() {
+        viewPager.setAdapter(null);
+        super.onDetach();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        *TODO implement tablayout + viewpager + adapter here
+//        *TODO might need an onDestroy() to erase adapter, viewpager & tablayout, upon replacing this fragment with Profile (and then building this fragment again by replacing back to this view)
 
-        DesignDemoPagerAdapter adapter = new DesignDemoPagerAdapter(getChildFragmentManager());
-        ViewPager viewPager = getActivity().findViewById(R.id.viewpager);
+        adapter = new DesignDemoPagerAdapter(getActivity().getSupportFragmentManager());
+        viewPager = getActivity().findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = getActivity().findViewById(R.id.tablayout);
+        tabLayout = getActivity().findViewById(R.id.tablayout);
 
         tabLayout.setupWithViewPager(viewPager);
 
-//        *TODO: Uncomment and run !   View initial creation & frag inflation "difference" Needs BUGFIX !
-//        //      * Selects default "GAMES" Tab upon activity creation
-//        tabLayout.getTabAt(1).select();
-//        //      * Middle Tab "GAMES" is main (wider bottom scroll indicator than other tabs)
-//        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
-//        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-//        layoutParams.weight = 1.5f;
-//        layout.setLayoutParams(layoutParams);
+//        *TODO: Uncomment and run it !   View initial creation & frag inflation "difference" Needs BUGFIX !
+        //      * Selects default "GAMES" Tab upon activity creation
+        tabLayout.getTabAt(1).select();
+        //      * Middle Tab "GAMES" is main (wider bottom scroll indicator than other tabs)
+        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
+        layoutParams.weight = 1.5f;
+        layout.setLayoutParams(layoutParams);
     }
 
     public static class DesignDemoFragment extends Fragment {
@@ -126,7 +165,7 @@ public class TabbedMainFragment extends Fragment {
 //                v = inflater.inflate(R.layout.activity_rankings, container, false);
             }
             else if (tabPosition==1) {
-//                v = inflater.inflate(R.layout.fragment_match_finding, container, false);
+                v = inflater.inflate(R.layout.fragment_match_finding, container, false);
             }
             else if (tabPosition==2) {
 //                v = inflater.inflate(R.layout.activity_search_people, container, false);
