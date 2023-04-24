@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameActivity">
+
+
+<!--   TODO
+        GameActivity = 1 runda;
+        Na kraju svih 6 igara - start MainActivity;
+        FrameLayout = Container za .replace() smenjivanje 6 Fragmenata igara. -->
+    <FrameLayout
+        android:id="@+id/game_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
