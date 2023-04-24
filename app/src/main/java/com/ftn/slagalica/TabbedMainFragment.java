@@ -106,11 +106,11 @@ public class TabbedMainFragment extends Fragment {
 //    }
 
 
-    @Override
-    public void onDetach() {
-        viewPager.setAdapter(null);
-        super.onDetach();
-    }
+//    @Override
+//    public void onDetach() {
+//        viewPager.setAdapter(null);
+//        super.onDetach();
+//    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

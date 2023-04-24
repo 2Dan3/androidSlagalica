@@ -3,6 +3,7 @@ package com.ftn.slagalica;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.ftn.slagalica.ui.login.LoginActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                 finish();
             }
         }, SPLASH_TIMEOUT);

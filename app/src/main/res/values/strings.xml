@@ -53,6 +53,15 @@
         </string>
     <string name="random_match">Pronadji nasumicnog igraca</string>
     <string name="friendly_match">Izazovi prijatelja</string>
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_splash_screen">Ucitavanje</string>
+    <string name="title_activity_login">Prijava na sistem</string>
+    <string name="prompt_email">Email / Korisnicko ime</string>
+    <string name="prompt_password">Lozinka</string>
+    <string name="action_sign_in">Prijavi se</string>
+    <string name="action_sign_in_short">Prijavi se</string>
+    <string name="welcome">"Dobro dosli !"</string>
+    <string name="invalid_username">Neispravno korisnicko ime / email</string>
+    <string name="invalid_password">Lozinka mora biti duza od 5 karaktera</string>
+    <string name="login_failed">"Prijava neuspesna"</string>
 
 </resources>

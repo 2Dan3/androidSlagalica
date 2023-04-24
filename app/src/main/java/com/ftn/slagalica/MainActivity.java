@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.nav_logout:
 //                    *TODO: new Intent to login page?
+
                     return true;
             }
             return true;
