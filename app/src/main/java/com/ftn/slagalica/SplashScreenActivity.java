@@ -3,19 +3,9 @@ package com.ftn.slagalica;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.ftn.slagalica.ui.login.LoginActivity;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.ftn.slagalica.databinding.ActivitySplashScreenBinding;
+import com.ftn.slagalica.ui.login.LoginActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,7 +22,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
                 finish();
             }
         }, SPLASH_TIMEOUT);

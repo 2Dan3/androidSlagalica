@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         findViewById(R.id.loginBtn).setOnClickListener(view -> authenticate(view));
+        findViewById(R.id.toRegisterBtn).setOnClickListener(view -> toRegister(view));
     }
 
     private void authenticate(View view) {
@@ -26,13 +27,19 @@ public class LoginActivity extends AppCompatActivity {
 //        if(credentials ...){
 //            TODO upis nekog login tokena u sesiju?
 //                          ...
-        Toast.makeText(LoginActivity.this, "Prijava", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, "Prijavljeni ste", Toast.LENGTH_SHORT).show();
 
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+        toMainActivity(view);
 //        } else{
 //              ...
 //        }
     }
-
+    private void toMainActivity(View v){
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
+    }
+    private void toRegister(View v){
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        finish();
+    }
 }

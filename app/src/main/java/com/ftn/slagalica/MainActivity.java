@@ -1,5 +1,6 @@
 package com.ftn.slagalica;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.ftn.slagalica.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             menuItem.setChecked(true);
             mDrawerLayout.closeDrawers();
+
             Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
@@ -89,8 +92,10 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new ProfileFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
                     return true;
                 case R.id.nav_logout:
-//                    *TODO: new Intent to login page?
-
+                    logout();
+                    return true;
+                case R.id.nav_login:
+                    toLogin();
                     return true;
             }
             return true;
@@ -108,6 +113,15 @@ public class MainActivity extends AppCompatActivity {
     private void replaceToolbarTextWithIcon(ActionBar actionBar, Toolbar toolbar) {
         actionBar.setDisplayShowTitleEnabled(false);
         toolbar.setLogo(R.mipmap.ic_default_profile);
+    }
+    private void toLogin(){
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
+    }
+    private void logout(){
+//        TODO brisanje tokena korisnika
+//         iz sesije pre redirekcije na login
+        toLogin();
     }
 
 }
