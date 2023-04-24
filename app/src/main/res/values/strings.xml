@@ -74,5 +74,7 @@
     <string name="to_login">Predji Na prijavu</string>
     <string name="to_register">Predji Na registraciju</string>
     <string name="menu_login">Prijavi se</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

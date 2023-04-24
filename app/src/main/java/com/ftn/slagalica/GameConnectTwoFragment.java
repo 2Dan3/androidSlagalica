@@ -1,0 +1,56 @@
+package com.ftn.slagalica;
+
+import android.graphics.Color;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link GameConnectTwoFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class GameConnectTwoFragment extends Fragment {
+
+    private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
+    private static final int COLOR_WRONG_MATCH = 0XFFF44336;
+
+//    private String mParam1;
+//    private String mParam2;
+
+    public GameConnectTwoFragment() {
+        // Required empty public constructor
+    }
+
+    public static GameConnectTwoFragment newInstance(String param1, String param2) {
+        GameConnectTwoFragment fragment = new GameConnectTwoFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_game_connect_two, container, false);
+    }
+    public void changeFieldColor(View v) {
+        v.setBackgroundColor(COLOR_RIGHT_MATCH);
+    }
+}
