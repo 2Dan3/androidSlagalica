@@ -157,7 +157,9 @@ public class TabbedMainFragment extends Fragment {
             int tabPosition = args.getInt(TAB_POSITION);
             View v = null;
 //            ArrayList<String> items = new ArrayList<String>();
-            Toast.makeText(getActivity(), container.getClass().toString(), Toast.LENGTH_SHORT).show();
+
+//            Toast was used for viewPager Debugging
+//            Toast.makeText(getActivity(), container.getClass().toString(), Toast.LENGTH_SHORT).show();
 
 //            *TODO: ubacivanje fragmenata u Tabove
 //             TODO to ce resiti vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
@@ -194,8 +196,8 @@ public class TabbedMainFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             String retval ="n/a";
-            if(position==0) retval = "Rang";
-            else if (position==1) retval = "Igre";
+            if(position==0) retval = "Plasmani";
+            else if (position==1) retval = "Igraj";
             else if (position==2) retval = "Igraci";
 
             return retval;

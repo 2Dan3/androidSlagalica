@@ -83,15 +83,17 @@ public class MainActivity extends AppCompatActivity {
             menuItem.setChecked(true);
             mDrawerLayout.closeDrawers();
 
-            Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
+                    Toast.makeText(MainActivity.this, "Pocetna", Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE).commit();
                     return true;
                 case R.id.nav_profile:
+                    Toast.makeText(MainActivity.this, "Moj profil", Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new ProfileFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
                     return true;
                 case R.id.nav_logout:
+                    Toast.makeText(MainActivity.this, "Odjavljeni ste", Toast.LENGTH_SHORT).show();
                     logout();
                     return true;
                 case R.id.nav_login:
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     private void logout(){
 //        TODO brisanje tokena korisnika
 //         iz sesije pre redirekcije na login
-        toLogin();
+//          Reload Pocetne sa specificnostima za Neprijavljenog korisnika
     }
 
 }

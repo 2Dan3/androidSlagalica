@@ -69,8 +69,8 @@
     <string name="action_sign_up">Registruj se</string>
     <string name="action_sign_up_short">Registruj se</string>
     <string name="title_activity_register">Registracija</string>
-    <string name="already_registered">Posedujes nalog?</string>
-    <string name="not_registered">Ne posedujes nalog?</string>
+    <string name="already_registered">Imas nalog?</string>
+    <string name="not_registered">Nemas nalog?</string>
     <string name="to_login">Predji Na prijavu</string>
     <string name="to_register">Predji Na registraciju</string>
     <string name="menu_login">Prijavi se</string>

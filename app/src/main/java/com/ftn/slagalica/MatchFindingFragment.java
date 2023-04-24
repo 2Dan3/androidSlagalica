@@ -58,6 +58,8 @@ public class MatchFindingFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+//         TODO
+//          BUG onclick events aren't being registered
         CardView cardRandomMatch = getActivity().findViewById(R.id.cardViewRandomMatch);
         cardRandomMatch.setOnClickListener(
                 view -> {
