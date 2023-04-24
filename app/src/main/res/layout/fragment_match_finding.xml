@@ -5,57 +5,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/blue_dark"
-    tools:context=".MatchFindingFragment">
+    android:background="@color/white_smoked"
+    tools:context=".MatchFindingFragment"
+    android:paddingHorizontal="38dp">
 
     <LinearLayout
-        android:id="@+id/matchFindingWrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
-
+        android:gravity="center"
+        >
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewRandomMatch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            >
-
-            <TextView
-            android:id="@+id/randomMatchTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/random_match"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="4dp"
-            android:textStyle="italic"
-            android:gravity="center"
-            android:textColor="@color/orange_dark"
-            android:textSize="21dp"
-            android:textAllCaps="true"
-                />
-
+            android:layout_marginBottom="20dp"
+            >
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/randomMatchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/random_match"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/orange_light"
+                android:textSize="21dp"
+                android:textAllCaps="true" />
         </androidx.cardview.widget.CardView>
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewFriendlyMatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:id="@+id/friendlyMatchTextview"
+            <Button
+                android:id="@+id/friendlyMatchBtn"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/friendly_match"
-                android:paddingVertical="4dp"
-                android:textStyle="italic"
+                android:paddingVertical="10dp"
+                android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/orange_dark"
+                android:textColor="@color/orange_light"
                 android:textSize="21dp"
-                android:textAllCaps="true"
-                />
+                android:textAllCaps="true" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-
 </LinearLayout>

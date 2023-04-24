@@ -5,7 +5,7 @@
 
 <!--    Primary colors (blue, orange, white) & their variants-->
     <color name="white_clear">#FFFFFF</color>
-    <color name="white_smoked">#FAFAFA</color>
+    <color name="white_smoked">#F3F3F3</color>
     <color name="orange_light">#FFAE0D</color>
     <color name="orange_dark">#FF6E35</color>
     <color name="blue_dark">#060C30</color>

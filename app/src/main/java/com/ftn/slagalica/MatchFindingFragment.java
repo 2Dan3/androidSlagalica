@@ -1,5 +1,7 @@
 package com.ftn.slagalica;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -57,10 +59,20 @@ public class MatchFindingFragment extends Fragment {
         }
 
         CardView cardRandomMatch = getActivity().findViewById(R.id.cardViewRandomMatch);
-        cardRandomMatch.setOnClickListener(view -> Toast.makeText(getActivity(), "Trazi se protivnik...", Toast.LENGTH_LONG).show());
+        cardRandomMatch.setOnClickListener(
+                view -> {
+                    Toast.makeText(getActivity(), "Trazi se protivnik...", Toast.LENGTH_LONG).show();
+                    toGameActivity(view);
+                });
 
-        CardView cardFriendlyMatch = getActivity().findViewById(R.id.cardViewRandomMatch);
-        cardFriendlyMatch.setOnClickListener(view -> Toast.makeText(getActivity(), "Odaberite prijatelja", Toast.LENGTH_LONG).show());
+        CardView cardFriendlyMatch = getActivity().findViewById(R.id.cardViewFriendlyMatch);
+        cardFriendlyMatch.setOnClickListener(
+                view -> {
+                    Toast.makeText(getActivity(), "Odaberite prijatelja", Toast.LENGTH_LONG).show();
+        //        TODO
+        //         openDrawer with FriendList under Log out btn (inv icons next to each available-to-play friend)
+        });
+
 
     }
 
@@ -69,5 +81,12 @@ public class MatchFindingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_match_finding, container, false);
+    }
+
+    private void toGameActivity(View v){
+        Activity currentParent = getActivity();
+
+        startActivity(new Intent(currentParent, GameActivity.class));
+        currentParent.finish();
     }
 }

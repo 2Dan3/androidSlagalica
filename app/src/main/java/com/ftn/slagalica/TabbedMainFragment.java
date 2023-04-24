@@ -162,13 +162,13 @@ public class TabbedMainFragment extends Fragment {
 //            *TODO: ubacivanje fragmenata u Tabove
 //             TODO to ce resiti vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
             if (tabPosition==0) {
-//                v = inflater.inflate(R.layout.activity_rankings, container, false);
+//                v = inflater.inflate(R.layout.fragment_rankings, container, false);
             }
             else if (tabPosition==1) {
                 v = inflater.inflate(R.layout.fragment_match_finding, container, false);
             }
             else if (tabPosition==2) {
-//                v = inflater.inflate(R.layout.activity_search_people, container, false);
+//                v = inflater.inflate(R.layout.fragment_search_people, container, false);
             }
 
             return v;
