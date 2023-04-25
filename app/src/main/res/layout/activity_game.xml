@@ -4,16 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".GameActivity">
 
+<!--    TODO
+         Zajenicki top Bar za ceo Match;
+         Ispod u FrameLayout se smenjuju Fragmenti igara;
+         Sat na sredini, Poeni igraca u uglu levo i desno. -->
+    <LinearLayout
+        android:background="@color/blue_midnight"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+    </LinearLayout>
 
 <!--   TODO
         GameActivity = 1 runda;
         Na kraju svih 6 igara - start MainActivity;
         FrameLayout = Container za .replace() smenjivanje 6 Fragmenata igara. -->
     <FrameLayout
+        android:background="@color/orange_dark"
         android:id="@+id/game_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
