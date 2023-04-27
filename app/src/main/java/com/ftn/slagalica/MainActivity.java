@@ -1,5 +1,6 @@
 package com.ftn.slagalica;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -126,4 +127,16 @@ public class MainActivity extends AppCompatActivity {
 //          Reload Pocetne sa specificnostima za Neprijavljenog korisnika
     }
 
+    public void toGameActivity(View v){
+        Activity currentParent = MainActivity.this;
+
+        startActivity(new Intent(currentParent, GameActivity.class));
+        currentParent.finish();
+    }
+    public void showAvailableFriends(View v){
+        Toast.makeText(MainActivity.this, "Dostupni prijatelji", Toast.LENGTH_SHORT).show();
+
+//        TODO
+//         openDrawer with FriendList under Log out btn (inv icons next to each available-to-play friend)
+    }
 }
