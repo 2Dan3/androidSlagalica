@@ -63,7 +63,7 @@
         Na kraju svih 6 igara - start MainActivity;
         FrameLayout = Container za .replace() smenjivanje 6 Fragmenata igara. -->
     <FrameLayout
-        android:background="@color/orange_dark"
+        android:background="@drawable/side_nav_bar"
         android:id="@+id/game_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

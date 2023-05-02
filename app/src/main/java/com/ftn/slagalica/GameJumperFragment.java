@@ -3,10 +3,14 @@ package com.ftn.slagalica;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +23,7 @@ public class GameJumperFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int SECOND = 1000;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -49,10 +54,11 @@ public class GameJumperFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+        prepNextGame();
     }
 
     @Override
@@ -60,5 +66,13 @@ public class GameJumperFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_jumper, container, false);
+    }
+    private void prepNextGame() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameStepByStepFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+            }
+        }, 7*SECOND);
     }
 }

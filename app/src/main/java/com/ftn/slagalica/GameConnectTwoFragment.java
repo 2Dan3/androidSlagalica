@@ -4,10 +4,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,11 +20,9 @@ import android.view.ViewGroup;
  */
 public class GameConnectTwoFragment extends Fragment {
 
-    private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
-    private static final int COLOR_WRONG_MATCH = 0XFFF44336;
-
 //    private String mParam1;
 //    private String mParam2;
+    private static final int SECOND = 1000;
 
     public GameConnectTwoFragment() {
         // Required empty public constructor
@@ -42,6 +44,7 @@ public class GameConnectTwoFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
+        prepNextGame();
     }
 
     @Override
@@ -50,7 +53,13 @@ public class GameConnectTwoFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_connect_two, container, false);
     }
-    public void changeFieldColor(View v) {
-        v.setBackgroundColor(COLOR_RIGHT_MATCH);
+
+    private void prepNextGame() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameAssociationsFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+            }
+        }, 7*SECOND);
     }
 }

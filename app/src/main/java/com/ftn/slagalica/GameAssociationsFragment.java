@@ -3,12 +3,17 @@ package com.ftn.slagalica;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameAssociationsFragment extends Fragment {
+    private static final int SECOND = 1000;
 
 //    private static final String ARG_PARAM2 = "param2";
 
@@ -34,6 +39,7 @@ public class GameAssociationsFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
+        prepNextGame();
     }
 
     @Override
@@ -42,13 +48,12 @@ public class GameAssociationsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_associations, container, false);
     }
-    public void openField(View v) {
-//        TODO
-//         Calculations upon field opening
-        revealWord(v);
-    }
-    private void revealWord(View v) {
-//        TODO
-//         change text color white_smoked -> dark_blue to reveal it
+    private void prepNextGame() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameJumperFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+            }
+        }, 7*SECOND);
     }
 }

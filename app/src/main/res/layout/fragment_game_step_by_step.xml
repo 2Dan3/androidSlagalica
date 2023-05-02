@@ -18,7 +18,7 @@
         android:orientation="vertical"
         android:gravity="center">
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"
@@ -34,7 +34,7 @@
                 android:textSize="18dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"
@@ -50,7 +50,7 @@
                 android:textSize="18dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"
@@ -66,7 +66,7 @@
                 android:textSize="18dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"
@@ -82,7 +82,7 @@
                 android:textSize="18dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"
@@ -98,7 +98,7 @@
                 android:textSize="18dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"
@@ -114,7 +114,7 @@
                 android:textSize="18dp"/>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:onClick="changeFieldColor"
+            android:onClick="revealNextStepText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/white_smoked"

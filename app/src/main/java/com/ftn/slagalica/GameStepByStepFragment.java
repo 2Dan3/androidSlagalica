@@ -3,10 +3,14 @@ package com.ftn.slagalica;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class GameStepByStepFragment extends Fragment {
+    private static final int SECOND = 1000;
 
 //    private static final String ARG_PARAM1 = "param1";
 //    private static final String ARG_PARAM2 = "param2";
@@ -41,6 +46,7 @@ public class GameStepByStepFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
+        prepNextGame();
     }
 
     @Override
@@ -49,9 +55,12 @@ public class GameStepByStepFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_step_by_step, container, false);
     }
-
-    private void revealNextStepText(View v) {
-//        TODO
-//         change textView's text color from white to dark_blue
+    private void prepNextGame() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameMyNumberFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+            }
+        }, 7*SECOND);
     }
 }
