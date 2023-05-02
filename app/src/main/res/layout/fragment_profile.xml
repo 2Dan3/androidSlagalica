@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="600dp"
+    android:background="@color/white_smoked"
     tools:context=".ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -37,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <Button
-            android:id="@+id/button15"
+            android:id="@+id/button19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -47,13 +48,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <Button
-            android:id="@+id/button16"
+            android:id="@+id/button21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Logout"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/button15" />
+            app:layout_constraintTop_toBottomOf="@+id/button19" />
 
         <TextView
             android:id="@+id/textView12"
@@ -62,7 +63,7 @@
             android:layout_marginStart="8dp"
             android:text="Games played: 100"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button16" />
+            app:layout_constraintTop_toBottomOf="@+id/button21" />
 
         <TextView
             android:id="@+id/textView13"
@@ -71,7 +72,7 @@
             android:layout_marginStart="24dp"
             android:text="Winrate: 60%"
             app:layout_constraintStart_toEndOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/button16" />
+            app:layout_constraintTop_toBottomOf="@+id/button21" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -91,7 +92,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView16"
+                            android:id="@+id/textView220"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -99,12 +100,12 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/textView115"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Broj bodova: 192"
-                            app:layout_constraintStart_toEndOf="@+id/textView16"
+                            app:layout_constraintStart_toEndOf="@+id/textView220"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -124,7 +125,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView16"
+                            android:id="@+id/textView221"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -132,12 +133,12 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/textView116"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Broj bodova: 140"
-                            app:layout_constraintStart_toEndOf="@+id/textView16"
+                            app:layout_constraintStart_toEndOf="@+id/textView221"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -157,7 +158,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView16"
+                            android:id="@+id/textView222"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -165,12 +166,12 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/textView117"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Broj bodova: 240"
-                            app:layout_constraintStart_toEndOf="@+id/textView16"
+                            app:layout_constraintStart_toEndOf="@+id/textView222"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,7 +191,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView16"
+                            android:id="@+id/textView223"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -198,12 +199,12 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/textView118"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Broj bodova: 210"
-                            app:layout_constraintStart_toEndOf="@+id/textView16"
+                            app:layout_constraintStart_toEndOf="@+id/textView223"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -223,7 +224,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView16"
+                            android:id="@+id/textView224"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -231,12 +232,12 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/textView119"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Broj bodova: 210"
-                            app:layout_constraintStart_toEndOf="@+id/textView16"
+                            app:layout_constraintStart_toEndOf="@+id/textView224"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -256,7 +257,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView16"
+                            android:id="@+id/textView225"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -264,12 +265,12 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView15"
+                            android:id="@+id/textView120"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Broj bodova: 210"
-                            app:layout_constraintStart_toEndOf="@+id/textView16"
+                            app:layout_constraintStart_toEndOf="@+id/textView225"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
