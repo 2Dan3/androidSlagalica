@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Timer;
@@ -21,6 +22,9 @@ public class GameActivity extends AppCompatActivity {
     private static final int SECOND = 1000;
     private static final int MINUTE = 60*SECOND;
 
+    private TextView player1PointsView;
+    private TextView player2PointsView;
+
     private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
     private static final int COLOR_WRONG_MATCH = 0XFFF44336;
 
@@ -28,6 +32,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        player1PointsView = findViewById(R.id.textViewPlayer1Points);
+        player2PointsView = findViewById(R.id.textViewPlayer2Points);
         startMatch();
     }
 
@@ -61,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameWhoKnowsKnowsFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameStepByStepFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 2*SECOND);
     }
@@ -83,5 +89,19 @@ public class GameActivity extends AppCompatActivity {
     public void revealNextStepText(View v) {
 //        TODO
 //         change textView's text color from white to dark_blue
+    }
+
+
+    public TextView getPlayer1PointsView() {
+        return player1PointsView;
+    }
+    public void setPlayer1PointsView(TextView player1PointsView) {
+        this.player1PointsView = player1PointsView;
+    }
+    public TextView getPlayer2PointsView() {
+        return player2PointsView;
+    }
+    public void setPlayer2PointsView(TextView player2PointsView) {
+        this.player2PointsView = player2PointsView;
     }
 }
