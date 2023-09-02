@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameStepByStepFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameWhoKnowsKnowsFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 2*SECOND);
     }
