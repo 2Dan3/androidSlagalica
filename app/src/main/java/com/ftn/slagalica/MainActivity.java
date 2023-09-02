@@ -35,6 +35,8 @@ import com.google.android.material.tabs.TabLayout;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    private Fragment tabbedMainFragment;
+    private Fragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMainFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).commit();
+        tabbedMainFragment = new TabbedMainFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, tabbedMainFragment, "tabbedMainFrag").commit();
+    }
+    private void loadProfileFragment(){
+//        TODO load profile data from database into some view template
+        profileFragment = new ProfileFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_main, profileFragment, "profileFrag").commit();
     }
     private void setupNavigationAndDrawer(){
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -87,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
                     Toast.makeText(MainActivity.this, "Pocetna", Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new TabbedMainFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE).commit();
+                    showMainFragment();
                     return true;
                 case R.id.nav_profile:
                     Toast.makeText(MainActivity.this, "Moj profil", Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_main, new ProfileFragment() ).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                    showProfileFragment();
                     return true;
                 case R.id.nav_logout:
                     Toast.makeText(MainActivity.this, "Odjavljeni ste", Toast.LENGTH_SHORT).show();
@@ -104,6 +112,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
+
+    private void showMainFragment() {
+        getSupportFragmentManager().beginTransaction().hide(profileFragment).show(tabbedMainFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE).commit();
+    }
+    private void showProfileFragment() {
+        if (profileFragment == null) loadProfileFragment();
+
+        getSupportFragmentManager().beginTransaction().hide(tabbedMainFragment).show(profileFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+    }
+
     private void setupToolbarAndActionbar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
