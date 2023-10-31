@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void loadProfileFragment(){
 //        TODO load profile data from database into some view template
+//        profileFragment = new ProfileFragment(data_from_database);
         profileFragment = new ProfileFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_main, profileFragment, "profileFrag").commit();
     }
@@ -113,9 +114,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+//    * Loading MainActivity always inflates TabbedMainFragment onto it
     private void showMainFragment() {
-        getSupportFragmentManager().beginTransaction().hide(profileFragment).show(tabbedMainFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE).commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (profileFragment != null) transaction.hide(profileFragment);
+
+        transaction.show(tabbedMainFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE).commit();
     }
+//    * Loading MainActivity never implicitly inflates ProfileFragment
     private void showProfileFragment() {
         if (profileFragment == null) loadProfileFragment();
 
