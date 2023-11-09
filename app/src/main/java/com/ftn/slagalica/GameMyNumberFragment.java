@@ -72,6 +72,8 @@ public class GameMyNumberFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
+//                *TODO
+//                    fix crashing -> getActivity() returns null instead of the GameActivity instance
                 startActivity(new Intent(getActivity(), MainActivity.class));
                 getActivity().finish();
             }
