@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -95,48 +96,97 @@ public class GameStepByStepFragment extends Fragment {
     private void startUpdatingTimer(int time){
         showStep(step++);
 
-        Timer tt = new Timer();
-        tt.scheduleAtFixedRate(new TimerTask() {
+//      START OF EXPERIMENT
+//        Thread backgroundThread = new Thread( () -> {
+//            Timer intervalTimer = new Timer();
+//            intervalTimer.scheduleAtFixedRate(new TimerTask() {
+//                @Override
+//                public void run() {
+//
+//                    if (timeGlobal < 0){
+//                        timeGlobal = 10;
+//                        showStep(step++);
+//                    }
+//                    timer.setText(String.valueOf(timeGlobal));
+//                    timeGlobal -= 1;
+//                }
+//            }, SECOND, SECOND);
+//
+//        });
+
+        CountDownTimer countDownTimer = new CountDownTimer(10*SECOND, SECOND) {
             @Override
-            public void run() {
-                getActivity().runOnUiThread( () -> {
-                    if (timeGlobal < 0){
-                        if(step > 7){
-                            showSolution();
-                            assignPoints(step, null);
-//                            tt.cancel();
-////                        return needed?
-//                            return;
-                        }
-                        timeGlobal = 10;
-                        showStep(step++);
-                    }
-                    if (solutionIsGuessed() ){
-                        showSolution();
-                        assignPoints(step, null);
+            public void onTick(long millisUntilFinished) {
+                timer.setText(String.valueOf(millisUntilFinished / SECOND));
+            }
+            @Override
+            public void onFinish() {
 
-                    }
+                if(step > 7) {
+                    showSolution();
 
-                    timer.setText(String.valueOf(timeGlobal));
-                    timeGlobal -= 1;
-                });
+//                    TODO method body ->
+//                      points assigned to each player at the end of the this 1 game
+                    assignPoints(step, null);
 
-                if (solutionIsGuessed()){
-
-                    tt.cancel();
-//                  TODO  test thread.sleep possible unwanted side-effects
-                    try {
-                        Thread.sleep(3*SECOND);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    this.cancel();
                     prepNextGame();
-//                        return needed?
                     return;
                 }
 
+                showStep(step++);
+                this.start();
             }
-        }, SECOND, SECOND);
+        };
+//        END OF EXPERIMENT
+
+
+//        ORIGINAL TIMER CODE STARTS HERE
+
+//        Timer tt = new Timer();
+//        tt.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                getActivity().runOnUiThread( () -> {
+//                    if (timeGlobal < 0){
+//                        if(step > 7){
+//                            showSolution();
+//                            assignPoints(step, null);
+////                            tt.cancel();
+//////                        return needed?
+////                            return;
+//                        }
+//                        timeGlobal = 10;
+//                        showStep(step++);
+//                    }
+//                    if (solutionIsGuessed() ){
+//                        showSolution();
+//                        assignPoints(step, null);
+//
+//                    }
+//
+//                    timer.setText(String.valueOf(timeGlobal));
+//                    timeGlobal -= 1;
+//                });
+//
+//                if (solutionIsGuessed()){
+//
+//                    tt.cancel();
+////                  TODO  test thread.sleep possible unwanted side-effects
+//                    try {
+//                        Thread.sleep(3*SECOND);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    prepNextGame();
+////                        return needed?
+//                    return;
+//                }
+//
+//            }
+//        }, SECOND, SECOND);
+//        ORIGINAL TIMER CODE ENDING HERE
+
 
 //
 //        updater = new Runnable(){
