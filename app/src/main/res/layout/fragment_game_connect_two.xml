@@ -25,6 +25,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/leftFirstField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -41,6 +42,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/leftSecondField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -57,6 +59,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/leftThirdField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -73,6 +76,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/leftFourthField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -89,6 +93,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/leftFifthField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -114,6 +119,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/rightFirstField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -130,6 +136,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/rightSecondField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -146,6 +153,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/rightThirdField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -162,6 +170,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/rightFourthField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -178,6 +187,7 @@
             android:layout_marginTop="30dp"
             >
             <TextView
+                android:id="@+id/rightFifthField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

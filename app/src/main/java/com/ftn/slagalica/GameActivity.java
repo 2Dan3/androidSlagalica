@@ -92,16 +92,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    public TextView getPlayer1PointsView() {
-        return player1PointsView;
+    public int getPlayer1PointsView() {
+        return Integer.valueOf(String.valueOf(player1PointsView.getText()));
     }
-    public void setPlayer1PointsView(TextView player1PointsView) {
-        this.player1PointsView = player1PointsView;
+    public void setPlayer1PointsView(int player1PointsView) {
+        this.player1PointsView.setText(String.valueOf(player1PointsView));
     }
-    public TextView getPlayer2PointsView() {
-        return player2PointsView;
+    public int getPlayer2PointsView() {
+        return Integer.valueOf(String.valueOf(player2PointsView.getText()));
     }
-    public void setPlayer2PointsView(TextView player2PointsView) {
-        this.player2PointsView = player2PointsView;
+    public void setPlayer2PointsView(int player2PointsView) {
+        this.player2PointsView.setText(String.valueOf(player2PointsView));
     }
 }

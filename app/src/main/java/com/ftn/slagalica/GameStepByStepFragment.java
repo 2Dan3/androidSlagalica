@@ -31,6 +31,7 @@ public class GameStepByStepFragment extends Fragment {
     private static final int POINTS_LOST_PER_CLUE_SHOWN = 2;
     private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
 
+//    MOCK GAME VALUES - LATER WILL BE LOADED FROM DataBase
     Object[] gameValues = {"Ima veze sa Savom i Dunavom", "Svih devet slova ove reci je razlicito", "Ima veze sa zdravljem", "Moze se odnositi na zivot", "Ima svog agenta i svoju premiju", "Za vozila je obavezno", "Postoji i Kasko varijanta", "Osiguranje"};
     TextView[] fieldTextViews;
 
@@ -38,7 +39,7 @@ public class GameStepByStepFragment extends Fragment {
     private int step = 1;
     private CountDownTimer countDownTimer;
 
-    private TextWatcher solutionWatcher = new TextWatcher() {
+    private final TextWatcher solutionWatcher = new TextWatcher() {
 
         @Override
         public void afterTextChanged(Editable s) {}
@@ -74,6 +75,11 @@ public class GameStepByStepFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//      TODO* - use AsyncTask to request data from FireBase
+//              - store received data in "gameValues" variable
+
+
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
@@ -105,7 +111,12 @@ public class GameStepByStepFragment extends Fragment {
         countDownTimer.cancel();
         showSolution();
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameMyNumberFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameMyNumberFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+            }
+        }, 3 * SECOND);
     }
 
     private void startTimerCountdown(int msTimeFrom){
@@ -148,22 +159,21 @@ public class GameStepByStepFragment extends Fragment {
     }
 
 //    *TODO
-//      add points to real instance of the receiving player;
-//          Total match points (for both players) are stored in DB after all the games end *
+//      - add points to real instance of the receiving player;
+//          * Total match points (for both players) are stored in DB after all the games end *
     private void assignPoints(int step, Object player){
 
 //        player is assigned amount of points based on Game rules
 
         GameActivity gameActivity = (GameActivity) getActivity();
-        TextView playerPointsView = gameActivity.getPlayer1PointsView();
 
-        int playersCurrentTotal = Integer.valueOf(String.valueOf(playerPointsView.getText()));
+        int playersCurrentTotal = gameActivity.getPlayer1PointsView();
 
 //        *NOTE: changes
 //          STEP - 1 -> STEP - 2; fixed an offset when assigning points
         int playersNewTotal = playersCurrentTotal + (MAX_POINTS_ACHIEVABLE - ((step-2) * POINTS_LOST_PER_CLUE_SHOWN));
 
 //        GameActivity's points-display update
-        playerPointsView.setText(String.valueOf(playersNewTotal));
+        gameActivity.setPlayer1PointsView(playersNewTotal);
     }
 }
