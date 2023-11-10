@@ -22,71 +22,71 @@
             android:orientation="vertical"
             android:gravity="center">
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol1Field1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Promene"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol1Field2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Uredjaj"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol1Field3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Servis"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol1Field4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Planina"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
@@ -97,7 +97,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text=""
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
@@ -112,71 +111,71 @@
             android:orientation="vertical"
             android:gravity="center">
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol2Field1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Mario"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol2Field2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Lepak"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol2Field3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Liga"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol2Field4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Nova"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
@@ -187,7 +186,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Super"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
@@ -196,7 +194,7 @@
         </LinearLayout>
     </LinearLayout>
     <androidx.cardview.widget.CardView
-        android:onClick="openField"
+        
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/white_smoked"
@@ -207,7 +205,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Kontinent"
             android:textColor="@color/blue_dark"
             android:textStyle="bold"
             android:textSize="14dp"/>
@@ -224,7 +221,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
@@ -235,71 +232,70 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Evropa"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol3Field4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Parlament"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol3Field3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Komisija"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol3Field2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Unija"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol3Field1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Radost"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
@@ -315,7 +311,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
@@ -326,71 +322,70 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text=""
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol4Field4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text=""
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol4Field3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text=""
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol4Field2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Pingvin"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:onClick="openField"
+                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/white_smoked"
                 android:layout_marginTop="10dp"
                 >
                 <TextView
+                    android:id="@+id/asocCol4Field1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Juzni pol"
                     android:textColor="@color/blue_dark"
                     android:textStyle="bold"
                     android:textSize="14dp"/>
