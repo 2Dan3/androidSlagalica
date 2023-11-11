@@ -5,12 +5,12 @@
     <string name="nav_header_title">\@danilo2312</string>
     <string name="nav_header_subtitle">dan23.ftn@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Podesavanja</string>
-    <string name="rank_list_tab_title">Rang</string>
-    <string name="search_players_tab_title">Igraci</string>
-    <string name="main_tab_title">Igre</string>
+    <string name="action_settings">Pode\u0161avanja</string>
+    <string name="rank_list_tab_title">Plasmani</string>
+    <string name="search_players_tab_title">Igra\u010di</string>
+    <string name="main_tab_title">Igraj</string>
 
-    <string name="menu_home">Pocetna</string>
+    <string name="menu_home">Po\u010detna</string>
     <string name="menu_profile">Moj profil</string>
     <string name="menu_logout">Odjavi se</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -51,28 +51,28 @@
         "emulated by manipulating the y-axis."
         "Light and shadow."
         </string>
-    <string name="random_match">Pronadji nasumicnog igraca</string>
+    <string name="random_match">Prona\u0111i nasumi\u010dnog igra\u010da</string>
     <string name="friendly_match">Izazovi prijatelja</string>
-    <string name="title_activity_splash_screen">Ucitavanje</string>
+    <string name="title_activity_splash_screen">U\u010ditavanje</string>
     <string name="title_activity_login">Prijava na sistem</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Lozinka</string>
     <string name="action_sign_in">Prijavi se</string>
     <string name="action_sign_in_short">Prijavi se</string>
-    <string name="welcome">"Dobro dosli !"</string>
-    <string name="invalid_username">Neispravno korisnicko ime / email</string>
-    <string name="invalid_password">Lozinka mora biti duza od 5 karaktera</string>
-    <string name="login_failed">"Prijava neuspesna"</string>
-    <string name="prompt_email_or_username">Email / Korisnicko ime</string>
-    <string name="prompt_username">Korisnicko ime</string>
+    <string name="welcome">"Dobro do\u0161li !"</string>
+    <string name="invalid_username">Neispravno korisni\u010dko ime / email</string>
+    <string name="invalid_password">Lozinka mora biti du\u017ea od 5 karaktera</string>
+    <string name="login_failed">"Prijava neuspe\u0161na"</string>
+    <string name="prompt_email_or_username">Email / Korisni\u010dko ime</string>
+    <string name="prompt_username">Korisni\u010dko ime</string>
     <string name="prompt_repeat_password">Ponovljena lozinka</string>
     <string name="action_sign_up">Registruj se</string>
     <string name="action_sign_up_short">Registruj se</string>
     <string name="title_activity_register">Registracija</string>
-    <string name="already_registered">Imas nalog?</string>
-    <string name="not_registered">Nemas nalog?</string>
-    <string name="to_login">Predji Na prijavu</string>
-    <string name="to_register">Predji Na registraciju</string>
+    <string name="already_registered">Ima\u0161 nalog?</string>
+    <string name="not_registered">Nema\u0161 nalog?</string>
+    <string name="to_login">Pre\u0111i na prijavu</string>
+    <string name="to_register">Pre\u0111i na registraciju</string>
     <string name="menu_login">Prijavi se</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
