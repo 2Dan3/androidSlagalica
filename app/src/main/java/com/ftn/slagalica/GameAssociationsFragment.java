@@ -236,16 +236,16 @@ public class GameAssociationsFragment extends Fragment {
 
         GameActivity gameActivity = (GameActivity) getActivity();
 
-        if (round2Ongoing ?) {
-            int playerCurrentTotal = gameActivity.getPlayer1PointsView() + POINTS_PER_PAIR_CONNECTED;
-            //        GameActivity's points-display update
-            gameActivity.setPlayer1PointsView(playerCurrentTotal);
-        }
-        else{
-            int playerCurrentTotal = gameActivity.getPlayer2PointsView() + POINTS_PER_PAIR_CONNECTED;
-            //        GameActivity's points-display update
-            gameActivity.setPlayer2PointsView(playerCurrentTotal);
-        }
+//        if (round2Ongoing ?) {
+//            int playerCurrentTotal = gameActivity.getPlayer1PointsView() + POINTS_PER_PAIR_CONNECTED;
+//            //        GameActivity's points-display update
+//            gameActivity.setPlayer1PointsView(playerCurrentTotal);
+//        }
+//        else{
+//            int playerCurrentTotal = gameActivity.getPlayer2PointsView() + POINTS_PER_PAIR_CONNECTED;
+//            //        GameActivity's points-display update
+//            gameActivity.setPlayer2PointsView(playerCurrentTotal);
+//        }
     }
 
     private void showSolution(TextView field){

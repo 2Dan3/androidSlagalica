@@ -19,23 +19,18 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TabbedMainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TabbedMainFragment extends Fragment {
 
     private DesignDemoPagerAdapter adapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private static final int[] icons = {R.drawable.trophy, R.drawable.play, R.drawable.players};
+    private static final String[] titles = {"Plasmani", "Igraj", "Igra\u010di"};
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -43,14 +38,6 @@ public class TabbedMainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TabbedMainFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static TabbedMainFragment newInstance(String param1, String param2) {
         TabbedMainFragment fragment = new TabbedMainFragment();
@@ -60,23 +47,6 @@ public class TabbedMainFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-//    *TODO might prove helpful with bug/issue described below in onViewCreated() comment
-//    @Override
-//    public void onDestroyView() {
-//        adapter = null;
-//        viewPager = null;
-//        tabLayout = null;
-//        super.onDestroyView();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        adapter = null;
-//        viewPager = null;
-//        tabLayout = null;
-//        super.onDestroy();
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,29 +63,10 @@ public class TabbedMainFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tabbed_main, container, false);
     }
-//    @Override
-//    public void onAttachFragment(@NonNull Fragment childFragment) {
-//        adapter = new DesignDemoPagerAdapter(getChildFragmentManager());
-//        viewPager = getActivity().findViewById(R.id.viewpager);
-//        viewPager.setAdapter(adapter);
-//        tabLayout = getActivity().findViewById(R.id.tablayout);
-//
-//        tabLayout.setupWithViewPager(viewPager);
-//
-//        super.onAttachFragment(childFragment);
-//    }
-
-
-//    @Override
-//    public void onDetach() {
-//        viewPager.setAdapter(null);
-//        super.onDetach();
-//    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        *TODO might need an onDestroy() to erase adapter, viewpager & tablayout, upon replacing this fragment with Profile (and then building this fragment again by replacing back to this view)
 
         adapter = new DesignDemoPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager = getActivity().findViewById(R.id.viewpager);
@@ -124,13 +75,16 @@ public class TabbedMainFragment extends Fragment {
 
         tabLayout.setupWithViewPager(viewPager);
 
-//        *TODO: Uncomment and run it !   View initial creation & frag inflation "difference" Needs BUGFIX !
-        //      * Selects default "GAMES" Tab upon activity creation
+        //        Tab Icons setup
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(icons[i]);
+        }
+        //      * Selects default "PLAY" Tab upon activity creation
         tabLayout.getTabAt(1).select();
-        //      * Middle Tab "GAMES" is main (wider bottom scroll indicator than other tabs)
+        //      * Middle Tab "PLAY" is main (wider bottom scroll indicator than other tabs)
         LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        layoutParams.weight = 1.5f;
+        layoutParams.weight = 1.4f;
         layout.setLayoutParams(layoutParams);
     }
 
@@ -158,8 +112,6 @@ public class TabbedMainFragment extends Fragment {
             View v = null;
 //            ArrayList<String> items = new ArrayList<String>();
 
-//            Toast was used for viewPager Debugging
-//            Toast.makeText(getActivity(), container.getClass().toString(), Toast.LENGTH_SHORT).show();
 
 //            *TODO: ubacivanje fragmenata u Tabove
 //             TODO to ce resiti vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
@@ -195,12 +147,8 @@ public class TabbedMainFragment extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String retval ="n/a";
-            if(position==0) retval = "Plasmani";
-            else if (position==1) retval = "Igraj";
-            else if (position==2) retval = "Igraci";
-
-            return retval;
+            return titles[position];
+//            return null;
         }
     }
 }

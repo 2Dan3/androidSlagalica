@@ -13,32 +13,23 @@
         android:background="@drawable/side_nav_bar"
         app:tabTextColor="@color/orange_light"
         app:tabIndicatorColor="@color/orange_light"
-        app:tabSelectedTextColor="@color/orange_dark">
+        app:tabSelectedTextColor="@color/orange_dark"
+        app:tabIconTint="@color/tab_icon_selector">
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ranktab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rank_list_tab_title"
             />
         <com.google.android.material.tabs.TabItem
             android:id="@+id/maintab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/main_tab_title"
             />
         <com.google.android.material.tabs.TabItem
             android:id="@+id/playerstab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search_players_tab_title"
             />
     </com.google.android.material.tabs.TabLayout>
-
-<!--    This Viewpager is to be deleted after KT 1 -->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </FrameLayout>
