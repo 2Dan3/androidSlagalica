@@ -141,7 +141,7 @@ public class GameStepByStepFragment extends Fragment {
     }
 
     private boolean solutionIsGuessed() {
-        return fieldTextViews[fieldTextViews.length-1].getText().toString().trim().contains(gameValues[gameValues.length-1].toString());
+        return fieldTextViews[fieldTextViews.length-1].getText().toString().trim().equalsIgnoreCase( (gameValues[gameValues.length-1].toString()) );
     }
 
     private void showStep(int step){

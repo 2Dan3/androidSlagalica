@@ -53,7 +53,7 @@ public class GameAssociationsFragment extends Fragment {
             if (s.length() != 0) {
 
                 for (TextView solutionField : solutionViewPairs.keySet()) {
-                    if (solutionField.getText().hashCode() == s.hashCode() && solutionIsGuessed(s, solutionField)) {
+                    if (solutionField.getText().hashCode() == s.hashCode() && solutionIsGuessed(solutionField)) {
                         removeTextListeners(solutionField);
                         assignPoints(null);
                         showSolution(solutionField);
@@ -268,8 +268,8 @@ public class GameAssociationsFragment extends Fragment {
         field.setBackgroundColor(COLOR_CORRECT_MATCH);
     }
 
-    private boolean solutionIsGuessed(CharSequence s, TextView solutionField) {
-        return solutionField.getText().toString().trim().contains(solutionViewPairs.get(solutionField));
+    private boolean solutionIsGuessed(TextView solutionField) {
+        return solutionField.getText().toString().trim().equalsIgnoreCase(solutionViewPairs.get(solutionField));
     }
 
 //    private boolean finalSolutionIsGuessed() {

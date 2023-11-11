@@ -101,7 +101,8 @@ public class GameConnectTwoFragment extends Fragment {
 
     private void prepNextGame() {
         countDownTimer.cancel();
-        rightColumnFieldRepaintTimer.cancel();
+
+        if (rightColumnFieldRepaintTimer != null) rightColumnFieldRepaintTimer.cancel() ;
 //        showSolution();
 
         new Timer().schedule(new TimerTask() {
