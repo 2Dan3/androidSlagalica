@@ -54,9 +54,11 @@ public class GameAssociationsFragment extends Fragment {
 
                 for (TextView solutionField : solutionViewPairs.keySet()) {
                     if (solutionField.getText().hashCode() == s.hashCode() && solutionIsGuessed(s, solutionField)) {
+                        removeTextListeners(solutionField);
                         assignPoints(null);
                         showSolution(solutionField);
-//                      prepNextGame();
+//                     *Todo
+//                        openGuessedColumn(solutionField);
                     }
                 }
             }
@@ -101,8 +103,9 @@ public class GameAssociationsFragment extends Fragment {
 
         timer = getActivity().findViewById(R.id.textViewTimer);
 
-        startTimerCountdown(120*SECOND);
+        startTimerCountdown(15*SECOND);
 
+        requestAndStoreGameData();
         prepareUpcomingRoundUI();
     }
 
@@ -110,7 +113,11 @@ public class GameAssociationsFragment extends Fragment {
         countDownTimer = new CountDownTimer(msTimeFrom, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timer.setText( (int) (millisUntilFinished / SECOND) );
+                timer.setText( String.valueOf(millisUntilFinished / SECOND) );
+//                Todo
+//                if (finalSolutionIsGuessed()) {
+//                    onFinish();
+//                }
             }
 
             @Override
@@ -120,6 +127,8 @@ public class GameAssociationsFragment extends Fragment {
                     return;
                 }
                 Toast.makeText(getActivity(), "2. Igra\u010d zapo\u010dinje", Toast.LENGTH_SHORT).show();
+                requestAndStoreGameData();
+                prepareUpcomingRoundUI();
                 this.start();
                 round2Ongoing = true;
             }
@@ -135,12 +144,15 @@ public class GameAssociationsFragment extends Fragment {
 
         for ( TextView field : clueViewPairs.keySet() ) {
             field.setOnClickListener(this::onClueFieldClick);
+            field.setText("");
 //            field.setBackgroundColor(getResources().getColor(R.color.white_smoked));
         }
 
         for ( TextView field : solutionViewPairs.keySet() ) {
             field.removeTextChangedListener(solutionWatcher);
             field.addTextChangedListener(solutionWatcher);
+            field.setText("");
+            field.setBackgroundColor(getResources().getColor(R.color.white_smoked));
 //            field.setBackgroundColor(getResources().getColor(R.color.white_smoked));
         }
     }
@@ -150,7 +162,6 @@ public class GameAssociationsFragment extends Fragment {
         field.setText(clueViewPairs.get(field));
 
 //        TODO
-//         - time management upon field opening
 //         - give turn to other player
     }
 
@@ -192,7 +203,7 @@ public class GameAssociationsFragment extends Fragment {
     }
 
     private void prepNextGame() {
-        removeTextListeners();
+        removeTextListeners( solutionViewPairs.keySet().toArray(new TextView[]{}) );
         countDownTimer.cancel();
 //        show final solution before ending game
 //        showSolution();
@@ -261,8 +272,13 @@ public class GameAssociationsFragment extends Fragment {
         return solutionField.getText().toString().trim().contains(solutionViewPairs.get(solutionField));
     }
 
-    private void removeTextListeners() {
-        for ( TextView solutionField : solutionViewPairs.keySet() ) {
+//    private boolean finalSolutionIsGuessed() {
+////        Todo
+//        return false;
+//    }
+
+    private void removeTextListeners(TextView ...solutionViews) {
+        for ( TextView solutionField : solutionViews ) {
             solutionField.removeTextChangedListener(solutionWatcher);
         }
     }
