@@ -23,25 +23,16 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
     private SearchPlayerRecyclerViewAdapter adapter;
     private SearchView searchBar;
 
-    private ArrayList<Player> searchResultPlayers;
-    private ArrayList<Player> friends;
+    private ArrayList<Player> searchResultPlayers = new ArrayList();
+    private ArrayList<Player> friends = new ArrayList();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        friends = requestFriendsList();
+        friends.addAll(requestFriendsList());
 
-        RecyclerView playersRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_players_search);
-//        getContext or getActivity ?
-        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        Nothing's been searched yet, so Friend List is displayed as a default
-
-        adapter = new SearchPlayerRecyclerViewAdapter(this.getContext(), friends);
-        adapter.setClickListener(this);
-
-        playersRecyclerView.setAdapter(adapter);
     }
 
 //    Todo
@@ -60,7 +51,21 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_players, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_players, container, false);
+
+        RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
+
+        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+//        Nothing's been searched yet, so Friend List is displayed as a default
+        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
+
+        adapter = new SearchPlayerRecyclerViewAdapter(this.getContext(), friends);
+        adapter.setClickListener(this);
+
+        playersRecyclerView.setAdapter(adapter);
+
+        return rootView;
     }
 
     @Override
@@ -147,9 +152,9 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
             response.add(new Player(criteria + "ica", criteria + "ica98@outlook.com", "pass123", "http://imgur.com/", 280, 3));
             response.add(new Player(criteria + "utin", criteria + "utin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
 
-            searchResultPlayers = response;
+            searchResultPlayers.addAll(response);
             adapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(), "SUPERNILOTEST"+searchResultPlayers.get(2).toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "testic" + searchResultPlayers.get(2).toString(), Toast.LENGTH_LONG).show();
 
             return true;
         }

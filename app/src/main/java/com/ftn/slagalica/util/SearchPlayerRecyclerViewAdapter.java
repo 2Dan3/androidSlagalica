@@ -85,8 +85,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
-//        Todo if buggy, might need replacement context ->  viewGroup.getContext()
-        View view = LayoutInflater.from(context)
+        View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.search_people_row_item, viewGroup, false);
 
         return new ViewHolder(view);
