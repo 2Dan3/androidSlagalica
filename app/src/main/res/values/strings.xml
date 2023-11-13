@@ -74,7 +74,9 @@
     <string name="to_login">Pre\u0111i na prijavu</string>
     <string name="to_register">Pre\u0111i na registraciju</string>
     <string name="menu_login">Prijavi se</string>
+    <string name="search_players">Pretra\u017ei igra\u010de...</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_picture_description">Profilna slika</string>
 
 </resources>

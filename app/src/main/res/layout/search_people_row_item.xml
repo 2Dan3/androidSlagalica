@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:background="@color/blue_dark_2">
+
+
+    <ImageView
+        android:contentDescription="@string/profile_picture_description"
+        android:id="@+id/ivSearchRecyclerRowPic"
+        android:layout_margin="6sp"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:gravity="center"
+        app:srcCompat="@drawable/menu_profile" />
+
+    <LinearLayout
+        android:layout_width="210dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/tvSearchRecyclerRowUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LissaPuzzlerEst98"
+            android:textColor="@color/white_smoked"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/icons8_star_48" />
+
+            <TextView
+                android:id="@+id/tvSearchRecyclerRowRank"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="4"
+                android:textSize="18dp"
+                android:textColor="@color/white_smoked" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/trophy" />
+
+        <TextView
+            android:textColor="@color/white_smoked"
+            android:id="@+id/tvSearchRecyclerRowStars"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="254"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+</LinearLayout>

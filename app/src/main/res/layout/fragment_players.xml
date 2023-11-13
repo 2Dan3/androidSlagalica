@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_smoked"
+    android:orientation="vertical"
+    tools:context=".PlayersFragment">
+
+
+    <SearchView
+        android:id="@+id/sv_search_players"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/custom_border"
+        android:layout_margin="5dp"
+        android:hint="@string/search_players" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_players_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="@dimen/text_margin"-->
+<!--            android:text="@string/large_text" />-->
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

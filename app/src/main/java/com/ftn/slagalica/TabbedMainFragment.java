@@ -122,7 +122,7 @@ public class TabbedMainFragment extends Fragment {
                 v = inflater.inflate(R.layout.fragment_match_finding, container, false);
             }
             else if (tabPosition==2) {
-//                v = inflater.inflate(R.layout.fragment_search_people, container, false);
+                v = inflater.inflate(R.layout.fragment_players, container, false);
             }
 
             return v;
