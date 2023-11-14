@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<SearchPlayerRecyclerViewAdapter.ViewHolder>{
 
+//    private String[] array;
     private ArrayList<Player> players;
     private ItemClickListener mClickListener;
     private final Context context;
@@ -35,6 +36,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
             super(view);
             // Define click listener for the ViewHolder's View
 
+//            tvUsername = view.findViewById(R.id.textView5);
             tvUsername = view.findViewById(R.id.tvSearchRecyclerRowUsername);
             tvCurrentRank = view.findViewById(R.id.tvSearchRecyclerRowRank);
             tvStars = view.findViewById(R.id.tvSearchRecyclerRowStars);
@@ -43,6 +45,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
 
         public void embedData(Player loadingPlayer){
 
+//            tvUsername.setText(string);
             tvUsername.setText(loadingPlayer.getUsername());
             tvCurrentRank.setText(loadingPlayer.getPointsCurrentRank());
             tvStars.setText(loadingPlayer.getStars());
@@ -78,6 +81,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
     public SearchPlayerRecyclerViewAdapter(Context context, ArrayList<Player> players) {
         this.context = context;
         this.players = players;
+//        this.array = array;
     }
 
     // Create new views (invoked by the layout manager)
@@ -87,6 +91,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.search_people_row_item, viewGroup, false);
+//                .inflate(R.layout.test_row_item, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -97,6 +102,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+//        viewHolder.tvUsername.setText(array[position]);
         viewHolder.embedData(players.get(position));
     }
 
@@ -104,5 +110,6 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
     @Override
     public int getItemCount() {
         return players.size();
+//        return array.length;
     }
 }

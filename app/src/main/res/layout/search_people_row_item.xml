@@ -4,16 +4,16 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:background="@color/blue_dark_2">
+    android:layout_margin="10dp"
+    android:background="@drawable/custom_border">
 
 
     <ImageView
         android:contentDescription="@string/profile_picture_description"
         android:id="@+id/ivSearchRecyclerRowPic"
         android:layout_margin="6sp"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
+        android:layout_width="56sp"
+        android:layout_height="56sp"
         android:gravity="center"
         app:srcCompat="@drawable/menu_profile" />
 
@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:text="LissaPuzzlerEst98"
             android:textColor="@color/white_smoked"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textStyle="italic" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                 android:gravity="center"
                 android:text="4"
                 android:textSize="18dp"
-                android:textColor="@color/white_smoked" />
+                android:textColor="@color/white_smoked"
+                android:textStyle="italic|bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -71,7 +73,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="254"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textStyle="italic|bold" />
     </LinearLayout>
 
 </LinearLayout>

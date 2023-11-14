@@ -3,33 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_smoked"
-    android:orientation="vertical"
-    tools:context=".PlayersFragment">
-
+    tools:context=".PlayersFragment" >
 
     <SearchView
         android:id="@+id/sv_search_players"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/custom_border"
+        android:background="@drawable/custom_border_light"
         android:layout_margin="5dp"
         android:hint="@string/search_players" />
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="15dp">-->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="?android:attr/listDivider" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_players_search"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-<!--    </androidx.core.widget.NestedScrollView>-->
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_players_search"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/white_smoked"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/search_people_row_item" />
 </LinearLayout>

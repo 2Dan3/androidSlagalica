@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 
     private SearchPlayerRecyclerViewAdapter adapter;
     private SearchView searchBar;
+//    private String[] array;
 
     private ArrayList<Player> searchResultPlayers = new ArrayList();
     private ArrayList<Player> friends = new ArrayList();
@@ -32,19 +35,20 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 
         friends.addAll(requestFriendsList());
 
-
+//        array = new String[]{"PuzzlePlayer123", "SlagalicaSlayer", "Gamer697", "Hotstreak"};
+//        Toast.makeText(getContext(), array[3], Toast.LENGTH_LONG).show();
     }
 
 //    Todo
 //      if buggy replace with onStart
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        searchBar.setQuery("", false);
-//        searchResultPlayers = friends;
-//        adapter.notifyDataSetChanged();
-////        Todo clear search view of any text
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchBar.setQuery("", false);
+        searchResultPlayers = friends;
+        adapter.notifyDataSetChanged();
+//        Todo clear search view of any text
+    }
 
     @Nullable
     @Override
@@ -55,10 +59,16 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 
         RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
 
+//        ignore: Search Icon removal attempt
+
+//        int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
+//        ImageView magImage = (ImageView) container.findViewById(magId);
+//        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+
         playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 //        Nothing's been searched yet, so Friend List is displayed as a default
-        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
 
         adapter = new SearchPlayerRecyclerViewAdapter(this.getContext(), friends);
         adapter.setClickListener(this);
@@ -72,7 +82,7 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        searchBar = getActivity().findViewById(R.id.sv_search_players);
+        searchBar = view.findViewById(R.id.sv_search_players);
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -111,7 +121,8 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 
 //        Player toBeAddedPlayer = searchResultPlayers.get(position);
         Player newFriendToBeAdded = adapter.getPlayer(position);
-
+//        Todo
+//          UI: set different view temporary background gradients (red/green) for different if branch actions (remove/add)
         if (friends.contains(newFriendToBeAdded)) {
             Toast.makeText(getActivity(), adapter.getPlayer(position).getUsername() + " is removed from your Friends", Toast.LENGTH_LONG).show();
 
