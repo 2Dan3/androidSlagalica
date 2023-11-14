@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class PlayersFragment extends Fragment implements SearchPlayerRecyclerViewAdapter.ItemClickListener {
 
-    private SearchPlayerRecyclerViewAdapter adapter;
+//    private SearchPlayerRecyclerViewAdapter adapter;
     private SearchView searchBar;
 //    private String[] array;
 
@@ -35,6 +35,9 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 
         friends.addAll(requestFriendsList());
 
+//        Experimental line :
+        searchResultPlayers.addAll(friends);
+
 //        array = new String[]{"PuzzlePlayer123", "SlagalicaSlayer", "Gamer697", "Hotstreak"};
 //        Toast.makeText(getContext(), array[3], Toast.LENGTH_LONG).show();
     }
@@ -42,11 +45,12 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 //    Todo
 //      if buggy replace with onStart
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        Toast.makeText(getContext(), "on resume started", Toast.LENGTH_LONG).show();
+        super.onStart();
         searchBar.setQuery("", false);
-        searchResultPlayers = friends;
-        adapter.notifyDataSetChanged();
+        searchResultPlayers.addAll(friends);
+//        adapter.notifyDataSetChanged();
 //        Todo clear search view of any text
     }
 
@@ -57,23 +61,26 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_players, container, false);
 
-        RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
-
 //        ignore: Search Icon removal attempt
 
 //        int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
 //        ImageView magImage = (ImageView) container.findViewById(magId);
 //        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
 
-        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        Temporarily commented:
 
-//        Nothing's been searched yet, so Friend List is displayed as a default
-//        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
-
-        adapter = new SearchPlayerRecyclerViewAdapter(this.getContext(), friends);
-        adapter.setClickListener(this);
-
-        playersRecyclerView.setAdapter(adapter);
+//        RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
+//
+//
+//        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//
+////        Nothing's been searched yet, so Friend List is displayed as a default
+////        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
+//
+//        adapter = new SearchPlayerRecyclerViewAdapter(this.getContext(), friends);
+//        adapter.setClickListener(this);
+//
+//        playersRecyclerView.setAdapter(adapter);
 
         return rootView;
     }
@@ -120,19 +127,24 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
     public void onItemClick(View view, int position) {
 
 //        Player toBeAddedPlayer = searchResultPlayers.get(position);
-        Player newFriendToBeAdded = adapter.getPlayer(position);
+
+//        TEMPORARILY Commented :
+//        Player newFriendToBeAdded = adapter.getPlayer(position);
+        Player newFriendToBeAdded = friends.get(position);
+
 //        Todo
 //          UI: set different view temporary background gradients (red/green) for different if branch actions (remove/add)
         if (friends.contains(newFriendToBeAdded)) {
-            Toast.makeText(getActivity(), adapter.getPlayer(position).getUsername() + " is removed from your Friends", Toast.LENGTH_LONG).show();
-
+//            Toast.makeText(getActivity(), adapter.getPlayer(position).getUsername() + " is removed from your Friends", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), friends.get(position).getUsername() + " is removed from your Friends", Toast.LENGTH_LONG).show();
         } else {
 
             if (requestAddFriend(newFriendToBeAdded)) {
                 Toast.makeText(getActivity(), "You added " + newFriendToBeAdded.getUsername() + " as your Friend", Toast.LENGTH_LONG).show();
                 friends.add(newFriendToBeAdded);
             } else {
-                Toast.makeText(getActivity(), "An error occurred adding " + adapter.getPlayer(position).getUsername() + " as Friend", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "An error occurred adding " + adapter.getPlayer(position).getUsername() + " as Friend", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "An error occurred adding " + friends.get(position).getUsername() + " as Friend", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -164,7 +176,8 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
             response.add(new Player(criteria + "utin", criteria + "utin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
 
             searchResultPlayers.addAll(response);
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
+//            Todo uncomment :
             Toast.makeText(getActivity(), "testic" + searchResultPlayers.get(2).toString(), Toast.LENGTH_LONG).show();
 
             return true;

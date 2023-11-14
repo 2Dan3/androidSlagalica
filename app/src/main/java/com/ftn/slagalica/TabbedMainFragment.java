@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -17,7 +19,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.ftn.slagalica.data.model.Player;
+import com.ftn.slagalica.util.SearchPlayerRecyclerViewAdapter;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 public class TabbedMainFragment extends Fragment {
 
@@ -27,6 +33,8 @@ public class TabbedMainFragment extends Fragment {
     private static final int[] icons = {R.drawable.trophy, R.drawable.play, R.drawable.players};
     private static final String[] titles = {"Plasmani", "Igraj", "Igra\u010di"};
 
+    private ArrayList<Player> friends = new ArrayList();
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -34,9 +42,7 @@ public class TabbedMainFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TabbedMainFragment() {
-        // Required empty public constructor
-    }
+    public TabbedMainFragment() { }
 
     // TODO: Rename and change types and number of parameters
     public static TabbedMainFragment newInstance(String param1, String param2) {
@@ -55,6 +61,8 @@ public class TabbedMainFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+//        friends.addAll( requestFriendsList() );
     }
 
     @Override
@@ -123,9 +131,43 @@ public class TabbedMainFragment extends Fragment {
             }
             else if (tabPosition==2) {
                 v = inflater.inflate(R.layout.fragment_players, container, false);
+
+                RecyclerView playersRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_players_search);
+
+
+                playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+//        Nothing's been searched yet, so Friend List is displayed as a default
+//        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
+
+                SearchPlayerRecyclerViewAdapter srcPlayerAdapter = new SearchPlayerRecyclerViewAdapter( getActivity(), requestFriendsList() );
+//                Todo uncomment & fix this/static problem :
+//                srcPlayerAdapter.setClickListener(this);
+
+                playersRecyclerView.setAdapter(srcPlayerAdapter);
             }
 
             return v;
+        }
+
+        private ArrayList<Player> requestFriendsList() {
+
+//        MOCK LIST of FRIENDS
+                ArrayList<Player> resultList = new ArrayList<>();
+                resultList.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
+                resultList.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
+                resultList.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
+                resultList.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
+                resultList.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
+                resultList.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
+                resultList.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
+                resultList.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
+                resultList.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
+                resultList.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
+                //        Todo DB request Friends list for logged player
+                //                  ...
+
+                return resultList;
         }
     }
 
@@ -151,4 +193,24 @@ public class TabbedMainFragment extends Fragment {
 //            return null;
         }
     }
+
+//    private ArrayList<Player> requestFriendsList() {
+//
+////        MOCK LIST of FRIENDS
+//        ArrayList<Player> resultList = new ArrayList<>();
+//        resultList.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
+//        resultList.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
+//        resultList.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
+//        resultList.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
+//        resultList.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
+//        resultList.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
+//        resultList.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
+//        resultList.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
+//        resultList.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
+//        resultList.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
+//        //        Todo DB request Friends list for logged player
+//        //                  ...
+//
+//        return resultList;
+//    }
 }

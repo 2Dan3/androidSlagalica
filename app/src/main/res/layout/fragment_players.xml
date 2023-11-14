@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayersFragment" >
+    tools:context=".PlayersFragment"
+    android:background="@color/white_smoked">
 
     <SearchView
         android:id="@+id/sv_search_players"

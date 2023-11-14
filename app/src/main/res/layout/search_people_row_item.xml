@@ -12,24 +12,26 @@
         android:contentDescription="@string/profile_picture_description"
         android:id="@+id/ivSearchRecyclerRowPic"
         android:layout_margin="6sp"
-        android:layout_width="56sp"
-        android:layout_height="56sp"
+        android:layout_width="0sp"
+        android:layout_weight=".1"
+        android:layout_height="50sp"
         android:gravity="center"
         app:srcCompat="@drawable/menu_profile" />
 
     <LinearLayout
-        android:layout_width="210dp"
+        android:layout_width="0sp"
+        android:layout_weight=".4"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp" >
 
         <TextView
             android:id="@+id/tvSearchRecyclerRowUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LissaPuzzlerEst98"
+            android:text="LissaPuzzlerSince98"
             android:textColor="@color/white_smoked"
-            android:textSize="20dp"
+            android:textSize="18sp"
             android:textStyle="italic" />
 
         <LinearLayout
@@ -38,42 +40,45 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40sp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/icons8_star_48" />
 
             <TextView
-                android:id="@+id/tvSearchRecyclerRowRank"
+                android:id="@+id/tvSearchRecyclerRowStars"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="4"
-                android:textSize="18dp"
                 android:textColor="@color/white_smoked"
+                android:textSize="18sp"
                 android:textStyle="italic|bold" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0sp"
         android:layout_height="match_parent"
+        android:layout_weight=".2"
+        android:layout_marginRight="0sp"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:srcCompat="@drawable/trophy" />
 
         <TextView
             android:textColor="@color/white_smoked"
-            android:id="@+id/tvSearchRecyclerRowStars"
+            android:id="@+id/tvSearchRecyclerRowRank"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:padding="10sp"
             android:text="254"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="italic|bold" />
     </LinearLayout>
 

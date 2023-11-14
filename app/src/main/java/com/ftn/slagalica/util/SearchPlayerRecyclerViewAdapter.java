@@ -47,8 +47,8 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
 
 //            tvUsername.setText(string);
             tvUsername.setText(loadingPlayer.getUsername());
-            tvCurrentRank.setText(loadingPlayer.getPointsCurrentRank());
-            tvStars.setText(loadingPlayer.getStars());
+            tvCurrentRank.setText( String.valueOf(loadingPlayer.getPointsCurrentRank()) );
+            tvStars.setText( String.valueOf(loadingPlayer.getStars()) );
 //            Todo default profile pic ->  loaded img parse
             imgPicture.setImageResource(R.drawable.menu_profile);
         }
@@ -80,7 +80,10 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
      */
     public SearchPlayerRecyclerViewAdapter(Context context, ArrayList<Player> players) {
         this.context = context;
-        this.players = players;
+        this.players = new ArrayList<>();
+//        Bug workaround attempt :
+        this.players.addAll(players);
+
 //        this.array = array;
     }
 
