@@ -33,7 +33,7 @@ public class TabbedMainFragment extends Fragment {
     private static final int[] icons = {R.drawable.trophy, R.drawable.play, R.drawable.players};
     private static final String[] titles = {"Plasmani", "Igraj", "Igra\u010di"};
 
-    private ArrayList<Player> friends = new ArrayList();
+    private static ArrayList<Player> friends = new ArrayList();
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -140,9 +140,11 @@ public class TabbedMainFragment extends Fragment {
 //        Nothing's been searched yet, so Friend List is displayed as a default
 //        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
 
+//                Toast.makeText(getContext(), "Friends loaded", Toast.LENGTH_LONG).show();
+
                 SearchPlayerRecyclerViewAdapter srcPlayerAdapter = new SearchPlayerRecyclerViewAdapter( getActivity(), requestFriendsList() );
-//                Todo uncomment & fix this/static problem :
-//                srcPlayerAdapter.setClickListener(this);
+
+//              srcPlayerAdapter.setClickListener(this);
 
                 playersRecyclerView.setAdapter(srcPlayerAdapter);
             }
@@ -150,25 +152,7 @@ public class TabbedMainFragment extends Fragment {
             return v;
         }
 
-        private ArrayList<Player> requestFriendsList() {
 
-//        MOCK LIST of FRIENDS
-                ArrayList<Player> resultList = new ArrayList<>();
-                resultList.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
-                resultList.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
-                resultList.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
-                resultList.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
-                resultList.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
-                resultList.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
-                resultList.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
-                resultList.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
-                resultList.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
-                resultList.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
-                //        Todo DB request Friends list for logged player
-                //                  ...
-
-                return resultList;
-        }
     }
 
     static class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
@@ -194,23 +178,25 @@ public class TabbedMainFragment extends Fragment {
         }
     }
 
-//    private ArrayList<Player> requestFriendsList() {
-//
-////        MOCK LIST of FRIENDS
-//        ArrayList<Player> resultList = new ArrayList<>();
-//        resultList.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
-//        resultList.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
-//        resultList.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
-//        resultList.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
-//        resultList.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
-//        resultList.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
-//        resultList.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
-//        resultList.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
-//        resultList.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
-//        resultList.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
-//        //        Todo DB request Friends list for logged player
-//        //                  ...
-//
-//        return resultList;
-//    }
+    public static ArrayList<Player> requestFriendsList() {
+
+//        MOCK LIST of FRIENDS
+        if (friends.isEmpty()) {
+
+            friends.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
+            friends.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
+            friends.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
+            friends.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
+            friends.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
+            friends.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
+            friends.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
+            friends.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
+            friends.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
+            friends.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
+            //        Todo DB request Friends list for logged player
+            //                  ...
+        }
+
+        return friends;
+    }
 }

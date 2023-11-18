@@ -33,9 +33,11 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        friends.addAll(requestFriendsList());
+        friends = getFriendsList();
 
 //        Experimental line :
+//        searchResultPlayers = friends;
+
         searchResultPlayers.addAll(friends);
 
 //        array = new String[]{"PuzzlePlayer123", "SlagalicaSlayer", "Gamer697", "Hotstreak"};
@@ -69,8 +71,9 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 
 //        Temporarily commented:
 
-//        RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
-//
+        RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
+        SearchPlayerRecyclerViewAdapter adapter = (SearchPlayerRecyclerViewAdapter)playersRecyclerView.getAdapter();
+        adapter.setClickListener(this);
 //
 //        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //
@@ -103,30 +106,17 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
         });
     }
 
-    private ArrayList<Player> requestFriendsList() {
+    private ArrayList<Player> getFriendsList() {
 
-//        MOCK LIST of FRIENDS
-        ArrayList<Player> resultList = new ArrayList<>();
-        resultList.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
-        resultList.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
-        resultList.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
-        resultList.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
-        resultList.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
-        resultList.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
-        resultList.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
-        resultList.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
-        resultList.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
-        resultList.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
-        //        Todo DB request Friends list for logged player
-        //                  ...
-
-        return resultList;
+        return TabbedMainFragment.requestFriendsList();
     }
 
     @Override
     public void onItemClick(View view, int position) {
 
 //        Player toBeAddedPlayer = searchResultPlayers.get(position);
+//        Toast.makeText(getActivity(), "assertOnClickActionWorks", Toast.LENGTH_LONG).show();
+
 
 //        TEMPORARILY Commented :
 //        Player newFriendToBeAdded = adapter.getPlayer(position);
