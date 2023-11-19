@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.AttributeSet;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -42,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private Fragment tabbedMainFragment;
     private Fragment profileFragment;
 
+//    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        setTheme(R.style.Theme_Slagalica_Dark);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -101,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
+        Menu navMenu = navigationView.getMenu();
+        MenuItem home = navMenu.findItem(R.id.nav_home);
+        home.setChecked(true);
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             menuItem.setChecked(true);
@@ -141,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().hide(tabbedMainFragment).show(profileFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
     }
 
+//    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupToolbarAndActionbar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -150,8 +158,10 @@ public class MainActivity extends AppCompatActivity {
 
         replaceToolbarTextWithIcon(actionBar, toolbar);
     }
+//    @RequiresApi(api = Build.VERSION_CODES.M)
     private void replaceToolbarTextWithIcon(ActionBar actionBar, Toolbar toolbar) {
         actionBar.setDisplayShowTitleEnabled(false);
+//        toolbar.setBackgroundColor(getColor(R.color.blue_light_2));
         toolbar.setLogo(R.mipmap.ic_default_profile);
     }
     private void toLogin(){
@@ -191,19 +201,21 @@ public class MainActivity extends AppCompatActivity {
 
         Menu navMenu = navigationView.getMenu();
         MenuItem logItem;
+        TextView usernameView = navHeader.findViewById(R.id.drawer_profile_username);
+        TextView emailView = navHeader.findViewById(R.id.drawer_profile_email);
 
         if (loggedUsername == null || loggedUsername.equals("")) {
             logItem = navMenu.findItem(R.id.nav_logout);
             profilePicView.setImageResource(R.mipmap.ic_profile_icon_round);
+            emailView.setText("Gost");
+//            Todo test line :
+//            navMenu.getItem(R.id.nav_profile).setVisible(false);
         }else{
             logItem = navMenu.findItem(R.id.nav_login);
 //            Todo
 //            profilePicView.setImageURI(Uri.parse(loggedPic));
             profilePicView.setImageResource(R.mipmap.ic_default_profile_round);
-
-            TextView emailView = navHeader.findViewById(R.id.drawer_profile_email);
             emailView.setText(loggedEmail);
-            TextView usernameView = navHeader.findViewById(R.id.drawer_profile_username);
             usernameView.setText(loggedUsername);
         }
         logItem.setVisible(false);

@@ -12,11 +12,9 @@
     <color name="blue_dark_2">#0A1349</color>
     <color name="blue_midnight">#0B1B7A</color>
     <color name="blue_light">#1765A3</color>
+    <color name="blue_light_2">#14578C</color>
 
-<!--    Do not remove (referenced by left-overs in themes.xml)-->
+<!--    Correct answer color (referenced by some games)-->
     <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#005E5D</color>
-    <color name="purple_200">#673AB7</color>
-    <color name="purple_700">#8D58EC</color>
 
 </resources>
