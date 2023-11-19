@@ -1,14 +1,26 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.util.LoginHandler.Login.FILE_NAME;
+import static com.ftn.slagalica.util.LoginHandler.Login.USERNAME;
+import static com.ftn.slagalica.util.LoginHandler.Login.EMAIL;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,7 +30,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ftn.slagalica.ui.login.LoginActivity;
+import com.ftn.slagalica.util.LoginHandler;
 import com.google.android.material.navigation.NavigationView;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent i = getIntent();
+        String loggedUsername = i.getStringExtra(USERNAME);
+        String loggedEmail = i.getStringExtra(EMAIL);
+        String loggedPic = i.getStringExtra("picture");
+
+        setupSessionBasedUI(loggedUsername, loggedEmail, loggedPic);
 
         setupToolbarAndActionbar();
 
@@ -79,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
+
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             menuItem.setChecked(true);
             mDrawerLayout.closeDrawers();
@@ -136,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
     private void logout(){
-//        TODO brisanje tokena korisnika
-//         iz sesije pre redirekcije na login
-//          Reload Pocetne sa specificnostima za Neprijavljenog korisnika
+        LoginHandler.Login.forgetMe(getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE));
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
+        finish();
     }
 
     public void toGameActivity(View v){
@@ -158,5 +181,31 @@ public class MainActivity extends AppCompatActivity {
 //        Todo
 //         - show FriendList separately (either switch to Right Tab OR make a new Fragment on top of everything)
 //          ...
+    }
+
+    private void setupSessionBasedUI(String loggedUsername, String loggedEmail, String loggedPic) {
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+
+        View navHeader = navigationView.getHeaderView(0);
+        ImageView profilePicView = navHeader.findViewById(R.id.drawer_profile_pic);
+
+        Menu navMenu = navigationView.getMenu();
+        MenuItem logItem;
+
+        if (loggedUsername == null || loggedUsername.equals("")) {
+            logItem = navMenu.findItem(R.id.nav_logout);
+            profilePicView.setImageResource(R.mipmap.ic_profile_icon_round);
+        }else{
+            logItem = navMenu.findItem(R.id.nav_login);
+//            Todo
+//            profilePicView.setImageURI(Uri.parse(loggedPic));
+            profilePicView.setImageResource(R.mipmap.ic_default_profile_round);
+
+            TextView emailView = navHeader.findViewById(R.id.drawer_profile_email);
+            emailView.setText(loggedEmail);
+            TextView usernameView = navHeader.findViewById(R.id.drawer_profile_username);
+            usernameView.setText(loggedUsername);
+        }
+        logItem.setVisible(false);
     }
 }
