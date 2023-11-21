@@ -116,15 +116,15 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    Toast.makeText(MainActivity.this, "Po\u010detna", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.on_homepage_toast), Toast.LENGTH_SHORT).show();
                     showMainFragment();
                     return true;
                 case R.id.nav_profile:
-                    Toast.makeText(MainActivity.this, "Moj profil", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.on_profile_toast), Toast.LENGTH_SHORT).show();
                     showProfileFragment();
                     return true;
                 case R.id.nav_logout:
-                    Toast.makeText(MainActivity.this, "Odjavljeni ste", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.on_logout_toast), Toast.LENGTH_SHORT).show();
                     logout();
                     return true;
                 case R.id.nav_login:

@@ -52,8 +52,8 @@
         "emulated by manipulating the y-axis."
         "Light and shadow."
         </string>
-    <string name="random_match">Prona\u0111i nasumi\u010dnog igra\u010da</string>
-    <string name="friendly_match">Izazovi prijatelja</string>
+    <string name="random_match">Dodeli mi protivnika</string>
+    <string name="friendly_match">Izazivam prijatelja</string>
     <string name="title_activity_splash_screen">U\u010ditavanje</string>
     <string name="title_activity_login">Prijava na sistem</string>
     <string name="prompt_email">Email</string>
@@ -80,5 +80,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_picture_description">Profilna slika</string>
     <string name="guest_user">Gost</string>
+    <string name="on_logout_toast">Odjavljeni ste - Gost</string>
+    <string name="on_profile_toast">Moj profil</string>
+    <string name="on_homepage_toast">Po\u010detna</string>
 
 </resources>

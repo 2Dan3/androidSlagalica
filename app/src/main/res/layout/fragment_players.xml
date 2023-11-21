@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PlayersFragment"
-    android:background="@color/white_smoked">
+    android:background="?colorActivityBackground">
 
     <SearchView
         android:id="@+id/sv_search_players"
@@ -27,7 +27,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_players_search"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@color/white_smoked"
+        android:background="?colorActivityBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/search_people_row_item" />

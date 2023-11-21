@@ -4,14 +4,14 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="7dp"
     android:background="@drawable/custom_border">
 
 
     <ImageView
         android:contentDescription="@string/profile_picture_description"
         android:id="@+id/ivSearchRecyclerRowPic"
-        android:layout_margin="6sp"
+        android:layout_margin="7dp"
         android:layout_width="0sp"
         android:layout_weight=".1"
         android:layout_height="50sp"
