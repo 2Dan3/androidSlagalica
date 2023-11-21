@@ -121,8 +121,9 @@ public class TabbedMainFragment extends Fragment {
 //            ArrayList<String> items = new ArrayList<String>();
 
 
-//            *TODO: ubacivanje fragmenata u Tabove
-//             TODO to ce resiti vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
+//             ubacivanje fragmenata u Tabove resava
+//             vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
+//            Todo* evaluate logged user & lock side Tabs ("locks" for icons) & hide profileNav in drawer
             if (tabPosition==0) {
 //                v = inflater.inflate(R.layout.fragment_rankings, container, false);
             }
