@@ -33,6 +33,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.ui.login.LoginActivity;
 import com.ftn.slagalica.util.IThemeHandler;
 import com.ftn.slagalica.util.LoginHandler;
@@ -54,12 +55,9 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent i = getIntent();
-        String loggedUsername = i.getStringExtra(USERNAME);
-        String loggedEmail = i.getStringExtra(EMAIL);
-        String loggedPic = i.getStringExtra("picture");
+        AuthBearer loggedPlayerAuthData = LoginHandler.Login.getLoggedPlayerAuth(this);
 
-        setupSessionBasedUI(loggedUsername, loggedEmail, loggedPic, darkThemeOn);
+        setupSessionBasedUI(loggedPlayerAuthData, darkThemeOn);
 
         setupToolbarAndActionbar();
 
@@ -193,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 //          ...
     }
 
-    private void setupSessionBasedUI(String loggedUsername, String loggedEmail, String loggedPic, boolean darkThemeOn) {
+    private void setupSessionBasedUI(AuthBearer loggedPlayerAuthData, boolean darkThemeOn) {
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
         View navHeader = navigationView.getHeaderView(0);
@@ -205,19 +203,19 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         TextView emailView = navHeader.findViewById(R.id.drawer_profile_email);
         SwitchCompat darkThemeSwitch = navHeader.findViewById(R.id.drawer_theme_light);
 
-        if (loggedUsername == null || loggedUsername.equals("")) {
+        if (loggedPlayerAuthData == null) {
             logItem = navMenu.findItem(R.id.nav_logout);
             profilePicView.setImageResource(R.mipmap.ic_profile_icon_round);
-            emailView.setText("Gost");
-//            Todo test line :
+            emailView.setText(R.string.guest_user);
+//            Todo test line
 //            navMenu.getItem(R.id.nav_profile).setVisible(false);
         }else{
             logItem = navMenu.findItem(R.id.nav_login);
 //            Todo
-//            profilePicView.setImageURI(Uri.parse(loggedPic));
+//            profilePicView.setImageURI(Uri.parse(loggedPlayerAuthData.getImageURI()));
             profilePicView.setImageResource(R.mipmap.ic_default_profile_round);
-            emailView.setText(loggedEmail);
-            usernameView.setText(loggedUsername);
+            emailView.setText(loggedPlayerAuthData.getEmail());
+            usernameView.setText(loggedPlayerAuthData.getUsername());
         }
         logItem.setVisible(false);
         darkThemeSwitch.setChecked(darkThemeOn);

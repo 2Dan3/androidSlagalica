@@ -1,13 +1,10 @@
 package com.ftn.slagalica.util;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
-import android.widget.Toast;
 
-import com.ftn.slagalica.MainActivity;
 import com.ftn.slagalica.data.model.AuthBearer;
-import com.ftn.slagalica.ui.login.LoginActivity;
 
 public class LoginHandler {
 
@@ -17,17 +14,30 @@ public class LoginHandler {
         public static final String PASSWORD = "passwordslagalica";
         public static final String EMAIL = "emailslagalica";
 
-        public static AuthBearer execute(String usernameOrEmailCredential, String passwordCredential, SharedPreferences sharedPreferences, boolean rememberMe) {
+        public static AuthBearer execute(String usernameOrEmailCredential, String passwordCredential, Activity callingActivity, boolean rememberMe) {
             AuthBearer foundPlayer = matchPlayerCredentials(usernameOrEmailCredential, passwordCredential);
 
             if (foundPlayer != null && rememberMe) {
 
+                SharedPreferences sharedPreferences = callingActivity.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor spEditor = sharedPreferences.edit();
+
                 spEditor.putString(USERNAME, foundPlayer.getUsername());
                 spEditor.putString(PASSWORD, foundPlayer.getPassword());
-                spEditor.apply();
+                spEditor.putString(EMAIL, foundPlayer.getEmail());
+                spEditor.putString("picture", foundPlayer.getImageURI());
+                spEditor.commit();
             }
             return foundPlayer;
+        }
+
+        public static AuthBearer getLoggedPlayerAuth(Activity callingActivity) {
+            SharedPreferences sharedPreferences = callingActivity.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+            String loggedUsername = sharedPreferences.getString(USERNAME, "");
+            if (loggedUsername.equals(""))
+                return null;
+
+            return new AuthBearer(loggedUsername, sharedPreferences.getString(EMAIL, ""), sharedPreferences.getString(PASSWORD, ""), sharedPreferences.getString("picture", ""));
         }
 
         public static void forgetMe(SharedPreferences sharedPreferences) {
@@ -35,6 +45,8 @@ public class LoginHandler {
             SharedPreferences.Editor spEditor = sharedPreferences.edit();
             spEditor.remove(USERNAME);
             spEditor.remove(PASSWORD);
+            spEditor.remove(EMAIL);
+            spEditor.remove("picture");
             spEditor.commit();
         }
 

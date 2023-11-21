@@ -41,13 +41,11 @@ public class SplashScreenActivity extends AppCompatActivity implements IThemeHan
             String savedUsernameOrEmail = sharedPreferences.getString(USERNAME, "");
             String savedPassword = sharedPreferences.getString(PASSWORD, "");
 
-//            usernameOrEmailField.setText(savedUsernameOrEmail);
-//            passwordField.setText(savedPassword);
-            AuthBearer foundPlayer = LoginHandler.Login.execute(savedUsernameOrEmail, savedPassword, sharedPreferences, false);
+            AuthBearer foundPlayer = LoginHandler.Login.execute(savedUsernameOrEmail, savedPassword, this, false);
             if (foundPlayer != null) {
-                iMainActivity.putExtra(USERNAME, foundPlayer.getUsername());
-                iMainActivity.putExtra(EMAIL, foundPlayer.getEmail());
-                iMainActivity.putExtra("picture", foundPlayer.getImageURI());
+//                iMainActivity.putExtra(USERNAME, foundPlayer.getUsername());
+//                iMainActivity.putExtra(EMAIL, foundPlayer.getEmail());
+//                iMainActivity.putExtra("picture", foundPlayer.getImageURI());
                 Toast.makeText(SplashScreenActivity.this, "Dobro do\u0161li, " + foundPlayer.getUsername(), Toast.LENGTH_SHORT).show();
             }
         }
