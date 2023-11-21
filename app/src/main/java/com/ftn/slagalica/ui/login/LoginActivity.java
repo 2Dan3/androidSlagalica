@@ -17,9 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ftn.slagalica.MainActivity;
 import com.ftn.slagalica.R;
 import com.ftn.slagalica.data.model.AuthBearer;
+import com.ftn.slagalica.util.IThemeHandler;
 import com.ftn.slagalica.util.LoginHandler;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements IThemeHandler {
 
     SharedPreferences sharedPreferences;
 
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setupTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

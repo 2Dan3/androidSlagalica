@@ -13,7 +13,7 @@
          Ispod u FrameLayout se smenjuju Fragmenti igara;
          Sat na sredini, Poeni igraca u uglu levo i desno. -->
     <LinearLayout
-        android:background="@color/blue_midnight"
+        android:background="?colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal">
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="0 sekundi"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white_clear"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textViewPlayer2Points"
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50"
-                android:textColor="@color/orange_light"
+                android:textColor="?colorSecondary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="25"
-                android:textColor="@color/orange_light"
+                android:textColor="?colorSecondary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
         Na kraju svih 6 igara - start MainActivity;
         FrameLayout = Container za .replace() smenjivanje 6 Fragmenata igara. -->
     <FrameLayout
-        android:background="@drawable/side_nav_bar"
+        android:background="@drawable/custom_nav_border"
         android:id="@+id/game_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

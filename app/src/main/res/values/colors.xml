@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="black">#FF000000</color>
+    <color name="black">#000028</color>
+    <color name="grey">#B2777777</color>
 
 <!--    Primary colors (blue, orange, white) & their variants-->
     <color name="white_clear">#FFFFFF</color>
     <color name="white_smoked">#E6E6E6</color>
     <color name="orange_light">#FFAE0D</color>
     <color name="orange_dark">#FF6E35</color>
+    <color name="orange_dark_variant">#F67642</color>
     <color name="blue_dark">#060C30</color>
     <color name="blue_dark_2">#0A1349</color>
     <color name="blue_midnight">#0B1B7A</color>
-    <color name="blue_light">#1765A3</color>
-    <color name="blue_light_2">#14578C</color>
+    <color name="blue_light">#2C86CF</color>
+    <color name="blue_light_2">#185F97</color>
 
 <!--    Correct answer color (referenced by some games)-->
     <color name="teal_200">#FF03DAC5</color>

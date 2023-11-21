@@ -15,6 +15,7 @@
         android:layout_height="50dp"
         android:background="@drawable/custom_border_light"
         android:layout_margin="5dp"
+        android:textColor="?colorPrimaryVariant"
         android:hint="@string/search_players" />
 
     <View

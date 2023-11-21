@@ -13,7 +13,7 @@
         android:background="@drawable/side_nav_bar"
         app:tabTextColor="@color/orange_light"
         app:tabIndicatorColor="@color/orange_light"
-        app:tabSelectedTextColor="@color/orange_dark"
+        app:tabSelectedTextColor="@color/orange_dark_variant"
         app:tabIconTint="@color/tab_icon_selector">
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ranktab"

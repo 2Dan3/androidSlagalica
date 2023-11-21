@@ -28,7 +28,7 @@
             android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Slagalica.Dark">
+            android:theme="@style/Theme.Slagalica">
 
             <!-- Moved from MainActivity - action MAIN & category LAUNCHER to SplashScreenActivity -->
             <!-- Moved android:exported="true" to SplashScreenActivity -->

@@ -13,10 +13,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ftn.slagalica.util.IThemeHandler;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements IThemeHandler {
 
 //    private static final Fragment[] GAMES_IN_ORDER = {new GameWhoKnowsKnowsFragment(), new GameConnectTwoFragment(),new GameAssociationsFragment(), new GameJumperFragment(), new GameStepByStepFragment(), new GameMyNumberFragment()};
     private static final int SECOND = 1000;
@@ -30,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         player1PointsView = findViewById(R.id.textViewPlayer1Points);

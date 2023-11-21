@@ -8,11 +8,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ftn.slagalica.R;
+import com.ftn.slagalica.util.IThemeHandler;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements IThemeHandler {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setupTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 

@@ -16,17 +16,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.ui.login.LoginActivity;
+import com.ftn.slagalica.util.IThemeHandler;
 import com.ftn.slagalica.util.LoginHandler;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity implements IThemeHandler {
 
     public static final int SPLASH_TIMEOUT = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 

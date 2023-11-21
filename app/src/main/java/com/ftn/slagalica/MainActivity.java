@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,22 +34,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ftn.slagalica.ui.login.LoginActivity;
+import com.ftn.slagalica.util.IThemeHandler;
 import com.ftn.slagalica.util.LoginHandler;
 import com.google.android.material.navigation.NavigationView;
 
 import org.w3c.dom.Text;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
     private DrawerLayout mDrawerLayout;
     private Fragment tabbedMainFragment;
     private Fragment profileFragment;
 
-//    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setTheme(R.style.Theme_Slagalica_Dark);
+        boolean darkThemeOn = setupTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         String loggedEmail = i.getStringExtra(EMAIL);
         String loggedPic = i.getStringExtra("picture");
 
-        setupSessionBasedUI(loggedUsername, loggedEmail, loggedPic);
+        setupSessionBasedUI(loggedUsername, loggedEmail, loggedPic, darkThemeOn);
 
         setupToolbarAndActionbar();
 
@@ -84,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_settings:
-                return true;
+//            case R.id.action_settings:
+//                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().hide(tabbedMainFragment).show(profileFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupToolbarAndActionbar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,10 +160,8 @@ public class MainActivity extends AppCompatActivity {
 
         replaceToolbarTextWithIcon(actionBar, toolbar);
     }
-//    @RequiresApi(api = Build.VERSION_CODES.M)
     private void replaceToolbarTextWithIcon(ActionBar actionBar, Toolbar toolbar) {
         actionBar.setDisplayShowTitleEnabled(false);
-//        toolbar.setBackgroundColor(getColor(R.color.blue_light_2));
         toolbar.setLogo(R.mipmap.ic_default_profile);
     }
     private void toLogin(){
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 //          ...
     }
 
-    private void setupSessionBasedUI(String loggedUsername, String loggedEmail, String loggedPic) {
+    private void setupSessionBasedUI(String loggedUsername, String loggedEmail, String loggedPic, boolean darkThemeOn) {
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
         View navHeader = navigationView.getHeaderView(0);
@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem logItem;
         TextView usernameView = navHeader.findViewById(R.id.drawer_profile_username);
         TextView emailView = navHeader.findViewById(R.id.drawer_profile_email);
+        SwitchCompat darkThemeSwitch = navHeader.findViewById(R.id.drawer_theme_light);
 
         if (loggedUsername == null || loggedUsername.equals("")) {
             logItem = navMenu.findItem(R.id.nav_logout);
@@ -219,5 +220,18 @@ public class MainActivity extends AppCompatActivity {
             usernameView.setText(loggedUsername);
         }
         logItem.setVisible(false);
+        darkThemeSwitch.setChecked(darkThemeOn);
+        darkThemeSwitch.setOnCheckedChangeListener(
+                (compoundButton, darkModeChecked) -> {
+
+                    compoundButton.setEnabled(false);
+                    SharedPreferences.Editor spEditor = getSharedPreferences("theme", Context.MODE_PRIVATE).edit();
+                    spEditor.putBoolean("dark", darkModeChecked);
+                    spEditor.commit();
+
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    finish();
+                }
+        );
     }
 }
