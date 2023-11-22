@@ -3,6 +3,7 @@
     <attr name="colorPrimary" format="reference|color" />
     <attr name="colorPrimaryVariant" format="reference|color" />
     <attr name="colorOnPrimary" format="reference|color" />
+    <attr name="colorPrimaryReplacement" format="reference|color"/>
 
     <attr name="colorSecondary" format="reference|color" />
     <attr name="colorSecondaryVariant" format="reference|color" />

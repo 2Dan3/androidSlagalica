@@ -9,12 +9,14 @@
     <color name="white_smoked">#E6E6E6</color>
     <color name="orange_light">#FFAE0D</color>
     <color name="orange_dark">#FF6E35</color>
-    <color name="orange_dark_variant">#DEF67642</color>
+    <color name="orange_dark_variant">#FF7A44</color>
     <color name="blue_dark">#060C30</color>
     <color name="blue_dark_2">#0A1349</color>
+    <color name="blue_dark_3">#0E1B6A</color>
     <color name="blue_midnight">#0B1B7A</color>
     <color name="blue_light">#2C86CF</color>
     <color name="blue_light_2">#185F97</color>
+    <color name="blue_light_3">#2796F1</color>
 
 <!--    Correct answer color (referenced by some games)-->
     <color name="teal_200">#FF03DAC5</color>

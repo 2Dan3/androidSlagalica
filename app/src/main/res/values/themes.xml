@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/blue_light</item>
         <item name="colorPrimaryVariant">@color/blue_light_2</item>
         <item name="colorOnPrimary">@color/white_clear</item>
+        <item name="colorPrimaryReplacement">@color/blue_light_3</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange_light</item>
         <item name="colorSecondaryVariant">@color/orange_dark</item>
@@ -23,6 +24,7 @@
         <item name="colorPrimary">@color/blue_dark_2</item>
         <item name="colorPrimaryVariant">@color/blue_dark</item>
         <item name="colorOnPrimary">@color/white_smoked</item>
+        <item name="colorPrimaryReplacement">@color/blue_dark_3</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange_light</item>
         <item name="colorSecondaryVariant">@color/orange_dark</item>
