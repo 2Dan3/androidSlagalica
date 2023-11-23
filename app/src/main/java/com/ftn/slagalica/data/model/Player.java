@@ -7,6 +7,7 @@ public class Player {
     private String password;
 
     private int pointsCurrentRank;
+    private int currentPointsInMatch;
     private int stars;
 
     private String picture;
@@ -62,7 +63,13 @@ public class Player {
     public void setPointsCurrentRank(int pointsCurrentRank) {
         this.pointsCurrentRank = pointsCurrentRank;
     }
+    public int getCurrentPointsInMatch() {
+        return currentPointsInMatch;
+    }
 
+    public void setCurrentPointsInMatch(int currentPointsInMatch) {
+        this.currentPointsInMatch = currentPointsInMatch;
+    }
     public int getStars() {
         return stars;
     }
@@ -73,6 +80,7 @@ public class Player {
 
 //    Todo
 //      make it a "toJSON()"
+
     @Override
     public String toString() {
         return "Player{" +
@@ -80,6 +88,7 @@ public class Player {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", pointsCurrentRank=" + pointsCurrentRank +
+                ", currentPointsInMatch=" + currentPointsInMatch +
                 ", stars=" + stars +
                 ", picture='" + picture + '\'' +
                 '}';

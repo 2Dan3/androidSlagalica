@@ -59,7 +59,7 @@ public class GameMyNumberFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
-        scheduleMatchEnding();
+        showMatchSummary();
     }
 
     @Override
@@ -68,14 +68,11 @@ public class GameMyNumberFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_my_number, container, false);
     }
-    private void scheduleMatchEnding() {
+    private void showMatchSummary() {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-//                *TODO
-//                    fix crashing -> getActivity() returns null instead of the GameActivity instance
-                startActivity(new Intent(getActivity(), MainActivity.class));
-                getActivity().finish();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new MatchSummaryFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 7*SECOND);
     }

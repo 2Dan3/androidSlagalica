@@ -5,13 +5,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/custom_nav_border">
+    android:background="@drawable/fragment_border">
 
     <ImageView
         android:layout_marginBottom="100dp"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:src="@mipmap/ic_default_profile_round" />
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_battle_bird_round" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

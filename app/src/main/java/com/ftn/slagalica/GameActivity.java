@@ -41,30 +41,12 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private void startMatch() {
-
 //        Match postavke
 //              ...
+        player1PointsView.setText("0");
+        player2PointsView.setText("0");
+
         prepFirstGame();
-
-//        Timer timer = new Timer();
-
-//        Thread thread = new Thread(){
-//            public void run(){
-//                runOnUiThread(
-//                        () -> {
-//                            for (Fragment nextGame : GAMES_IN_ORDER) {
-//                                timer.schedule(new TimerTask() {
-//                                    @Override
-//                                    public void run() {
-//                                        getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, nextGame).commit();
-//                                        //                    Toast.makeText(GameActivity.this, "1. igra", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }, 5 * SECOND);
-//                            }
-//                        });
-//            }
-//        };
-//        thread.start();
     }
     private void prepFirstGame() {
         new Timer().schedule(new TimerTask() {

@@ -8,14 +8,10 @@
     android:orientation="vertical"
     tools:context=".GameActivity">
 
-<!--    TODO
-         Zajenicki top Bar za ceo Match;
-         Ispod u FrameLayout se smenjuju Fragmenti igara;
-         Sat na sredini, Poeni igraca u uglu levo i desno. -->
     <LinearLayout
         android:background="?colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,35 +19,81 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
+            <ImageView
+                android:id="@+id/player1PicInGame"
+                android:layout_width="45sp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                app:srcCompat="@mipmap/ic_default_profile_round"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textViewPlayer1Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:text="player1Username"
+                android:textColor="?colorSecondary"
+                android:textSize="13sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/player1PicInGame"
+                app:layout_constraintBottom_toTopOf="@+id/textViewPlayer1Points" />
+            <TextView
+                android:id="@+id/textViewPlayer1Points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5sp"
+                android:text="50"
+                android:textColor="?colorSecondary"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/player1PicInGame"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPlayer1Username" />
+
             <TextView
                 android:id="@+id/textViewTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0 sekundi"
+                android:text="0"
                 android:textColor="@color/white_clear"
-                android:textSize="18sp"
+                android:textSize="23sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textViewPlayer2Points"
-                app:layout_constraintStart_toEndOf="@+id/textViewPlayer1Points"
+                app:layout_constraintEnd_toStartOf="@+id/player2PicInGame"
+                app:layout_constraintStart_toEndOf="@+id/player1PicInGame"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewPlayer1Points"
+                android:id="@+id/textViewPlayer2Username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50"
+                android:layout_marginEnd="5sp"
+                android:text="player2Username"
                 android:textColor="?colorSecondary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@id/textViewPlayer2Points"
+                app:layout_constraintEnd_toStartOf="@+id/player2PicInGame"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/textViewPlayer2Points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5sp"
                 android:text="25"
                 android:textColor="?colorSecondary"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/player2PicInGame"
+                app:layout_constraintTop_toBottomOf="@id/textViewPlayer2Username" />
+            <ImageView
+                android:id="@+id/player2PicInGame"
+                android:layout_width="45sp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                app:srcCompat="@mipmap/ic_battle_bird_round"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,12 +101,8 @@
 
     </LinearLayout>
 
-<!--   TODO
-        GameActivity = 1 runda;
-        Na kraju svih 6 igara - start MainActivity;
-        FrameLayout = Container za .replace() smenjivanje 6 Fragmenata igara. -->
     <FrameLayout
-        android:background="@drawable/custom_nav_border"
+        android:background="@drawable/fragment_border"
         android:id="@+id/game_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar"
+    android:background="@drawable/fragment_border"
     tools:context=".GameMyNumberFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rezultat:"
-                android:textColor="#FFFFFF"
+                android:textColor="?colorOnPrimary"
                 android:textSize="24sp" />
         </TableRow>
 
@@ -43,7 +43,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:text="Resenje"
-                android:textColor="#FFFFFF" />
+                android:textColor="?colorOnPrimary" />
 
             <Button
                 android:id="@+id/button14"
@@ -166,7 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="592"
-                android:textColor="#FFFFFF"
+                android:textColor="?colorOnPrimary"
                 android:textSize="48sp"
                 tools:layout_conversion_absoluteHeight="19dp"
                 tools:layout_conversion_absoluteWidth="24dp"
