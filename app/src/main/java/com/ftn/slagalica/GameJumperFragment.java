@@ -67,6 +67,14 @@ public class GameJumperFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_jumper, container, false);
     }
+
+//    Todo : uncomment onDestroy when Timer is implemented like in other GameFragments
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        countDownTimer.cancel();
+//    }
+
     private void prepNextGame() {
         new Timer().schedule(new TimerTask() {
             @Override

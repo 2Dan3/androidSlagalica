@@ -101,6 +101,12 @@ public class GameStepByStepFragment extends Fragment {
         setupSolutionListener();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
+    }
+
     private void setupSolutionListener() {
         TextView solutionField = fieldTextViews[fieldTextViews.length-1];
         solutionField.addTextChangedListener(solutionWatcher);

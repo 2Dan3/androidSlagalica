@@ -61,6 +61,13 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
         prepNextGame();
     }
 
+//    Todo : uncomment onDestroy when Timer is implemented like in other GameFragments
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        countDownTimer.cancel();
+//    }
+
     private void prepNextGame() {
             new Timer().schedule(new TimerTask() {
                 @Override

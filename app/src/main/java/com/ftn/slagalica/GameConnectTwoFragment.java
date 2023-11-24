@@ -82,6 +82,11 @@ public class GameConnectTwoFragment extends Fragment {
 
         startTimerCountdown(30*SECOND);
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
+    }
 
     private void showFieldsWithValues() {
 //        *TODO
@@ -210,7 +215,7 @@ public class GameConnectTwoFragment extends Fragment {
                 leftField.setBackgroundColor(getResources().getColor(R.color.white_smoked));
         }
 
-        selectedLeftField.setBackgroundColor(getResources().getColor(R.color.blue_light));
+        selectedLeftField.setBackgroundColor(getResources().getColor(R.color.blue_light_3));
     }
 
     public void onRightFieldClick(View clickedRightField) {

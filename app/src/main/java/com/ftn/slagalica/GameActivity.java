@@ -1,12 +1,18 @@
 package com.ftn.slagalica;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
@@ -38,6 +44,25 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
         player1PointsView = findViewById(R.id.textViewPlayer1Points);
         player2PointsView = findViewById(R.id.textViewPlayer2Points);
         startMatch();
+
+        // This callback is only called when MyFragment is at least started
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                new LeaveGameDialogFragment().show(getSupportFragmentManager(), "LEAVE_GAME_DIALOG");
+            }
+        };
+
+        getOnBackPressedDispatcher().addCallback(this, callback);
+        // The callback can be enabled or disabled here or in handleOnBackPressed()
+//        callback.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        Todo : send signal to other client in current match, that the game was quit ->  then (if match is still unfinished) some of games' rounds can be
+//         skipped for Player that left, OR game can end for the remaining Player who gets the won points!
     }
 
     private void startMatch() {
@@ -88,5 +113,28 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
     }
     public void setPlayer2PointsView(int player2PointsView) {
         this.player2PointsView.setText(String.valueOf(player2PointsView));
+    }
+
+    public static class LeaveGameDialogFragment extends DialogFragment {
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(R.string.leave_game_dialog_title)
+                    .setMessage(R.string.leave_game_dialog)
+                    .setPositiveButton(R.string.leave_game_confirm, (dialog, id) -> {
+                        Toast.makeText(getActivity(), R.string.leave_game_successful_info, Toast.LENGTH_SHORT).show();
+
+//                        Todo : instead of MainActivity, switch to MatchSummaryFragment(gameWasQuit = true) ->  with 0 points, stars & tokens won shown
+//                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new MatchSummaryFragment(true)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    })
+                    .setNegativeButton(R.string.leave_game_cancel, (dialog, id) -> {
+                        this.dismiss();
+                    });
+            return builder.create();
+        }
     }
 }

@@ -23,6 +23,7 @@ import java.util.TimerTask;
 
 public class MatchSummaryFragment extends Fragment {
 
+    private boolean gameWasQuit = false;
     private TextView timer;
     private CountDownTimer countDownTimer;
 
@@ -39,6 +40,8 @@ public class MatchSummaryFragment extends Fragment {
     private Player loser;
 
     public MatchSummaryFragment() { }
+
+    public MatchSummaryFragment(boolean gameWasQuit) { this.gameWasQuit = gameWasQuit; }
 
     public static MatchSummaryFragment newInstance(String param1, String param2) {
         MatchSummaryFragment fragment = new MatchSummaryFragment();
@@ -72,8 +75,22 @@ public class MatchSummaryFragment extends Fragment {
 //
 //        TextView wonStarsPlayer1 = (TextView) v.findViewById(R.id.tvStarsWonPlayer1);
 //        wonStarsPlayer1.setText(String.valueOf());
+        if (gameWasQuit) {
+            TextView finalPointsPlayer1 = (TextView) v.findViewById(R.id.tvPointsWonPlayer1);
+            finalPointsPlayer1.setText("+0");
+            TextView wonStarsPlayer1 = (TextView) v.findViewById(R.id.tvStarsWonPlayer1);
+            wonStarsPlayer1.setText("+0");
+            TextView wonTokensPlayer1 = (TextView) v.findViewById(R.id.tvTokensWonPlayer1);
+            wonTokensPlayer1.setText("+0");
+        }
 
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
     }
 
     @Override
@@ -141,6 +158,6 @@ public class MatchSummaryFragment extends Fragment {
                 endMatch();
             }
         }.start();
-        Toast.makeText(getActivity(), "Igra je zavr\u0171ena", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Igra je zavr\u0161ena", Toast.LENGTH_SHORT).show();
     }
 }

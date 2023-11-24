@@ -75,7 +75,7 @@
     <string name="to_login">Pre\u0111i na prijavu</string>
     <string name="to_register">Pre\u0111i na registraciju</string>
     <string name="menu_login">Prijavi se</string>
-    <string name="search_players">Pretra\u017ei igra\u010de...</string>
+    <string name="search_players">Pretra\u017ei igra\u010de…</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_picture_description">Profilna slika</string>
@@ -83,5 +83,10 @@
     <string name="on_logout_toast">Odjavljeni ste - Gost</string>
     <string name="on_profile_toast">Moj profil</string>
     <string name="on_homepage_toast">Po\u010detna</string>
+    <string name="leave_game_dialog">Napusti igru?</string>
+    <string name="leave_game_confirm">Potvrdi</string>
+    <string name="leave_game_cancel">Odustani</string>
+    <string name="leave_game_dialog_title">Napuštanjem meča odričete se osvojenih poena…</string>
+    <string name="leave_game_successful_info">Napustili ste igru.</string>
 
 </resources>
