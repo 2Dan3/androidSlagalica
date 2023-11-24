@@ -37,6 +37,7 @@ public class GameConnectTwoFragment extends Fragment {
     public TextView timer;
     private CountDownTimer countDownTimer;
     private Timer rightColumnFieldRepaintTimer;
+    private boolean everythingIsPaired;
 //    private final FragmentActivity gameActivity = getActivity();
 
     private Map solutionViewPairs;
@@ -121,18 +122,15 @@ public class GameConnectTwoFragment extends Fragment {
     private void startTimerCountdown(int msTimeFrom){
 //        showFieldValues();
 
-        countDownTimer = new CountDownTimer(msTimeFrom + SECOND, 2 * SECOND) {
+        countDownTimer = new CountDownTimer(msTimeFrom + SECOND, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timer.setText(String.valueOf(millisUntilFinished / SECOND));
-
-                if( everythingIsPaired() )
-                    onFinish();
             }
             @Override
             public void onFinish() {
 
-                if( everythingIsPaired() ) {
+                if( everythingIsPaired ) {
 
                     if(!round2Ongoing) {
                         requestAndStoreGameData();
@@ -172,6 +170,7 @@ public class GameConnectTwoFragment extends Fragment {
 
     private void prepareUpcomingRoundUI() {
 //      - RENDER previously loaded data into UI
+        this.everythingIsPaired = false;
         showFieldsWithValues();
 
 //      - RESET all fields - re-enable & re-equip with OnClickListeners
@@ -191,10 +190,11 @@ public class GameConnectTwoFragment extends Fragment {
         }
     }
 
-    private boolean everythingIsPaired() {
+    private boolean checkEverythingIsPaired() {
         for (View v : (Set<View>)solutionViewPairs.keySet()) {
             if(v.isEnabled()) return false;
         }
+        everythingIsPaired = true;
         return true;
     }
 
@@ -252,6 +252,9 @@ public class GameConnectTwoFragment extends Fragment {
             }
 
             selectedLeftField = null;
+
+            if (checkEverythingIsPaired())
+                countDownTimer.onFinish();
         }
     }
 
