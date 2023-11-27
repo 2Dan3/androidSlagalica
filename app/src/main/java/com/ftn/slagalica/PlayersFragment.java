@@ -23,10 +23,9 @@ import java.util.ArrayList;
 public class PlayersFragment extends Fragment implements SearchPlayerRecyclerViewAdapter.ItemClickListener {
 
 //    private SearchPlayerRecyclerViewAdapter adapter;
-    private SearchView searchBar;
 //    private String[] array;
 
-    private ArrayList<Player> searchResultPlayers = new ArrayList();
+//    private ArrayList<Player> searchResultPlayers = new ArrayList();
     private ArrayList<Player> friends = new ArrayList();
 
     @Override
@@ -38,22 +37,10 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
 //        Experimental line :
 //        searchResultPlayers = friends;
 
-        searchResultPlayers.addAll(friends);
+//        searchResultPlayers.addAll(friends);
 
 //        array = new String[]{"PuzzlePlayer123", "SlagalicaSlayer", "Gamer697", "Hotstreak"};
 //        Toast.makeText(getContext(), array[3], Toast.LENGTH_LONG).show();
-    }
-
-//    Todo
-//      if buggy replace with onStart
-    @Override
-    public void onStart() {
-        Toast.makeText(getContext(), "on resume started", Toast.LENGTH_LONG).show();
-        super.onStart();
-        searchBar.setQuery("", false);
-        searchResultPlayers.addAll(friends);
-//        adapter.notifyDataSetChanged();
-//        Todo clear search view of any text
     }
 
     @Nullable
@@ -63,17 +50,9 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_players, container, false);
 
-//        ignore: Search Icon removal attempt
-
-//        int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
-//        ImageView magImage = (ImageView) container.findViewById(magId);
-//        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
-
-//        Temporarily commented:
-
-        RecyclerView playersRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_players_search);
-        SearchPlayerRecyclerViewAdapter adapter = (SearchPlayerRecyclerViewAdapter)playersRecyclerView.getAdapter();
-        adapter.setClickListener(this);
+//        RecyclerView playersRecyclerView = rootView.findViewById(R.id.recycler_friends);
+//        SearchPlayerRecyclerViewAdapter adapter = (SearchPlayerRecyclerViewAdapter)playersRecyclerView.getAdapter();
+//        adapter.setClickListener(this);
 //
 //        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //
@@ -91,19 +70,19 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        searchBar = view.findViewById(R.id.sv_search_players);
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return requestSearchedPlayers();
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
+//
+//        searchBar = view.findViewById(R.id.sv_search_players);
+//        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return requestSearchedPlayers();
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                return false;
+//            }
+//        });
     }
 
     private ArrayList<Player> getFriendsList() {
@@ -149,30 +128,30 @@ public class PlayersFragment extends Fragment implements SearchPlayerRecyclerVie
         return true;
     }
 
-    private boolean requestSearchedPlayers() {
-
-        String criteria = searchBar.getQuery().toString().trim();
-
-        if (criteria.length() != 0) {
-//        Todo
-//          DB request for list of Players whose usernames contain "criteria"
-
-//        response = conn.getResponse();
-
-//        MOCK SEARCH RESULTS
-            ArrayList<Player> response = new ArrayList();
-            response.add(new Player(criteria + "enko", criteria + "enko00@gmail.com", "pass123", "http://imgur.com/", 250, 4));
-            response.add(new Player(criteria + "ica", criteria + "ica98@outlook.com", "pass123", "http://imgur.com/", 280, 3));
-            response.add(new Player(criteria + "utin", criteria + "utin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
-
-            searchResultPlayers.addAll(response);
-//            adapter.notifyDataSetChanged();
-//            Todo uncomment :
-            Toast.makeText(getActivity(), "testic" + searchResultPlayers.get(2).toString(), Toast.LENGTH_LONG).show();
-
-            return true;
-        }
-        return false;
-    }
+//    private boolean requestSearchedPlayers() {
+//
+//        String criteria = searchBar.getQuery().toString().trim();
+//
+//        if (criteria.length() != 0) {
+////        Todo
+////          DB request for list of Players whose usernames contain "criteria"
+//
+////        response = conn.getResponse();
+//
+////        MOCK SEARCH RESULTS
+//            ArrayList<Player> response = new ArrayList();
+//            response.add(new Player(criteria + "enko", criteria + "enko00@gmail.com", "pass123", "http://imgur.com/", 250, 4));
+//            response.add(new Player(criteria + "ica", criteria + "ica98@outlook.com", "pass123", "http://imgur.com/", 280, 3));
+//            response.add(new Player(criteria + "utin", criteria + "utin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
+//
+//            searchResultPlayers.addAll(response);
+////            adapter.notifyDataSetChanged();
+////            Todo uncomment :
+//            Toast.makeText(getActivity(), "testic" + searchResultPlayers.get(2).toString(), Toast.LENGTH_LONG).show();
+//
+//            return true;
+//        }
+//        return false;
+//    }
 
 }

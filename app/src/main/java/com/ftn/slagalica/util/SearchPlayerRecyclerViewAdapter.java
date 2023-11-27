@@ -17,46 +17,26 @@ import java.util.ArrayList;
 
 public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<SearchPlayerRecyclerViewAdapter.ViewHolder>{
 
-//    private String[] array;
     private ArrayList<Player> players;
     private ItemClickListener mClickListener;
     private final Context context;
 
     /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder)
+     * Initialize the dataset of the Adapter
+     *
+     * @param players String[] containing the data to populate views to be used
+     * by RecyclerView
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private final TextView tvUsername;
-        private final TextView tvCurrentRank;
-        private final TextView tvStars;
-        private final ImageView imgPicture;
+    public SearchPlayerRecyclerViewAdapter(Context context, ArrayList<Player> players) {
+        this.context = context;
+        this.players = new ArrayList<>();
+        this.players.addAll(players);
 
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
+    }
 
-//            tvUsername = view.findViewById(R.id.textView5);
-            tvUsername = view.findViewById(R.id.tvSearchRecyclerRowUsername);
-            tvCurrentRank = view.findViewById(R.id.tvSearchRecyclerRowRank);
-            tvStars = view.findViewById(R.id.tvSearchRecyclerRowStars);
-            imgPicture = view.findViewById(R.id.ivSearchRecyclerRowPic);
-        }
-
-        public void embedData(Player loadingPlayer){
-
-//            tvUsername.setText(string);
-            tvUsername.setText(loadingPlayer.getUsername());
-            tvCurrentRank.setText( String.valueOf(loadingPlayer.getPointsCurrentRank()) );
-            tvStars.setText( String.valueOf(loadingPlayer.getStars()) );
-//            Todo default profile pic ->  loaded img parse
-            imgPicture.setImageResource(R.drawable.menu_profile);
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
+    public void setPlayers(ArrayList<Player> players){
+        this.players = players;
+        notifyDataSetChanged();
     }
 
     public Player getPlayer(int pos) {
@@ -70,21 +50,6 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
-    }
-
-    /**
-     * Initialize the dataset of the Adapter
-     *
-     * @param players String[] containing the data to populate views to be used
-     * by RecyclerView
-     */
-    public SearchPlayerRecyclerViewAdapter(Context context, ArrayList<Player> players) {
-        this.context = context;
-        this.players = new ArrayList<>();
-//        Bug workaround attempt :
-        this.players.addAll(players);
-
-//        this.array = array;
     }
 
     // Create new views (invoked by the layout manager)
@@ -114,5 +79,40 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
     public int getItemCount() {
         return players.size();
 //        return array.length;
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder)
+     */
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private final TextView tvUsername;
+        private final TextView tvCurrentRank;
+        private final TextView tvStars;
+        private final ImageView imgPicture;
+
+        public ViewHolder(View view) {
+            super(view);
+            tvUsername = view.findViewById(R.id.tvSearchRecyclerRowUsername);
+            tvCurrentRank = view.findViewById(R.id.tvSearchRecyclerRowRank);
+            tvStars = view.findViewById(R.id.tvSearchRecyclerRowStars);
+            imgPicture = view.findViewById(R.id.ivSearchRecyclerRowPic);
+        }
+
+        public void embedData(Player loadingPlayer){
+
+//            tvUsername.setText(string);
+            tvUsername.setText(loadingPlayer.getUsername());
+            tvCurrentRank.setText( String.valueOf(loadingPlayer.getPointsCurrentRank()) );
+            tvStars.setText( String.valueOf(loadingPlayer.getStars()) );
+//            Todo default profile pic ->  loaded img parse
+            imgPicture.setImageResource(R.drawable.menu_profile);
+        }
+
+        // Define click listener for the ViewHolder's View
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
     }
 }

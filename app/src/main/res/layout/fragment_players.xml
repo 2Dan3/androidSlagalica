@@ -6,26 +6,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="25sp"
     tools:context=".PlayersFragment"
     android:background="?colorActivityBackground">
 
-    <SearchView
-        android:id="@+id/sv_search_players"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/custom_border_light"
-        android:layout_margin="5dp"
-        android:textColor="?colorPrimaryVariant"
-        android:hint="@string/search_players" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="?android:attr/listDivider" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_players_search"
+        android:id="@+id/recycler_friends"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:background="?colorActivityBackground"
         android:layout_width="match_parent"

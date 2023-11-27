@@ -123,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
                     Toast.makeText(MainActivity.this, getString(R.string.on_profile_toast), Toast.LENGTH_SHORT).show();
                     showProfileFragment();
                     return true;
+                case R.id.nav_search_users:
+                    toSearchUsers();
+                    return true;
                 case R.id.nav_logout:
                     Toast.makeText(MainActivity.this, getString(R.string.on_logout_toast), Toast.LENGTH_SHORT).show();
                     logout();
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         });
     }
 
-//    * Loading MainActivity always inflates TabbedMainFragment onto it
+    //    * Loading MainActivity always inflates TabbedMainFragment onto it
     private void showMainFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (profileFragment != null) transaction.hide(profileFragment);
@@ -161,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     private void replaceToolbarTextWithIcon(ActionBar actionBar, Toolbar toolbar) {
         actionBar.setDisplayShowTitleEnabled(false);
         toolbar.setLogo(R.mipmap.ic_default_profile);
+    }
+
+    private void toSearchUsers() {
+        startActivity(new Intent(MainActivity.this, SearchUsersActivity.class));
+        finish();
     }
     private void toLogin(){
         startActivity(new Intent(MainActivity.this, LoginActivity.class));

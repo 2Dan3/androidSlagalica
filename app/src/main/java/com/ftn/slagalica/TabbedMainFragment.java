@@ -31,7 +31,7 @@ public class TabbedMainFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private static final int[] icons = {R.drawable.trophy, R.drawable.play, R.drawable.players};
-    private static final String[] titles = {"Plasmani", "Igraj", "Igra\u010di"};
+    private static final String[] titles = {"Plasmani", "Igraj", "Prijatelji"};
 
     private static ArrayList<Player> friends = new ArrayList();
 
@@ -92,7 +92,7 @@ public class TabbedMainFragment extends Fragment {
         //      * Middle Tab "PLAY" is main (wider bottom scroll indicator than other tabs)
         LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        layoutParams.weight = 1.4f;
+        layoutParams.weight = 1.2f;
         layout.setLayoutParams(layoutParams);
     }
 
@@ -133,15 +133,15 @@ public class TabbedMainFragment extends Fragment {
             else if (tabPosition==2) {
                 v = inflater.inflate(R.layout.fragment_players, container, false);
 
-                RecyclerView playersRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_players_search);
+                RecyclerView playersRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_friends);
 
 
                 playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-//        Nothing's been searched yet, so Friend List is displayed as a default
-//        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
-
-//                Toast.makeText(getContext(), "Friends loaded", Toast.LENGTH_LONG).show();
+////        Nothing's been searched yet, so Friend List is displayed as a default
+////        Toast.makeText(getContext(), friends.get(9).toString(), Toast.LENGTH_LONG).show();
+//
+////                Toast.makeText(getContext(), "Friends loaded", Toast.LENGTH_LONG).show();
 
                 SearchPlayerRecyclerViewAdapter srcPlayerAdapter = new SearchPlayerRecyclerViewAdapter( getActivity(), requestFriendsList() );
 

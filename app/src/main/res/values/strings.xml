@@ -88,5 +88,16 @@
     <string name="leave_game_cancel">Odustani</string>
     <string name="leave_game_dialog_title">Napuštanjem meča odričete se osvojenih poena…</string>
     <string name="leave_game_successful_info">Napustili ste igru.</string>
+    <string name="title_activity_search_users">SearchUsersActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="on_search_users_toast">Pretraga korisnika</string>
+    <string name="menu_search_users">Korisnici</string>
 
 </resources>
