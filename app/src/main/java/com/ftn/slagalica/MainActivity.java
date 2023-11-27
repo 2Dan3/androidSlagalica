@@ -187,16 +187,22 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         currentParent.finish();
     }
     public void showAvailableFriends(View v){
-        Toast.makeText(MainActivity.this, "Dostupni prijatelji", Toast.LENGTH_SHORT).show();
 
-//        Todo
-//         - openDrawer with FriendList under Log out btn (inv icons next to each available-to-play friend)
-//        mDrawerLayout.openDrawer(GravityCompat.START);
-//              ...
-//              or
-//        Todo
-//         - show FriendList separately (either switch to Right Tab OR make a new Fragment on top of everything)
-//          ...
+        if (LoginHandler.Login.getLoggedPlayerAuth(this) == null) {
+            Toast.makeText(MainActivity.this, getString(R.string.friendly_match_btn_alt), Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Dostupni prijatelji", Toast.LENGTH_SHORT).show();
+
+            //        Todo
+            //         - openDrawer with FriendList under Log out btn (inv icons next to each available-to-play friend)
+            //        mDrawerLayout.openDrawer(GravityCompat.START);
+            //              ...
+            //              or
+            //        Todo
+            //         - show FriendList separately (either switch to Right Tab OR make a new Fragment on top of everything)
+            //          ...
+        }
     }
 
     private void setupSessionBasedUI(AuthBearer loggedPlayerAuthData, boolean darkThemeOn) {
@@ -215,8 +221,8 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
             logItem = navMenu.findItem(R.id.nav_logout);
             profilePicView.setImageResource(R.mipmap.ic_profile_icon_round);
             emailView.setText(R.string.guest_user);
-//            Todo test line
-//            navMenu.getItem(R.id.nav_profile).setVisible(false);
+            navMenu.findItem(R.id.nav_profile).setVisible(false);
+            navMenu.findItem(R.id.nav_search_users).setVisible(false);
         }else{
             logItem = navMenu.findItem(R.id.nav_login);
 //            Todo

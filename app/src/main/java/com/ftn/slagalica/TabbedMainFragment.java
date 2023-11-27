@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.data.model.Player;
+import com.ftn.slagalica.util.LoginHandler;
 import com.ftn.slagalica.util.SearchPlayerRecyclerViewAdapter;
 import com.google.android.material.tabs.TabLayout;
 
@@ -34,34 +36,35 @@ public class TabbedMainFragment extends Fragment {
     private static final String[] titles = {"Plasmani", "Igraj", "Prijatelji"};
 
     private static ArrayList<Player> friends = new ArrayList();
+    private AuthBearer loggedUser;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+//    private static final String ARG_PARAM1 = "param1";
+//    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
+//    private String mParam1;
+//    private String mParam2;
 
     public TabbedMainFragment() { }
 
     // TODO: Rename and change types and number of parameters
     public static TabbedMainFragment newInstance(String param1, String param2) {
         TabbedMainFragment fragment = new TabbedMainFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+        this.loggedUser = LoginHandler.Login.getLoggedPlayerAuth(getActivity());
 //        friends.addAll( requestFriendsList() );
     }
 
@@ -76,7 +79,7 @@ public class TabbedMainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new DesignDemoPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter = new DesignDemoPagerAdapter(TabbedMainFragment.this);
         viewPager = getActivity().findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
         tabLayout = getActivity().findViewById(R.id.tablayout);
@@ -84,15 +87,25 @@ public class TabbedMainFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
         //        Tab Icons setup
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            tabLayout.getTabAt(i).setIcon(icons[i]);
+        if (loggedUser == null) {
+            tabLayout.getTabAt(0).setIcon(icons[1]);
+            setWiderMainTabIndicator(0);
         }
-        //      * Selects default "PLAY" Tab upon activity creation
-        tabLayout.getTabAt(1).select();
-        //      * Middle Tab "PLAY" is main (wider bottom scroll indicator than other tabs)
-        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(1));
+        else {
+            for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                tabLayout.getTabAt(i).setIcon(icons[i]);
+            }
+//      * Selects default "PLAY" Tab upon activity creation
+            tabLayout.getTabAt(1).select();
+            setWiderMainTabIndicator(1);
+        }
+    }
+
+    private void setWiderMainTabIndicator(int tabPosition){
+//              * Middle Tab "PLAY" is main (wider bottom scroll indicator than other tabs)
+        LinearLayout layout = ((LinearLayout) ((LinearLayout) tabLayout.getChildAt(0)).getChildAt(tabPosition));
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        layoutParams.weight = 1.2f;
+        layoutParams.weight = 1.23f;
         layout.setLayoutParams(layoutParams);
     }
 
@@ -157,24 +170,26 @@ public class TabbedMainFragment extends Fragment {
     }
 
     static class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
+        static TabbedMainFragment fragment;
 
-        public DesignDemoPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public DesignDemoPagerAdapter(TabbedMainFragment frag) {
+            super(frag.getActivity().getSupportFragmentManager());
+            fragment = frag;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return DesignDemoFragment.newInstance(position);
+            return fragment.loggedUser == null ? DesignDemoFragment.newInstance(1) : DesignDemoFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return fragment.loggedUser == null ? 1 : 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return fragment.loggedUser == null ? titles[1] : titles[position];
 //            return null;
         }
     }

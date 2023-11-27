@@ -99,5 +99,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="on_search_users_toast">Pretraga korisnika</string>
     <string name="menu_search_users">Korisnici</string>
+    <string name="friendly_match_btn_alt">Prijavi se da bi izazvao prijatelja!</string>
 
 </resources>
