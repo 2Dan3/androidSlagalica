@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="1000dp"
-    android:background="@color/white_clear"
+    android:background="@drawable/side_nav_bar"
     tools:context=".ProfileFragment">
 <!--   Height 1000 dp on Root element is a workaround for
         a visual Bug, where viewpager's fragment leftovers
@@ -16,9 +16,9 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:id="@+id/imgProfile"
+            android:layout_width="95sp"
+            android:layout_height="95sp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="20sp"
@@ -30,263 +30,327 @@
             app:srcCompat="@mipmap/ic_default_profile_round" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textViewUsernameProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
+            android:layout_marginBottom="18dp"
+            android:textColor="?colorOnPrimary"
             android:text="Username"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imgProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textViewEmailProfile" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/textViewEmailProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
+            android:layout_marginBottom="18dp"
+            android:textColor="?colorOnPrimary"
             android:text="user@email.com"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/imgProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnLogout" />
 
-        <Button
-            android:id="@+id/button19"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSavePic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
-            android:layout_marginTop="8dp"
-            android:text="Change photo"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            android:layout_marginTop="3dp"
+            android:textColor="?colorOnPrimary"
+            android:background="@drawable/custom_border"
+            android:text="Snimi foto"
+            android:textSize="13sp"
+            android:enabled="false"
+            app:layout_constraintStart_toStartOf="@+id/imgProfile"
+            app:layout_constraintEnd_toEndOf="@+id/imgProfile"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
-        <Button
-            android:id="@+id/button21"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
-            android:text="Logout"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/button19" />
+            android:textColor="?colorOnPrimary"
+            android:background="@drawable/custom_border"
+            android:text="Odjavi se"
+            android:textSize="13sp"
+            app:layout_constraintTop_toTopOf="@id/btnSavePic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnSavePic"
+            app:layout_constraintBottom_toBottomOf="@+id/btnSavePic" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/tvLabelGamesTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Games played: 100"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button21" />
+            android:layout_marginTop="40dp"
+            android:textColor="?colorOnPrimary"
+            android:text="Odigrano me\u010deva:"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/stats_who_knows"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
+        <TextView
+            android:id="@+id/textViewGamesPlayedProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="10dp"
+            android:textColor="?colorSecondary"
+            android:text="100"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            app:layout_constraintStart_toEndOf="@id/tvLabelGamesTotal"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/tvLabelWinrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="144dp"
-            android:text="Winrate: 60%"
-            app:layout_constraintStart_toEndOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/button21" />
+            android:layout_marginEnd="10dp"
+            android:textColor="?colorOnPrimary"
+            android:text="Pobe\u0111enih %"
+            app:layout_constraintEnd_toStartOf="@id/textViewWinrateProfile"
+            app:layout_constraintTop_toTopOf="@+id/textViewGamesPlayedProfile" />
+        <TextView
+            android:id="@+id/textViewWinrateProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:textColor="?colorSecondary"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:text="60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewGamesPlayedProfile" />
 
-        <TableLayout
+        <LinearLayout
+            android:id="@+id/stats_who_knows"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView220"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Ko zna zna"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView115"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Broj bodova: 192"
-                            app:layout_constraintStart_toEndOf="@+id/textView220"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView221"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Spojnice"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView116"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Broj bodova: 140"
-                            app:layout_constraintStart_toEndOf="@+id/textView221"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView222"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Asocijacije"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView117"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Broj bodova: 240"
-                            app:layout_constraintStart_toEndOf="@+id/textView222"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView223"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Skocko"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView118"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Broj bodova: 210"
-                            app:layout_constraintStart_toEndOf="@+id/textView223"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView224"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Korak po korak"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView119"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Broj bodova: 210"
-                            app:layout_constraintStart_toEndOf="@+id/textView224"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView225"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Moj broj"
-                            app:layout_constraintStart_toStartOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView120"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="Broj bodova: 210"
-                            app:layout_constraintStart_toEndOf="@+id/textView225"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-            </TableRow>
-        </TableLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewGamesPlayedProfile" >
+            <TextView
+                android:textColor="@color/white_smoked"
+                android:layout_width="0sp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="10sp"
+                android:text="Ko zna - zna"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <TextView
+                android:id="@+id/tvProfileWhoKnowsPoints"
+                android:textColor="?colorSecondary"
+                android:layout_width="0sp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10sp"
+                android:text="192"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/trophy" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/stats_connect_two"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_who_knows" >
+            <TextView
+                android:textColor="@color/white_smoked"
+                android:layout_width="0sp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="10sp"
+                android:text="Spojnice"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <TextView
+                android:id="@+id/tvProfileConnectTwoPoints"
+                android:textColor="?colorSecondary"
+                android:layout_width="0sp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10sp"
+                android:text="140"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/trophy" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/stats_associations"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_connect_two" >
+            <TextView
+                android:textColor="@color/white_smoked"
+                android:layout_width="0sp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="10sp"
+                android:text="Asocijacije"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <TextView
+                android:id="@+id/tvProfileAssociationsPoints"
+                android:textColor="?colorSecondary"
+                android:layout_width="0sp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10sp"
+                android:text="240"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/trophy" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/stats_jumper"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_associations" >
+            <TextView
+                android:textColor="@color/white_smoked"
+                android:layout_width="0sp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="10sp"
+                android:text="Sko\u010dko"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <TextView
+                android:id="@+id/tvProfileJumperPoints"
+                android:textColor="?colorSecondary"
+                android:layout_width="0sp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10sp"
+                android:text="210"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/trophy" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/stats_step_by_step"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_jumper" >
+            <TextView
+                android:textColor="@color/white_smoked"
+                android:layout_width="0sp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="10sp"
+                android:text="Korak po korak"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <TextView
+                android:id="@+id/tvProfileStepByStepPoints"
+                android:textColor="?colorSecondary"
+                android:layout_width="0sp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10sp"
+                android:text="190"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/trophy" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/stats_my_number"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/custom_nav_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_step_by_step" >
+            <TextView
+                android:textColor="@color/white_smoked"
+                android:layout_width="0sp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="10sp"
+                android:text="Moj broj"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <TextView
+                android:id="@+id/tvProfileMyNumberPoints"
+                android:textColor="?colorSecondary"
+                android:layout_width="0sp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10sp"
+                android:text="210"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/trophy" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

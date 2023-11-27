@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
-    private void logout(){
+    public void logout(){
         LoginHandler.Login.forgetMe(getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE));
         startActivity(new Intent(MainActivity.this, MainActivity.class));
         finish();
