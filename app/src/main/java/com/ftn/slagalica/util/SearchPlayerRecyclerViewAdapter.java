@@ -112,7 +112,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
             tvCurrentRank.setText( String.valueOf(loadingPlayer.getPointsCurrentRank()) );
             tvStars.setText( String.valueOf(loadingPlayer.getStars()) );
 //            Todo default profile pic ->  loaded img parse
-            imgPicture.setImageResource(R.drawable.menu_profile);
+            imgPicture.setImageResource(R.mipmap.ic_battle_bird);
         }
 
         // Define click listener for the ViewHolder's View
