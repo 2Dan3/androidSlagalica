@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/show_user_profile"-->
+<!--        android:title="@string/show_user_profile"
+            android:icon="@drawable/menu_profile" />-->
+    <item
+        android:id="@+id/add_friend"
+        android:title="@string/add_friend"
+        android:icon="@drawable/players" />
+</menu>

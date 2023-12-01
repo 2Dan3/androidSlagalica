@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/challenge_to_game"
+        android:title="@string/start_match_challenge" />
+    <item
+        android:id="@+id/remove_friend"
+        android:title="@string/remove_friend" />
+</menu>

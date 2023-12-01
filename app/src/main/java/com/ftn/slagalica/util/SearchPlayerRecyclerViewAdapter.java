@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<SearchPlayerRecyclerViewAdapter.ViewHolder>{
 
     private ArrayList<Player> players;
-    private ItemClickListener mClickListener;
+    private View.OnClickListener mClickListener;
     private final Context context;
 
     /**
@@ -43,7 +44,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
         return players.get(pos);
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
+    public void setClickListener(View.OnClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
@@ -72,6 +73,9 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
         // contents of the view with that element
 //        viewHolder.tvUsername.setText(array[position]);
         viewHolder.embedData(players.get(position));
+        viewHolder.rowContainer.setOnClickListener(mClickListener);
+//        viewHolder.itemView.setOnClickListener(mClickListener);
+        viewHolder.rowContainer.setTag(viewHolder);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -85,11 +89,12 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder)
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView tvUsername;
         private final TextView tvCurrentRank;
         private final TextView tvStars;
         private final ImageView imgPicture;
+        private final LinearLayout rowContainer;
 
         public ViewHolder(View view) {
             super(view);
@@ -97,6 +102,7 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
             tvCurrentRank = view.findViewById(R.id.tvSearchRecyclerRowRank);
             tvStars = view.findViewById(R.id.tvSearchRecyclerRowStars);
             imgPicture = view.findViewById(R.id.ivSearchRecyclerRowPic);
+            rowContainer = view.findViewById(R.id.rowContainerParent);
         }
 
         public void embedData(Player loadingPlayer){
@@ -110,9 +116,9 @@ public class SearchPlayerRecyclerViewAdapter extends RecyclerView.Adapter<Search
         }
 
         // Define click listener for the ViewHolder's View
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
+//        @Override
+//        public void onClick(View view) {
+//            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+//        }
     }
 }

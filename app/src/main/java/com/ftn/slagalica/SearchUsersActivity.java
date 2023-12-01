@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.PopupMenu;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,7 +29,7 @@ import com.ftn.slagalica.databinding.ActivitySearchUsersBinding;
 
 import java.util.ArrayList;
 
-public class SearchUsersActivity extends AppCompatActivity implements IThemeHandler, SearchPlayerRecyclerViewAdapter.ItemClickListener {
+public class SearchUsersActivity extends AppCompatActivity implements IThemeHandler {
 
 //    private AppBarConfiguration appBarConfiguration;
     private ActivitySearchUsersBinding binding;
@@ -112,23 +113,28 @@ public class SearchUsersActivity extends AppCompatActivity implements IThemeHand
 
         playersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchPlayerRecyclerViewAdapter(this, this.searchResultPlayers);
-        adapter.setClickListener(this);
+        adapter.setClickListener(this::onItemClick);
 
         playersRecyclerView.setAdapter(adapter);
     }
 
     private boolean requestAddFriend(Player playerToBeAdded) {
         int code = 200;
-//        Todo
-//          DB request for "playerToBeAdded" ->  "code" updated onResponse
-        if (code == 404) {
+        friends.add(playerToBeAdded);
+//        Todo : Save new friend
+//          - send request with updated "friends" OR "playerToBeAdded" only ->  "code" var should be updated onResponse
+
+        if (code == 200) {
+            return true;
+        }else {
+            friends.remove(playerToBeAdded);
             return false;
         }
-        return true;
     }
 
     private boolean requestSearchedPlayers() {
 
+        searchResultPlayers.clear();
         String criteria = searchBar.getQuery().toString().trim();
 
         if (criteria.length() != 0) {
@@ -139,11 +145,16 @@ public class SearchUsersActivity extends AppCompatActivity implements IThemeHand
 
 //        MOCK SEARCH RESULTS
             ArrayList<Player> response = new ArrayList();
-            response.add(new Player(criteria + "enko", criteria + "enko00@gmail.com", "pass123", "http://imgur.com/", 250, 4));
-            response.add(new Player(criteria + "ica", criteria + "ica98@outlook.com", "pass123", "http://imgur.com/", 280, 3));
-            response.add(new Player(criteria + "utin", criteria + "utin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
+            response.add(new Player("milenko", "milenko00@gmail.com", "pass123", "http://imgur.com/", 250, 4));
+            response.add(new Player("milica", "milica98@outlook.com", "pass123", "http://imgur.com/", 280, 3));
+            response.add(new Player("milutin", "milutin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
 
-            searchResultPlayers = response;
+            for (Player found : response) {
+                if (found.getUsername().contains(criteria))
+                    searchResultPlayers.add(found);
+            }
+
+//            searchResultPlayers = response;
 
             adapter.setPlayers(searchResultPlayers);
             return true;
@@ -151,31 +162,61 @@ public class SearchUsersActivity extends AppCompatActivity implements IThemeHand
         return false;
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
+
+    public void onItemClick(View view) {
 //        Player toBeAddedPlayer = searchResultPlayers.get(position);
 //        Toast.makeText(getActivity(), "assertOnClickActionWorks", Toast.LENGTH_LONG).show();
-
-
+        SearchPlayerRecyclerViewAdapter.ViewHolder viewHolder = (SearchPlayerRecyclerViewAdapter.ViewHolder) view.getTag();
+        int position = viewHolder.getAdapterPosition();
 //        TEMPORARILY Commented :
-        Player newFriendToBeAdded = adapter.getPlayer(position);
 //        Player newFriendToBeAdded = searchResultPlayers.get(position);
+        Player newFriendToBeAdded = adapter.getPlayer(position);
 
+        makePopup(view, newFriendToBeAdded);
+    }
+
+    private void makePopup(View anchor, Player newFriendToBeAdded) {
+            PopupMenu popupMenu = new PopupMenu(SearchUsersActivity.this, anchor);
+            popupMenu.getMenuInflater().inflate(R.menu.searched_players_actions_menu, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(
+                    menuItem -> {
+
+                        switch (menuItem.getItemId()){
+//                            case R.id.show_user_profile:
+//                                return true;
+                            case R.id.add_friend:
+                                addFriend(newFriendToBeAdded);
+                                return true;
+                        }
+                        return true;
+                    }
+            );
+            popupMenu.show();
+    }
+
+    private void addFriend(Player newFriendToBeAdded) {
+        boolean playerIsFriend = false;
 //        Todo
 //          UI: set different view temporary background gradients (red/green) for different if branch actions (remove/add)
-        if ( requestFriendsList().contains(newFriendToBeAdded) ) {
-            Toast.makeText(this, newFriendToBeAdded.getUsername() + " je ve\u0107 prijatelj.", Toast.LENGTH_LONG).show();
+        for (Player friend : requestFriendsList()) {
+            if (friend.getUsername().equals(newFriendToBeAdded.getUsername())) {
+                playerIsFriend = true;
+                break;
+            }
+        }
+//        if ( requestFriendsList().contains(newFriendToBeAdded) ) {
+        if (playerIsFriend) {
+            Toast.makeText(SearchUsersActivity.this, newFriendToBeAdded.getUsername() + " je ve\u0107 prijatelj.", Toast.LENGTH_SHORT).show();
 
         }else {
             if (requestAddFriend(newFriendToBeAdded)) {
-                Toast.makeText(this, newFriendToBeAdded.getUsername() + " je dodat za prijatelja.", Toast.LENGTH_LONG).show();
-                friends.add(newFriendToBeAdded);
+                Toast.makeText(SearchUsersActivity.this, newFriendToBeAdded.getUsername() + getString(R.string.added_friend_msg), Toast.LENGTH_SHORT).show();
             } else {
-//                Toast.makeText(this, "An error occurred adding " + adapter.getPlayer(position).getUsername() + " as Friend", Toast.LENGTH_LONG).show();
-                Toast.makeText(this, "Desila se gre\u0161ka pri dodavanju " + newFriendToBeAdded.getUsername() + " za prijatelja.", Toast.LENGTH_LONG).show();
+                Toast.makeText(SearchUsersActivity.this, "Desila se gre\u0161ka pri dodavanju " + newFriendToBeAdded.getUsername() + " za prijatelja.", Toast.LENGTH_SHORT).show();
             }
         }
-        resetSearch();
+//        resetSearch();
     }
 
     public ArrayList<Player> requestFriendsList() {

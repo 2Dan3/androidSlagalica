@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -111,6 +113,7 @@ public class TabbedMainFragment extends Fragment {
 
     public static class DesignDemoFragment extends Fragment {
         private static final String TAB_POSITION = "tab_position";
+        private SearchPlayerRecyclerViewAdapter adapter;
 
         public DesignDemoFragment() {
 
@@ -146,7 +149,7 @@ public class TabbedMainFragment extends Fragment {
             else if (tabPosition==2) {
                 v = inflater.inflate(R.layout.fragment_players, container, false);
 
-                RecyclerView playersRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_friends);
+                RecyclerView playersRecyclerView = v.findViewById(R.id.recycler_friends);
 
 
                 playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -156,17 +159,56 @@ public class TabbedMainFragment extends Fragment {
 //
 ////                Toast.makeText(getContext(), "Friends loaded", Toast.LENGTH_LONG).show();
 
-                SearchPlayerRecyclerViewAdapter srcPlayerAdapter = new SearchPlayerRecyclerViewAdapter( getActivity(), requestFriendsList() );
+                adapter = new SearchPlayerRecyclerViewAdapter( getActivity(), requestFriendsList() );
 
-//              srcPlayerAdapter.setClickListener(this);
+                adapter.setClickListener(this::onItemClick);
 
-                playersRecyclerView.setAdapter(srcPlayerAdapter);
+                playersRecyclerView.setAdapter(adapter);
             }
 
             return v;
         }
 
+        private void onItemClick(View view) {
+            SearchPlayerRecyclerViewAdapter.ViewHolder viewHolder = (SearchPlayerRecyclerViewAdapter.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+            Player selectedFriend = adapter.getPlayer(position);
+//        TEMPORARILY Commented :
+//        Player selectedFriend = searchResultPlayers.get(position);
+            makePopup(view, selectedFriend, position);
+        }
 
+        private void makePopup(View v, Player selectedPlayer, int playerListPosition) {
+            PopupMenu popupMenu = new PopupMenu(getActivity(), v);
+            popupMenu.getMenuInflater().inflate(R.menu.friends_actions_menu, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(
+                menuItem -> {
+
+                    switch (menuItem.getItemId()){
+                        case R.id.challenge_to_game:
+                            sendChallenge(selectedPlayer);
+                            Toast.makeText(getActivity(), selectedPlayer.getUsername() + getString(R.string.challenge_sent_await_response), Toast.LENGTH_LONG).show();
+                            return true;
+                        case R.id.remove_friend:
+                            adapter.setPlayers(removeFriend(playerListPosition));
+                            Toast.makeText(getActivity(), selectedPlayer.getUsername() + getString(R.string.removed_friend_msg), Toast.LENGTH_SHORT).show();
+                            return true;
+                    }
+                    return true;
+                }
+            );
+            popupMenu.show();
+        }
+
+        private void sendChallenge(Player challengeReceiver) {
+//            Todo
+//             - send them a challenge & wait for response
+//             - Start game if accepted
+//                  OR show Toast if not accepted
+//                  OR show Toast if player is unavailable (is in game or not online).
+
+        }
     }
 
     static class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
@@ -213,6 +255,10 @@ public class TabbedMainFragment extends Fragment {
             //                  ...
         }
 
+        return friends;
+    }
+    public static ArrayList<Player> removeFriend(int playerListPosition) {
+        friends.remove(playerListPosition);
         return friends;
     }
 }
