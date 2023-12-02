@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ftn.slagalica.data.model.AuthBearer;
+import com.ftn.slagalica.data.model.Player;
 import com.ftn.slagalica.ui.login.LoginActivity;
 import com.ftn.slagalica.util.IThemeHandler;
 import com.ftn.slagalica.util.LoginHandler;
@@ -47,9 +48,14 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     private DrawerLayout mDrawerLayout;
     private Fragment tabbedMainFragment;
     private Fragment profileFragment;
+//    Todo : load from Firebase in "onCreate"
+    private Player loggedPlayerFetched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        Todo : load from Firebase here (this is for testing) :
+        loggedPlayerFetched = new Player("Test", "test@gmail.com", "test", "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2w", 255, 11, 1);
+
         boolean darkThemeOn = setupTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -163,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
     private void replaceToolbarTextWithIcon(ActionBar actionBar, Toolbar toolbar) {
         actionBar.setDisplayShowTitleEnabled(false);
-        toolbar.setLogo(R.mipmap.ic_default_profile);
+//        toolbar.setLogo(R.mipmap.ic_default_profile);
     }
 
     private void toSearchUsers() {
@@ -206,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private void setupSessionBasedUI(AuthBearer loggedPlayerAuthData, boolean darkThemeOn) {
+        View loggedUserCreditsToolbar = findViewById(R.id.toolbarLoggedUserCreditsContainer);
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
         View navHeader = navigationView.getHeaderView(0);
@@ -218,12 +225,22 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         SwitchCompat darkThemeSwitch = navHeader.findViewById(R.id.drawer_theme_light);
 
         if (loggedPlayerAuthData == null) {
+            loggedUserCreditsToolbar.setVisibility(View.INVISIBLE);
+
             logItem = navMenu.findItem(R.id.nav_logout);
             profilePicView.setImageResource(R.mipmap.ic_profile_icon_round);
             emailView.setText(R.string.guest_user);
             navMenu.findItem(R.id.nav_profile).setVisible(false);
             navMenu.findItem(R.id.nav_search_users).setVisible(false);
         }else{
+            loggedUserCreditsToolbar.setVisibility(View.VISIBLE);
+            TextView toolbarLoggedUserPoints = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserPoints);
+            toolbarLoggedUserPoints.setText(String.valueOf(loggedPlayerFetched.getPointsCurrentRank()));
+            TextView toolbarLoggedUserStars = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserStars);
+            toolbarLoggedUserStars.setText(String.valueOf(loggedPlayerFetched.getStars()));
+            TextView toolbarLoggedUserTokens = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserTokens);
+            toolbarLoggedUserTokens.setText(String.valueOf(loggedPlayerFetched.getTokens()));
+
             logItem = navMenu.findItem(R.id.nav_login);
 //            Todo
 //            profilePicView.setImageURI(Uri.parse(loggedPlayerAuthData.getImageURI()));

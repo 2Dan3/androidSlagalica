@@ -6,11 +6,9 @@ import android.os.Bundle;
 import com.ftn.slagalica.data.model.Player;
 import com.ftn.slagalica.util.IThemeHandler;
 import com.ftn.slagalica.util.SearchPlayerRecyclerViewAdapter;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -18,21 +16,15 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ftn.slagalica.databinding.ActivitySearchUsersBinding;
 
 import java.util.ArrayList;
 
 public class SearchUsersActivity extends AppCompatActivity implements IThemeHandler {
 
 //    private AppBarConfiguration appBarConfiguration;
-    private ActivitySearchUsersBinding binding;
 
     private RecyclerView playersRecyclerView;
     private SearchPlayerRecyclerViewAdapter adapter;
@@ -71,11 +63,11 @@ public class SearchUsersActivity extends AppCompatActivity implements IThemeHand
 //    }
 
     private void initSetup() {
-        binding = ActivitySearchUsersBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_search_users);
 
-        setSupportActionBar(binding.toolbarSearchActivity);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setSupportActionBar(findViewById(R.id.toolbarSearchActivity));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.search_players);
         Toast.makeText(SearchUsersActivity.this, getString(R.string.on_search_users_toast), Toast.LENGTH_LONG).show();
 
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
@@ -145,9 +137,9 @@ public class SearchUsersActivity extends AppCompatActivity implements IThemeHand
 
 //        MOCK SEARCH RESULTS
             ArrayList<Player> response = new ArrayList();
-            response.add(new Player("milenko", "milenko00@gmail.com", "pass123", "http://imgur.com/", 250, 4));
-            response.add(new Player("milica", "milica98@outlook.com", "pass123", "http://imgur.com/", 280, 3));
-            response.add(new Player("milutin", "milutin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8));
+            response.add(new Player("milenko", "milenko00@gmail.com", "pass123", "http://imgur.com/", 250, 4, 2));
+            response.add(new Player("milica", "milica98@outlook.com", "pass123", "http://imgur.com/", 280, 3, 3));
+            response.add(new Player("milutin", "milutin12@yahoo.com", "pass123", "http://imgur.com/", 110, 8, 5));
 
             for (Player found : response) {
                 if (found.getUsername().contains(criteria))
@@ -222,16 +214,16 @@ public class SearchUsersActivity extends AppCompatActivity implements IThemeHand
     public ArrayList<Player> requestFriendsList() {
 //        MOCK LIST of FRIENDS
         if (friends.isEmpty()) {
-            friends.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6));
-            friends.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4));
-            friends.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10));
-            friends.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12));
-            friends.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10));
-            friends.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12));
-            friends.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3));
-            friends.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7));
-            friends.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8));
-            friends.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2));
+            friends.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6, 2));
+            friends.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4, 3));
+            friends.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10, 3));
+            friends.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12, 3));
+            friends.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10, 4));
+            friends.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12, 4));
+            friends.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3, 5));
+            friends.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7, 5));
+            friends.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8, 3));
+            friends.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2, 4));
             //        Todo DB request Friends list for logged player
             //                  ...
         }

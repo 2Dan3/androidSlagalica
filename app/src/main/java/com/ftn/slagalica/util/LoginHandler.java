@@ -53,7 +53,7 @@ public class LoginHandler {
         private static AuthBearer matchPlayerCredentials(String usernameOrEMailCredential, String passwordCredential) {
 
             for (AuthBearer ab : credentialsOfPlayers() ) {
-                if( (ab.getUsername().equals(usernameOrEMailCredential) || ab.getEmail().equalsIgnoreCase(usernameOrEMailCredential) ) && ab.getPassword().equals(passwordCredential) )
+                if( (ab.getUsername().equalsIgnoreCase(usernameOrEMailCredential) || ab.getEmail().equalsIgnoreCase(usernameOrEMailCredential) ) && ab.getPassword().equals(passwordCredential) )
                     return ab;
             }
             return null;

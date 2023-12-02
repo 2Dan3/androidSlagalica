@@ -16,8 +16,8 @@
             android:id="@+id/toolbarSearchActivity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/side_nav_bar" />
-<!--            app:popupTheme="@style/Theme.Slagalica.PopupOverlay"-->
+            android:background="@drawable/side_nav_bar"
+            android:theme="@style/Theme.Slagalica.AppBarOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -23,12 +24,98 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@drawable/side_nav_bar"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                android:theme="@style/Theme.Slagalica.AppBarOverlay"
+                app:layout_scrollFlags="scroll|enterAlways">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/fragment_container_main"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
+                    <RelativeLayout
+                        android:id="@+id/toolbarLoggedUserCreditsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@+id/toolbarAppLogoIcon">
+
+                        <ImageView
+                            android:id="@+id/toolbarLoggedUserTrophy"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="3dp"
+                            android:layout_toLeftOf="@+id/toolbarLoggedUserPoints"
+                            app:srcCompat="@drawable/trophy" />
+
+                        <TextView
+                            android:id="@+id/toolbarLoggedUserPoints"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dp"
+                            android:layout_toLeftOf="@+id/toolbarLoggedUserStarsStar"
+                            android:color="@color/white_clear"
+                            android:text="250"
+                            android:textSize="16sp"
+                            android:textStyle="bold|italic" />
+
+                        <ImageView
+                            android:id="@+id/toolbarLoggedUserStarsStar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="3dp"
+                            android:layout_toLeftOf="@+id/toolbarLoggedUserStars"
+                            app:srcCompat="@drawable/icons8_star_48" />
+
+                        <TextView
+                            android:id="@+id/toolbarLoggedUserStars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dp"
+                            android:layout_toLeftOf="@+id/toolbarLoggedUserTokensCoin"
+                            android:color="@color/white_smoked"
+                            android:text="14"
+                            android:textSize="16sp"
+                            android:textStyle="bold|italic" />
+
+                        <ImageView
+                            android:id="@+id/toolbarLoggedUserTokensCoin"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="6dp"
+                            android:layout_toLeftOf="@+id/toolbarLoggedUserTokens"
+                            app:srcCompat="@drawable/ic_token" />
+
+                        <TextView
+                            android:id="@+id/toolbarLoggedUserTokens"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10sp"
+                            android:color="@color/white_smoked"
+                            android:text="2"
+                            android:textSize="16sp"
+                            android:textStyle="bold|italic" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/toolbarAppLogoIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        app:srcCompat="@mipmap/ic_default_profile" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <FrameLayout
+                android:id="@+id/fragment_container_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

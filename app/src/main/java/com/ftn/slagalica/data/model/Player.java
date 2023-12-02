@@ -9,16 +9,18 @@ public class Player {
     private int pointsCurrentRank;
     private int currentPointsInMatch;
     private int stars;
+    private int tokens;
 
     private String picture;
 
-    public Player(String username, String email, String password, String picture, int pointsCurrentRank, int stars) {
+    public Player(String username, String email, String password, String picture, int pointsCurrentRank, int stars, int tokens) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.picture = picture;
         this.pointsCurrentRank = pointsCurrentRank;
         this.stars = stars;
+        this.tokens = tokens;
     }
     public Player() {
 
@@ -78,6 +80,13 @@ public class Player {
         this.stars = stars;
     }
 
+    public int getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(int tokens) {
+        this.tokens = tokens;
+    }
 //    Todo
 //      make it a "toJSON()"
 
