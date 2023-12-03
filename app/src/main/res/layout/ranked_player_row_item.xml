@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
+
+    <View
+        android:id="@+id/divider818"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="2sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvRankOrderNum"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_border_oval"
+        android:gravity="center"
+        android:text="123."
+        android:textColor="@color/white_smoked"
+        android:textSize="17sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider818"
+        app:layout_constraintWidth_percent=".12" />
+    <include
+        layout="@layout/search_people_row_item"
+        android:layout_width="0sp"
+        android:layout_height="55sp"
+        android:layout_marginTop="2sp"
+        android:layout_marginEnd="8sp"
+        app:layout_constraintStart_toEndOf="@+id/tvRankOrderNum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider818"
+        app:layout_constraintWidth_percent=".9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

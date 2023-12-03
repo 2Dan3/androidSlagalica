@@ -86,7 +86,7 @@
     <string name="leave_game_dialog">Napusti igru?</string>
     <string name="leave_game_confirm">Potvrdi</string>
     <string name="leave_game_cancel">Odustani</string>
-    <string name="leave_game_dialog_title">Napuštanjem meča odričete se osvojenih poena…</string>
+    <string name="leave_game_dialog_title">Napu\u0161tanjem me\u010da odri\u010dete se osvojenih poena…</string>
     <string name="leave_game_successful_info">Napustili ste igru.</string>
     <string name="title_activity_search_users">SearchUsersActivity</string>
     <!-- Strings used for fragments for navigation -->
@@ -100,14 +100,16 @@
     <string name="on_search_users_toast">Pretraga igra\u010da</string>
     <string name="menu_search_users">Korisnici</string>
     <string name="friendly_match_btn_alt">Prijavi se da bi izazvao prijatelja!</string>
-    <string name="on_profile_pic_save">Odabrana slika je sačuvana.</string>
+    <string name="on_profile_pic_save">Odabrana slika je sa\u010duvana.</string>
     <string name="on_profile_pic_choosing">Izaberi sliku</string>
     <string name="start_match_challenge">Izazovi na meč!</string>
     <string name="remove_friend">Ukloni iz prijatelja</string>
-    <string name="challenge_sent_await_response">" je izazvan, čeka se odgovor…"</string>
+    <string name="challenge_sent_await_response">" je izazvan, \u010deka se odgovor…"</string>
     <string name="removed_friend_msg">" je uklonjen iz liste prijatelja."</string>
     <string name="add_friend">Dodaj za prijatelja!</string>
     <string name="show_user_profile">Pogledaj profil…</string>
     <string name="added_friend_msg">" je dodat za prijatelja."</string>
+    <string name="not_enough_tokens_to_play">Nemate Token za igranje.</string>
+    <string name="countdown_until_rank_refresh"> A\u017euriranje za: </string>
 
 </resources>

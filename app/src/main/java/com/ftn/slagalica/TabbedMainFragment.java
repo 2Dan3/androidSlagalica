@@ -14,16 +14,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.data.model.Player;
 import com.ftn.slagalica.util.LoginHandler;
+import com.ftn.slagalica.util.RankComparator;
+import com.ftn.slagalica.util.RanksRecyclerViewAdapter;
 import com.ftn.slagalica.util.SearchPlayerRecyclerViewAdapter;
 import com.google.android.material.tabs.TabLayout;
 
@@ -38,6 +42,7 @@ public class TabbedMainFragment extends Fragment {
     private static final String[] titles = {"Plasmani", "Igraj", "Prijatelji"};
 
     private static ArrayList<Player> friends = new ArrayList();
+    private static ArrayList<Player> rankedPlayers = new ArrayList();
     private AuthBearer loggedUser;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -114,6 +119,8 @@ public class TabbedMainFragment extends Fragment {
     public static class DesignDemoFragment extends Fragment {
         private static final String TAB_POSITION = "tab_position";
         private SearchPlayerRecyclerViewAdapter adapter;
+        private RanksRecyclerViewAdapter ranksAdapter;
+        private CountDownTimer cdTimerRefreshRanks;
 
         public DesignDemoFragment() {
 
@@ -127,21 +134,40 @@ public class TabbedMainFragment extends Fragment {
             return fragment;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             Bundle args = getArguments();
             int tabPosition = args.getInt(TAB_POSITION);
             View v = null;
-//            ArrayList<String> items = new ArrayList<String>();
-
 
 //             ubacivanje fragmenata u Tabove resava
 //             vizuelni Bug sa scroll-indicator pri horizontalnom skrolovanju prstom
 //            Todo* evaluate logged user & lock side Tabs ("locks" for icons) & hide profileNav in drawer
             if (tabPosition==0) {
-//                v = inflater.inflate(R.layout.fragment_rankings, container, false);
+                v = inflater.inflate(R.layout.fragment_rankings, container, false);
+
+                RecyclerView playersRecyclerView = v.findViewById(R.id.recycler_ranking);
+                playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                ranksAdapter = new RanksRecyclerViewAdapter( getAllRankedPlayers() );
+                playersRecyclerView.setAdapter(ranksAdapter);
+
+//                TextView tvRanksUpdateCDTimer = getActivity().findViewById(R.id.tvRanksUpdateCDTimer);
+//
+//                cdTimerRefreshRanks = new CountDownTimer(2*60*1000 + 1000, 1000) {
+//                    @Override
+//                    public void onTick(long millisUntilFinished) {
+//                        tvRanksUpdateCDTimer.setText(String.format("%s : %s", millisUntilFinished / (60000), millisUntilFinished / 1000));
+//                    }
+//
+//                    @Override
+//                    public void onFinish() {
+////                Todo : rank lists are updated ( Call db fromhere OR app will receive from Firebase's auto update feature)
+//                        this.start();
+//                    }
+//                }.start();
             }
             else if (tabPosition==1) {
                 v = inflater.inflate(R.layout.fragment_match_finding, container, false);
@@ -168,6 +194,12 @@ public class TabbedMainFragment extends Fragment {
 
             return v;
         }
+
+//        @Override
+//        public void onDestroyView() {
+//            super.onDestroyView();
+//            cdTimerRefreshRanks.cancel();
+//        }
 
         private void onItemClick(View view) {
             SearchPlayerRecyclerViewAdapter.ViewHolder viewHolder = (SearchPlayerRecyclerViewAdapter.ViewHolder) view.getTag();
@@ -260,5 +292,29 @@ public class TabbedMainFragment extends Fragment {
     public static ArrayList<Player> removeFriend(int playerListPosition) {
         friends.remove(playerListPosition);
         return friends;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Player> getAllRankedPlayers() {
+
+//        MOCK LIST of ranked players
+        if (rankedPlayers.isEmpty()) {
+
+            rankedPlayers.add(new Player("PuzzlePlayer123", "puzzler@gmail.com", "pass123", "http://imgur.com/", 320, 6, 2));
+            rankedPlayers.add(new Player("SlagalicaSlayer", "slagalac@yahoo.com", "pass123", "http://imgur.com/", 220, 4, 3));
+            rankedPlayers.add(new Player("Gamer697", "gamerr@gmail.com", "pass123", "http://imgur.com/", 440, 10, 3));
+            rankedPlayers.add(new Player("Hotstreak", "streaker@outlook.com", "pass123", "http://imgur.com/", 550, 12, 3));
+            rankedPlayers.add(new Player("MrSpeedrun101", "theycallmespeed@gmail.com", "pass123", "http://imgur.com/", 100, 10, 4));
+            rankedPlayers.add(new Player("Alexiiss_boss", "alex97@gmail.com", "pass123", "http://imgur.com/", 300, 12, 4));
+            rankedPlayers.add(new Player("Hotshot021", "shotty@yahoo.com", "pass123", "http://imgur.com/", 208, 3, 5));
+            rankedPlayers.add(new Player("JigsawMaker00", "hiimjiggy@outlook.com", "pass123", "http://imgur.com/", 164, 7, 5));
+            rankedPlayers.add(new Player("ThePuzzlePr0", "puzzler@yahoo.com", "pass123", "http://imgur.com/", 324, 8, 3));
+            rankedPlayers.add(new Player("5uper3g0", "mr530@gmail.com", "pass123", "http://imgur.com/", 282, 2, 4));
+            //        Todo DB request rankedPlayers JSON list
+            //                  ...
+        }
+
+        rankedPlayers.sort(new RankComparator());
+
+        return rankedPlayers;
     }
 }

@@ -102,4 +102,8 @@ public class Player {
                 ", picture='" + picture + '\'' +
                 '}';
     }
+
+    public void spendToken() {
+        this.tokens -= 1;
+    }
 }

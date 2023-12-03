@@ -187,11 +187,21 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     public void toGameActivity(View v){
-        Activity currentParent = MainActivity.this;
+        if (hasTokens()) {
+            Activity currentParent = MainActivity.this;
 
-        startActivity(new Intent(currentParent, GameActivity.class));
-        currentParent.finish();
+            startActivity(new Intent(currentParent, GameActivity.class));
+            loggedPlayerFetched.spendToken();
+            currentParent.finish();
+        }else{
+            Toast.makeText(MainActivity.this, getString(R.string.not_enough_tokens_to_play), Toast.LENGTH_SHORT).show();
+        }
     }
+
+    private boolean hasTokens() {
+        return loggedPlayerFetched.getTokens() > 0;
+    }
+
     public void showAvailableFriends(View v){
 
         if (LoginHandler.Login.getLoggedPlayerAuth(this) == null) {

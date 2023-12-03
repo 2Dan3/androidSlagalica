@@ -4,14 +4,14 @@
     android:id="@+id/rowContainerParent"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="55sp"
     android:layout_margin="9dp"
     android:background="@drawable/custom_border">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="55sp"
-        android:layout_height="55sp"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_margin="3dp"
         android:layout_gravity="center"
