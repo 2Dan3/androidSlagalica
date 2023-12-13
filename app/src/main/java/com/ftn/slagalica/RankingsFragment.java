@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.ftn.slagalica.data.model.Player;
 import com.ftn.slagalica.util.RankComparator;
 import com.ftn.slagalica.util.RanksRecyclerViewAdapter;
-import com.ftn.slagalica.util.SearchPlayerRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -54,6 +53,18 @@ public class RankingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rankings, container, false);
 
+        RecyclerView playersRecyclerView = v.findViewById(R.id.recycler_ranking);
+        adapter = new RanksRecyclerViewAdapter( getAllRankedPlayers() );
+
+        playersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        playersRecyclerView.setAdapter(adapter);
+
+//        Todo request from Firebase:
+//         Remaining Time (of 2 minutes total) until Rank lists are updated
+//         + create Background Service here, to run the Timer with fetched remaining time
+
+//        Todo consider switching TabPagerAdapter parent (not to call destroyView on every TabSwitch) :
+//         FragmentStatePagerAdapter ->  FragmentPagerAdapter
         return v;
     }
 
@@ -61,12 +72,13 @@ public class RankingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvRanksUpdateCDTimer = getActivity().findViewById(R.id.tvRanksUpdateCDTimer);
+        tvRanksUpdateCDTimer = view.findViewById(R.id.tvRanksUpdateCDTimer);
 
-        cdTimerRefreshRanks = new CountDownTimer(RANK_REFRESH_INTERVAL_MS + SECOND, SECOND) {
+//        Todo : extract Timer into Background service that starts in onCreateView & ends in onDestroyView
+        cdTimerRefreshRanks = new CountDownTimer(RANK_REFRESH_INTERVAL_MS, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tvRanksUpdateCDTimer.setText(String.format("%s : %s", millisUntilFinished / (60 * SECOND), millisUntilFinished / SECOND));
+                tvRanksUpdateCDTimer.setText(String.format("%s : %02d", millisUntilFinished / (60 * SECOND), (millisUntilFinished / SECOND) % 60));
             }
 
             @Override
@@ -75,13 +87,13 @@ public class RankingsFragment extends Fragment {
                 this.start();
             }
         }.start();
-        Toast.makeText(getActivity(), "Timer poceo!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         cdTimerRefreshRanks.cancel();
+//        Todo : stop Background service that runs the Timer
     }
 
 //    Todo : Firebase will auto update & this becomes "onReceive" type of method
