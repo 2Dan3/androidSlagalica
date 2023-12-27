@@ -1,94 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_border"
+    android:orientation="vertical"
     tools:context=".GameWhoKnowsKnowsFragment">
+
+    <TextView
+        android:id="@+id/who_knows_question_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Pitanje 1 / 5"
+        android:textColor="?colorOnPrimary" />
+
+    <TextView
+        android:id="@+id/who_knows_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="25dp"
+        android:text="Koje godine je po\u010deo Prvi svetski rat?"
+        android:textColor="?colorOnPrimary"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="15dp"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+        <Button
+            android:id="@+id/who_knows_answer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#00FFFFFF">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pitanje 1/10"
-                android:textColor="?colorOnPrimary" />
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#00000000">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Koje godine je poceo Prvi svetski rat?"
-                    android:textColor="?colorOnPrimary"
-                    android:textSize="20sp" />
-
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#00FFFFFF">
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tacan odgovor: 1914. godine"
-                    android:textColor="?colorOnPrimary"
-                    android:textSize="16sp" />
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:text="Odgovor"
-                android:textColor="#979797" />
-        </LinearLayout>
+            android:layout_margin="18sp"
+            android:background="@drawable/custom_border"
+            android:text="1918." />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/who_knows_answer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5sp"
-            android:text="OK" />
+            android:layout_margin="18sp"
+            android:background="@drawable/custom_border"
+            android:text="1890." />
+
+        <Button
+            android:id="@+id/who_knows_answer3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="18sp"
+            android:background="@drawable/custom_border"
+            android:text="1914." />
+
+        <Button
+            android:id="@+id/who_knows_answer4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="18sp"
+            android:background="@drawable/custom_border"
+            android:text="1963." />
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>
