@@ -6,15 +6,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +23,24 @@ import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity implements IThemeHandler {
 
-//    private static final Fragment[] GAMES_IN_ORDER = {new GameWhoKnowsKnowsFragment(), new GameConnectTwoFragment(),new GameAssociationsFragment(), new GameJumperFragment(), new GameStepByStepFragment(), new GameMyNumberFragment()};
     private static final int SECOND = 1000;
     private static final int MINUTE = 60*SECOND;
+    private static final String LEAVE_GAME_DIALOG_TAG = "LEAVE_GAME_DIALOG";
+
+    private OnBackPressedCallback callback;
+    public void resetCallback() {
+//        callback.remove();
+
+//        Fragment df;
+//        if ( (df = getFragmentManager().findFragmentByTag(LEAVE_GAME_DIALOG_TAG)) != null ) {
+//            ((android.app.DialogFragment) df).dismiss();
+//        }
+        callback.setEnabled(false);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() { }
+        });
+    }
 
     private TextView player1PointsView;
     private TextView player2PointsView;
@@ -46,10 +58,10 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
         startMatch();
 
         // This callback is only called when MyFragment is at least started
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                new LeaveGameDialogFragment().show(getSupportFragmentManager(), "LEAVE_GAME_DIALOG");
+                new LeaveGameDialogFragment().show(getSupportFragmentManager(), LEAVE_GAME_DIALOG_TAG);
             }
         };
 

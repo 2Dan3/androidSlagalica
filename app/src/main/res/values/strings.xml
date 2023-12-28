@@ -84,8 +84,8 @@
     <string name="on_profile_toast">Moj profil</string>
     <string name="on_homepage_toast">Po\u010detna</string>
     <string name="leave_game_dialog">Napusti igru?</string>
-    <string name="leave_game_confirm">Potvrdi</string>
-    <string name="leave_game_cancel">Odustani</string>
+    <string name="leave_game_confirm">Napusti</string>
+    <string name="leave_game_cancel">Ostani</string>
     <string name="leave_game_dialog_title">Napu\u0161tanjem me\u010da odri\u010dete se osvojenih poena…</string>
     <string name="leave_game_successful_info">Napustili ste igru.</string>
     <string name="title_activity_search_users">SearchUsersActivity</string>

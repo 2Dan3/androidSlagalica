@@ -55,9 +55,11 @@ public class MatchSummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        GameActivity gameActivity = (GameActivity) getActivity();
+        GameActivity gameActivity = (GameActivity) getActivity();
 //        player1Points = gameActivity.getPlayer1PointsView();
 //        player2Points = gameActivity.getPlayer2PointsView();
+        gameActivity.resetCallback();
+
     }
 
     @Override
