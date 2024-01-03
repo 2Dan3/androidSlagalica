@@ -36,13 +36,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tableRow4">
 
-            <EditText
-                android:id="@+id/editTextText2"
+            <TextView
+                android:id="@+id/myNumberSolutionAttempt"
                 android:layout_width="wrap_content"
+                android:textSize="20sp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:text="Resenje"
                 android:textColor="?colorOnPrimary" />
 
             <Button
@@ -51,6 +49,15 @@
                 android:layout_height="wrap_content"
                 android:text="OK" />
         </TableRow>
+
+        <Button
+            android:id="@+id/btnDeleteLastInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Izbri\u0161i"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableRow5"/>
 
         <TableRow
             android:id="@+id/tableRow4"

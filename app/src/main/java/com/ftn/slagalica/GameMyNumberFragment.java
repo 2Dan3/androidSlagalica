@@ -1,54 +1,44 @@
 package com.ftn.slagalica;
 
-import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GameMyNumberFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GameMyNumberFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final int SECOND = 1000;
+    private CountDownTimer countDownTimer;
+    private TextView timer;
+    private TextView tvSolutionAttempt;
+    private TextView tvGoalNumber;
+    private StringBuilder solutionAttempt;
+    private Button[] buttons;
+    private Button btnDeleteLastInput;
+    private Button btnCheckSolution;
+    private boolean lastClickedWasOperand;
+    private boolean lastClickedWasNum;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public GameMyNumberFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GameMyNumberFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static GameMyNumberFragment newInstance(String param1, String param2) {
         GameMyNumberFragment fragment = new GameMyNumberFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -59,7 +49,7 @@ public class GameMyNumberFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
-        showMatchSummary();
+        solutionAttempt = new StringBuilder();
     }
 
     @Override
@@ -69,12 +59,96 @@ public class GameMyNumberFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_game_my_number, container, false);
     }
 
-//    Todo : uncomment onDestroy when Timer is implemented like in other GameFragments
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        countDownTimer.cancel();
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        tvGoalNumber = view.findViewById(R.id.textView14);
+        tvSolutionAttempt = view.findViewById(R.id.myNumberSolutionAttempt);
+        btnCheckSolution = view.findViewById(R.id.button14);
+        btnCheckSolution.setOnClickListener(this::onConfirmSolutionClick);
+
+        btnDeleteLastInput = view.findViewById(R.id.btnDeleteLastInput);
+
+        timer = getActivity().findViewById(R.id.textViewTimer);
+
+        startTimerCountdown(20*SECOND);
+
+        buttons = new Button[]{
+                view.findViewById(R.id.button2),
+                view.findViewById(R.id.button3),
+                view.findViewById(R.id.button4),
+                view.findViewById(R.id.button5),
+                view.findViewById(R.id.button6),
+                view.findViewById(R.id.button7),
+                view.findViewById(R.id.button8),
+                view.findViewById(R.id.button9),
+                view.findViewById(R.id.button10),
+                view.findViewById(R.id.button11),
+                view.findViewById(R.id.button12),
+                view.findViewById(R.id.button13)
+        };
+
+        requestAndStoreGameData();
+        prepareUpcomingRoundUI();
+    }
+
+    private void startTimerCountdown(int msTimeFrom) {
+        countDownTimer = new CountDownTimer(msTimeFrom, SECOND) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timer.setText( String.valueOf(millisUntilFinished / SECOND) );
+//                Todo
+//                if (finalSolutionIsGuessed()) {
+//                    onFinish();
+//                }
+            }
+
+            @Override
+            public void onFinish() {
+//                if (round2Ongoing) {
+                    showMatchSummary();
+//                    return;
+//                }
+//                Toast.makeText(getActivity(), "2. Igra\u010d zapo\u010dinje", Toast.LENGTH_SHORT).show();
+//                requestAndStoreGameData();
+//                prepareUpcomingRoundUI();
+//                this.start();
+//                round2Ongoing = true;
+            }
+        }.start();
+//        Toast.makeText(getActivity(), "1. Igra\u010d zapo\u010dinje", Toast.LENGTH_SHORT).show();
+    }
+
+    private void prepareUpcomingRoundUI() {
+        for (Button btn : buttons) {
+            btn.setEnabled(true);
+            btn.setOnClickListener(null);
+            btn.setOnClickListener(this::onValueClick);
+        }
+        btnDeleteLastInput.setOnClickListener(null);
+        btnDeleteLastInput.setOnClickListener(this::onDeleteLastInputClick);
+
+        tvSolutionAttempt.setText("");
+        tvSolutionAttempt.setTextColor(getResources().getColor(R.color.white_clear));
+        lastClickedWasOperand = false;
+        lastClickedWasNum = false;
+//        ToDo
+    }
+
+    private void onDeleteLastInputClick(View v) {
+        tvSolutionAttempt.setText(solutionAttempt.deleteCharAt(solutionAttempt.length() - 1).toString());
+    }
+
+    private void requestAndStoreGameData() {
+//        ToDo
+    }
 
     private void showMatchSummary() {
         new Timer().schedule(new TimerTask() {
@@ -82,6 +156,48 @@ public class GameMyNumberFragment extends Fragment {
             public void run() {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new MatchSummaryFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
-        }, 7*SECOND);
+        }, 2*SECOND);
+    }
+
+    private void onValueClick(View v) {
+        String characterOfClickedBtn = ( (Button) v).getText().toString();
+
+        switch (characterOfClickedBtn){
+            case "(":
+            case ")":
+                tvSolutionAttempt.setText(solutionAttempt.append(characterOfClickedBtn).toString());
+                lastClickedWasOperand = false;
+                lastClickedWasNum = false;
+                break;
+
+            case "*":
+            case "/":
+            case "-":
+            case "+":
+                if (solutionAttempt.length() == 0)
+                    break;
+                if (lastClickedWasOperand)
+                    tvSolutionAttempt.setText(solutionAttempt.replace(solutionAttempt.length()-1, solutionAttempt.length()-1, String.valueOf(characterOfClickedBtn)).toString());
+                lastClickedWasOperand = true;
+                lastClickedWasNum = false;
+                break;
+
+            default:
+//                In case a number was selected :
+                if (lastClickedWasNum)
+                    break;
+                v.setEnabled(false);
+                lastClickedWasOperand = false;
+                lastClickedWasNum = true;
+                tvSolutionAttempt.setText(solutionAttempt.append(characterOfClickedBtn).toString());
+                break;
+        }
+    }
+
+    private void onConfirmSolutionClick(View v) {
+//        Todo :
+//         evaluate "tvSolutionAttempt.getText().toString()" with https://www.baeldung.com/java-evaluate-math-expression-string
+//          & compare calculated expression with "tvGoalNumber.getText().toString()" ;
+        tvSolutionAttempt.setTextColor(getResources().getColor(R.color.teal_200));
     }
 }
