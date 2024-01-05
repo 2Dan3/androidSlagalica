@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001718528673",
+    "project_id": "slagalica-1b9c9",
+    "storage_bucket": "slagalica-1b9c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001718528673:android:ea4f59fa4e010e1b530ee0",
+        "android_client_info": {
+          "package_name": "com.ftn.slagalica"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmqp_L3KU1wOUbkm98O0CSgyGo_X5o7rE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

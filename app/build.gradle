@@ -1,11 +1,17 @@
-apply plugin: 'com.android.application'
+//apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    // Add the Google services Gradle plugin
+//    Todo
+    id 'com.google.gms.google-services'
+}
 
 android {
+    namespace 'com.ftn.slagalica'
     compileSdkVersion 33
-    buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "rs.slagalica"
+        applicationId "com.ftn.slagalica"
         minSdkVersion 22
         targetSdkVersion 33
         versionCode 1
@@ -43,4 +49,19 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.1.0'
+
+// Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+// Add the dependency for the Realtime Database library
+    implementation("com.google.firebase:firebase-database")
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
+//    Add the dependencies for Firebase-Google Analytics
+//    implementation("com.google.firebase:firebase-analytics")
+
+//    Add the dependencies for Firebase Authentication
+    implementation("com.google.firebase:firebase-auth")
+//    implementation("com.google.firebase:firebase-firestore")
 }
