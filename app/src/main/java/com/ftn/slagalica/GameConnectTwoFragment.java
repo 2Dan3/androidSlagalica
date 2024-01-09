@@ -29,8 +29,8 @@ public class GameConnectTwoFragment extends Fragment {
 //    private String mParam2;
     private static final int SECOND = 1000;
     private static final int POINTS_PER_PAIR_CONNECTED = 2;
-    private static final int COLOR_CORRECT_MATCH = 0xFF03DAC5;
-    private static final int COLOR_WRONG_MATCH = 0XFFF44336;
+//    private static final int COLOR_CORRECT_MATCH = 0xFF03DAC5;
+//    private static final int COLOR_WRONG_MATCH = 0XFFF44336;
     private boolean round2Ongoing = false;
     private boolean stealRound = false;
     private View selectedLeftField;
@@ -179,14 +179,14 @@ public class GameConnectTwoFragment extends Fragment {
         for (View field : leftColumnFields) {
             field.setEnabled(true);
             field.setOnClickListener(this::onLeftFieldClick);
-            field.setBackgroundColor(getResources().getColor(R.color.white_smoked));
+            ((TextView)field).setTextColor(getResources().getColor(R.color.white_smoked));
         }
 
         Collection<View> rightColumnFields = solutionViewPairs.values();
         for (View field : rightColumnFields) {
             field.setEnabled(true);
             field.setOnClickListener(this::onRightFieldClick);
-            field.setBackgroundColor(getResources().getColor(R.color.white_smoked));
+            ((TextView)field).setTextColor(getResources().getColor(R.color.white_smoked));
         }
     }
 
@@ -212,10 +212,10 @@ public class GameConnectTwoFragment extends Fragment {
 
         for (View leftField : leftColumnFields) {
             if(leftField.isEnabled())
-                leftField.setBackgroundColor(getResources().getColor(R.color.white_smoked));
+                ((TextView)leftField).setTextColor(getResources().getColor(R.color.white_smoked));
         }
 
-        selectedLeftField.setBackgroundColor(getResources().getColor(R.color.blue_light_3));
+        ((TextView)selectedLeftField).setTextColor(getResources().getColor(R.color.blue_light_3));
     }
 
     public void onRightFieldClick(View clickedRightField) {
@@ -223,11 +223,11 @@ public class GameConnectTwoFragment extends Fragment {
 
             if (solutionViewPairs.get(selectedLeftField).equals(clickedRightField)) {
                 selectedLeftField.setOnClickListener(null);
-                selectedLeftField.setBackgroundColor(COLOR_CORRECT_MATCH);
+                ((TextView)selectedLeftField).setTextColor(getResources().getColor(R.color.teal_200));
                 selectedLeftField.setEnabled(false);
 
                 clickedRightField.setOnClickListener(null);
-                clickedRightField.setBackgroundColor(COLOR_CORRECT_MATCH);
+                ((TextView)clickedRightField).setTextColor(getResources().getColor(R.color.teal_200));
                 clickedRightField.setEnabled(false);
 
 //                TODO add POINTS_PER_PAIR_CONNECTED to Player instance currently on turn
@@ -238,15 +238,15 @@ public class GameConnectTwoFragment extends Fragment {
 
             }else {
                 selectedLeftField.setOnClickListener(null);
-                selectedLeftField.setBackgroundColor(COLOR_WRONG_MATCH);
+                ((TextView)selectedLeftField).setTextColor(getResources().getColor(R.color.orange_dark));
                 selectedLeftField.setEnabled(false);
-                clickedRightField.setBackgroundColor(COLOR_WRONG_MATCH);
+                ((TextView)clickedRightField).setTextColor(getResources().getColor(R.color.orange_dark));
 
                 rightColumnFieldRepaintTimer = new Timer();
                 rightColumnFieldRepaintTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        clickedRightField.setBackgroundColor(getResources().getColor(R.color.white_smoked));
+                        ((TextView)clickedRightField).setTextColor(getResources().getColor(R.color.white_smoked));
                     }
                 }, SECOND);
             }
