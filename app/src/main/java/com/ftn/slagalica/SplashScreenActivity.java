@@ -1,10 +1,8 @@
 package com.ftn.slagalica;
 
-import static com.ftn.slagalica.util.LoginHandler.Login.EMAIL;
-import static com.ftn.slagalica.util.LoginHandler.Login.FILE_NAME;
-import static com.ftn.slagalica.util.LoginHandler.Login.PASSWORD;
-import static com.ftn.slagalica.util.LoginHandler.Login.USERNAME;
-import static com.ftn.slagalica.util.LoginHandler.Login.execute;
+import static com.ftn.slagalica.util.AuthHandler.Login.FILE_NAME;
+import static com.ftn.slagalica.util.AuthHandler.Login.PASSWORD;
+import static com.ftn.slagalica.util.AuthHandler.Login.USERNAME;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ftn.slagalica.data.model.AuthBearer;
-import com.ftn.slagalica.ui.login.LoginActivity;
 import com.ftn.slagalica.util.IThemeHandler;
-import com.ftn.slagalica.util.LoginHandler;
+import com.ftn.slagalica.util.AuthHandler;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,12 +39,12 @@ public class SplashScreenActivity extends AppCompatActivity implements IThemeHan
             String savedUsernameOrEmail = sharedPreferences.getString(USERNAME, "");
             String savedPassword = sharedPreferences.getString(PASSWORD, "");
 
-            AuthBearer foundPlayer = LoginHandler.Login.execute(savedUsernameOrEmail, savedPassword, this, false);
+            FirebaseUser foundPlayer = AuthHandler.Login.execute(savedUsernameOrEmail, savedPassword, this, false);
             if (foundPlayer != null) {
 //                iMainActivity.putExtra(USERNAME, foundPlayer.getUsername());
 //                iMainActivity.putExtra(EMAIL, foundPlayer.getEmail());
 //                iMainActivity.putExtra("picture", foundPlayer.getImageURI());
-                Toast.makeText(SplashScreenActivity.this, "Dobro do\u0161li, " + foundPlayer.getUsername(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplashScreenActivity.this, "Dobro do\u0161li, " + foundPlayer.getDisplayName(), Toast.LENGTH_SHORT).show();
             }
         }
         new Timer().schedule(new TimerTask() {

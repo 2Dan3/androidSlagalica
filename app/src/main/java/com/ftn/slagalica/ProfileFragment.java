@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.ftn.slagalica.data.model.AuthBearer;
-import com.ftn.slagalica.util.LoginHandler;
+import com.ftn.slagalica.util.AuthHandler;
 
 public class ProfileFragment extends Fragment {
 
@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AuthBearer loggedUser = LoginHandler.Login.getLoggedPlayerAuth(getActivity());
+        AuthBearer loggedUser = AuthHandler.Login.getLoggedPlayerAuth(getActivity());
 
         imgProfile = view.findViewById(R.id.imgProfile);
 

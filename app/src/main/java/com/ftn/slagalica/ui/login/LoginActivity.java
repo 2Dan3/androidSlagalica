@@ -1,8 +1,6 @@
 package com.ftn.slagalica.ui.login;
 
-import static com.ftn.slagalica.util.LoginHandler.Login.EMAIL;
-import static com.ftn.slagalica.util.LoginHandler.Login.FILE_NAME;
-import static com.ftn.slagalica.util.LoginHandler.Login.USERNAME;
+import static com.ftn.slagalica.util.AuthHandler.Login.FILE_NAME;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +16,14 @@ import com.ftn.slagalica.MainActivity;
 import com.ftn.slagalica.R;
 import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.util.IThemeHandler;
-import com.ftn.slagalica.util.LoginHandler;
+import com.ftn.slagalica.util.AuthHandler;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements IThemeHandler {
 
     SharedPreferences sharedPreferences;
 
-    LoginHandler loginHandler;
+    AuthHandler loginHandler;
     //    private Button loginBtn;
     private EditText usernameOrEmailField;
     private EditText passwordField;
@@ -35,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements IThemeHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        loginHandler = new LoginHandler();
+//        loginHandler = new AuthHandler();
 
         sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 
@@ -47,9 +46,11 @@ public class LoginActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private void authenticate(View view) {
-        String usernameInput = usernameOrEmailField.getText().toString().trim();
+        String usernameInput = usernameOrEmailField.getText().toString();
+        usernameInput = usernameInput.isEmpty() ? "" : usernameInput.trim();
+
         String passwordInput = passwordField.getText().toString();
-        AuthBearer foundPlayer = LoginHandler.Login.execute(usernameInput, passwordInput, this, true);
+        FirebaseUser foundPlayer = AuthHandler.Login.execute(usernameInput, passwordInput, this, true);
 
         if (foundPlayer == null) {
             Toast.makeText(LoginActivity.this, "Neispravni kredencijali", Toast.LENGTH_SHORT).show();
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements IThemeHandler {
 //            iMainActivity.putExtra(USERNAME, foundPlayer.getUsername());
 //            iMainActivity.putExtra(EMAIL, foundPlayer.getEmail());
 //            iMainActivity.putExtra("picture", foundPlayer.getImageURI());
-            Toast.makeText(LoginActivity.this, "Dobro do\u0161li, " + foundPlayer.getUsername(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Dobro do\u0161li, " + foundPlayer.getDisplayName(), Toast.LENGTH_SHORT).show();
             startActivity(iMainActivity);
             finish();
         }

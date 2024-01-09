@@ -1,29 +1,20 @@
 package com.ftn.slagalica;
 
-import static com.ftn.slagalica.util.LoginHandler.Login.FILE_NAME;
-import static com.ftn.slagalica.util.LoginHandler.Login.USERNAME;
-import static com.ftn.slagalica.util.LoginHandler.Login.EMAIL;
+import static com.ftn.slagalica.util.AuthHandler.Login.FILE_NAME;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -36,17 +27,15 @@ import androidx.fragment.app.FragmentTransaction;
 import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.data.model.Player;
 import com.ftn.slagalica.ui.login.LoginActivity;
+import com.ftn.slagalica.util.AuthHandler;
 import com.ftn.slagalica.util.IThemeHandler;
-import com.ftn.slagalica.util.LoginHandler;
 import com.google.android.material.navigation.NavigationView;
-
-import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
     private DrawerLayout mDrawerLayout;
-    private Fragment tabbedMainFragment;
+    private TabbedMainFragment tabbedMainFragment;
     private Fragment profileFragment;
 //    Todo : load from Firebase in "onCreate"
     private Player loggedPlayerFetched;
@@ -61,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AuthBearer loggedPlayerAuthData = LoginHandler.Login.getLoggedPlayerAuth(this);
+        AuthBearer loggedPlayerAuthData = AuthHandler.Login.getLoggedPlayerAuth(this);
 
         setupSessionBasedUI(loggedPlayerAuthData, darkThemeOn);
 
@@ -181,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         finish();
     }
     public void logout(){
-        LoginHandler.Login.forgetMe(getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE));
+        AuthHandler.Login.forgetMe(getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE));
         startActivity(new Intent(MainActivity.this, MainActivity.class));
         finish();
     }
@@ -204,20 +193,19 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
     public void showAvailableFriends(View v){
 
-        if (LoginHandler.Login.getLoggedPlayerAuth(this) == null) {
+        if (AuthHandler.Login.getLoggedPlayerAuth(this) == null) {
             Toast.makeText(MainActivity.this, getString(R.string.friendly_match_btn_alt), Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(MainActivity.this, "Dostupni prijatelji", Toast.LENGTH_SHORT).show();
 
-            //        Todo
-            //         - openDrawer with FriendList under Log out btn (inv icons next to each available-to-play friend)
-            //        mDrawerLayout.openDrawer(GravityCompat.START);
-            //              ...
-            //              or
-            //        Todo
-            //         - show FriendList separately (either switch to Right Tab OR make a new Fragment on top of everything)
-            //          ...
+        //         - openDrawer with FriendList under Log out btn (inv icons next to each available-to-play friend)
+        //        mDrawerLayout.openDrawer(GravityCompat.START);
+        //              ...
+        //              or
+        //         - show FriendList separately (either switch to Right Tab OR make a new Fragment on top of everything)
+        //          ...
+            tabbedMainFragment.showFriendsFragment();
         }
     }
 

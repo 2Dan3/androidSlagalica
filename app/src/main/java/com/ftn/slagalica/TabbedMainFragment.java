@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ftn.slagalica.data.model.AuthBearer;
-import com.ftn.slagalica.util.LoginHandler;
+import com.ftn.slagalica.util.AuthHandler;
 import com.google.android.material.tabs.TabLayout;
 
 public class TabbedMainFragment extends Fragment {
@@ -39,7 +39,7 @@ public class TabbedMainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.loggedUser = LoginHandler.Login.getLoggedPlayerAuth(getActivity());
+        this.loggedUser = AuthHandler.Login.getLoggedPlayerAuth(getActivity());
     }
 
     @Override
@@ -116,6 +116,12 @@ public class TabbedMainFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return fragment.loggedUser == null ? titles[1] : titles[position];
         }
+    }
+
+    public void showFriendsFragment() {
+        TabLayout.Tab tab;
+        if ( (tab = tabLayout.getTabAt(2) ) != null )
+            tab.select();
     }
 
 }
