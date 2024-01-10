@@ -50,7 +50,8 @@ public class LoginActivity extends AppCompatActivity implements IThemeHandler {
         usernameInput = usernameInput.isEmpty() ? "" : usernameInput.trim();
 
         String passwordInput = passwordField.getText().toString();
-        FirebaseUser foundPlayer = AuthHandler.Login.execute(usernameInput, passwordInput, this, true);
+//        FirebaseUser foundPlayer = AuthHandler.Login.execute(usernameInput, passwordInput, this, true);
+        AuthBearer foundPlayer = AuthHandler.Login.execute(usernameInput, passwordInput, this, true);
 
         if (foundPlayer == null) {
             Toast.makeText(LoginActivity.this, "Neispravni kredencijali", Toast.LENGTH_SHORT).show();
@@ -62,7 +63,8 @@ public class LoginActivity extends AppCompatActivity implements IThemeHandler {
 //            iMainActivity.putExtra(USERNAME, foundPlayer.getUsername());
 //            iMainActivity.putExtra(EMAIL, foundPlayer.getEmail());
 //            iMainActivity.putExtra("picture", foundPlayer.getImageURI());
-            Toast.makeText(LoginActivity.this, "Dobro do\u0161li, " + foundPlayer.getDisplayName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(LoginActivity.this, "Dobro do\u0161li, " + foundPlayer.getDisplayName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Dobro do\u0161li, " + foundPlayer.getUsername(), Toast.LENGTH_SHORT).show();
             startActivity(iMainActivity);
             finish();
         }

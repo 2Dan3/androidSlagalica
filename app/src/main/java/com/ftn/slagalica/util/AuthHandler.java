@@ -53,8 +53,8 @@ public class AuthHandler {
         public static final String PASSWORD = "passwordslagalica";
         public static final String EMAIL = "emailslagalica";
 
-        public static FirebaseUser execute(String usernameOrEmailCredential, String passwordCredential, Activity callingActivity, boolean rememberMe) {
-            final FirebaseUser[] user = new FirebaseUser[1];
+        public static AuthBearer execute(String usernameOrEmailCredential, String passwordCredential, Activity callingActivity, boolean rememberMe) {
+//            final FirebaseUser[] user = new FirebaseUser[1];
 //
 //            FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //
@@ -78,8 +78,12 @@ public class AuthHandler {
 //                                }
 //                            }
 //                    );
-            return user[0];
-
+            AuthBearer foundUser = matchPlayerCredentials(usernameOrEmailCredential, passwordCredential);
+            if (foundUser != null && rememberMe) {
+                rememberMe(foundUser.getUsername(), foundUser.getEmail(), foundUser.getPassword(), callingActivity);
+            }
+//            return user[0];
+            return foundUser;
 
         }
 

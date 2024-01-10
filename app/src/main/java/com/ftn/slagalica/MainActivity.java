@@ -43,16 +43,19 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        Todo : load from Firebase here (this is for testing) :
-        loggedPlayerFetched = new Player("Test", "test@gmail.com", "test", "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2w", 255, 11, 1);
+//        loggedPlayerFetched = new Player("Test", "test@gmail.com", "test", "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2w", 255, 11, 1);
+        AuthBearer ab = AuthHandler.Login.getLoggedPlayerAuth(this);
+        if (ab != null)
+            loggedPlayerFetched = new Player(ab.getUsername(), ab.getEmail(), ab.getPassword(), ab.getImageURI(), 255, 11, 1);
 
         boolean darkThemeOn = setupTheme(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AuthBearer loggedPlayerAuthData = AuthHandler.Login.getLoggedPlayerAuth(this);
+//        AuthBearer loggedPlayerAuthData = AuthHandler.Login.getLoggedPlayerAuth(this);
 
-        setupSessionBasedUI(loggedPlayerAuthData, darkThemeOn);
+        setupSessionBasedUI(ab, darkThemeOn);
 
         setupToolbarAndActionbar();
 
@@ -180,7 +183,9 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
             Activity currentParent = MainActivity.this;
 
             startActivity(new Intent(currentParent, GameActivity.class));
-            loggedPlayerFetched.spendToken();
+            if (loggedPlayerFetched != null)
+                loggedPlayerFetched.spendToken();
+
             currentParent.finish();
         }else{
             Toast.makeText(MainActivity.this, getString(R.string.not_enough_tokens_to_play), Toast.LENGTH_SHORT).show();
@@ -188,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private boolean hasTokens() {
-        return loggedPlayerFetched.getTokens() > 0;
+        return loggedPlayerFetched == null ? true : loggedPlayerFetched.getTokens() > 0;
     }
 
     public void showAvailableFriends(View v){
