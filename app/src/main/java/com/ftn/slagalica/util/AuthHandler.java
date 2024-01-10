@@ -9,26 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.ftn.slagalica.MainActivity;
 import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.data.model.User;
 import com.ftn.slagalica.ui.login.LoginActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuthHandler {
 
@@ -53,38 +41,39 @@ public class AuthHandler {
         public static final String PASSWORD = "passwordslagalica";
         public static final String EMAIL = "emailslagalica";
 
-        public static AuthBearer execute(String usernameOrEmailCredential, String passwordCredential, Activity callingActivity, boolean rememberMe) {
-//            final FirebaseUser[] user = new FirebaseUser[1];
+        public static FirebaseUser execute(String usernameOrEmailCredential, String passwordCredential, Activity callingActivity, ICallbackCarrier callbackCarrier, boolean rememberMe) {
+            final FirebaseUser[] user = new FirebaseUser[1];
 //
-//            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //
-//            mAuth.signInWithEmailAndPassword(usernameOrEmailCredential, passwordCredential)
-//                    .addOnCompleteListener(callingActivity,
-//                            task -> {
-//                                if (task.isSuccessful()) {
-//                                    // Sign in success, update UI with the signed-in user's information
-////                                    Log.d(TAG, "signInWithEmail:success");
-////                                    user[0] = mAuth.getCurrentUser();
-////                                    Toast.makeText(callingActivity, user[0].toString(), Toast.LENGTH_SHORT).show();
-//
-//                                    if (rememberMe) {
-//                                        rememberMe(user[0].getDisplayName(), user[0].getEmail(), passwordCredential, callingActivity);
-//                                    }
-//                                } else {
+            mAuth.signInWithEmailAndPassword(usernameOrEmailCredential, passwordCredential)
+                    .addOnCompleteListener(callingActivity,
+                            task -> {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+//                                    Log.d(TAG, "signInWithEmail:success");
+                                    user[0] = mAuth.getCurrentUser();
+//                                    Toast.makeText(callingActivity, user[0].toString(), Toast.LENGTH_SHORT).show();
+
+                                    if (user[0] != null && rememberMe) {
+                                        rememberMe(user[0].getDisplayName(), user[0].getEmail(), passwordCredential, callingActivity);
+                                    }
+                                }
+//                                else {
 //                                    // If sign in fails, display a message to the user.
 ////                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
 //                                    Toast.makeText(callingActivity, "Neispravni kredencijalii",
 //                                            Toast.LENGTH_SHORT).show();
 //                                }
-//                            }
-//                    );
-            AuthBearer foundUser = matchPlayerCredentials(usernameOrEmailCredential, passwordCredential);
-            if (foundUser != null && rememberMe) {
-                rememberMe(foundUser.getUsername(), foundUser.getEmail(), foundUser.getPassword(), callingActivity);
-            }
-//            return user[0];
-            return foundUser;
-
+                                callbackCarrier.onResult(user[0]);
+                            }
+                    );
+//            AuthBearer foundUser = matchPlayerCredentials(usernameOrEmailCredential, passwordCredential);
+//            if (foundUser != null && rememberMe) {
+//                rememberMe(foundUser.getUsername(), foundUser.getEmail(), foundUser.getPassword(), callingActivity);
+//            }
+//            return foundUser;
+            return user[0];
         }
 
         public boolean validateUsername(String username) {
@@ -118,7 +107,7 @@ public class AuthHandler {
 //            });
         }
 
-        public static AuthBearer getLoggedPlayerAuth(Activity callingActivity) {
+        public static AuthBearer getLoggedPlayerCache(Activity callingActivity) {
             SharedPreferences sharedPreferences = callingActivity.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
             String loggedUsername = sharedPreferences.getString(USERNAME, "");
             if (loggedUsername.equals(""))
@@ -164,54 +153,49 @@ public class AuthHandler {
         static FirebaseDatabase database;
         static DatabaseReference reference;
 
+//        Todo : make it all transactional (if all does not persist - has to rollback changes)
         public static void execute(String username, String email, String password, String repeatedPassword, Activity callingActivity) {
-//            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-//            mAuth.createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener(callingActivity,
-//                task -> {
-//                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-//                                Log.d(TAG, "createUserWithEmail:success");
-//                        FirebaseUser user = mAuth.getCurrentUser();
+            mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(callingActivity,
+                task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
 
-
-
-//                                    Add username as well (after Email & Password creation)
-//                                    user.updateProfile(new UserProfileChangeRequest.Builder()
-//                                                    .setDisplayName(username)
-//                                                    .build())
-//                                                .addOnCompleteListener(
-//                                                    task1 -> {
-//                                                        if (task1.isSuccessful()) {
-////                                                            Log.d(TAG, "User profile updated.");
-//                                                            rememberMe(user, password, callingActivity);
-//                                                            callingActivity.startActivity(new Intent(callingActivity, MainActivity.class));
-//                                                        }
-//                                                    }
-//                                                );
-                        database = FirebaseDatabase.getInstance(FIREBASE_URL);
-                        reference = database.getReference("users");
-                        String uidKey = reference.push().getKey();
-                        User userToBeRegistered = new User(email, password, username);
-//            Toast.makeText(callingActivity, "Gadjam bazu: "+ uidKey, Toast.LENGTH_SHORT).show();
-
-            reference.child(uidKey).setValue(userToBeRegistered.toMap())
+//                      Add username as well (after Email & Password creation)
+                        user.updateProfile(new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(username)
+                                        .build())
                                 .addOnCompleteListener(
-                                    task1 -> {
-                                        if (task1.isSuccessful()){
-                                            Toast.makeText(callingActivity, "Uspe\u0161no ste registrovani. Prijavljujemo Vas...", Toast.LENGTH_SHORT).show();
+                                        task1 -> {
+                                            if (task1.isSuccessful()) {
+//                                                  Log.d(TAG, "User profile updated.");
+                                                database = FirebaseDatabase.getInstance(FIREBASE_URL);
+                                                reference = database.getReference("users");
+                                                String uidKey = reference.push().getKey();
+                                                User userToBeRegistered = new User(email, password, username);
+
+                                                reference.child(uidKey).setValue(userToBeRegistered.toMap())
+                                                        .addOnCompleteListener(
+                                                                task2 -> {
+                                                                    if (task2.isSuccessful()) {
+                                                                        Toast.makeText(callingActivity, "Uspe\u0161no ste registrovani.", Toast.LENGTH_SHORT).show();
 //                                            rememberMe(username, email, password, callingActivity);
-                                            callingActivity.startActivity(new Intent(callingActivity, LoginActivity.class));
-                                            callingActivity.finish();
+                                                                        callingActivity.startActivity(new Intent(callingActivity, LoginActivity.class));
+                                                                        callingActivity.finish();
+                                                                    }
+                                                                }
+                                                        ).addOnFailureListener(
+                                                                task3 -> {
+                                                                    Toast.makeText(callingActivity, "Gre\u0161ka pri registrovanju. Poku\u0161ajte ponovo kasnije.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                        );
+                                            }
                                         }
-                                    }
-                                ).addOnFailureListener(
-                                    task3 -> {
-                                        Toast.makeText(callingActivity, "Gre\u0161ka pri registrovanju. Poku\u0161aj ponovo kasnijee.", Toast.LENGTH_SHORT).show();
-                                    }
                                 );
-            Toast.makeText(callingActivity, "Zavrsio gadjanje baze", Toast.LENGTH_SHORT).show();
+
+//            Toast.makeText(callingActivity, "Zavrsio gadjanje baze", Toast.LENGTH_SHORT).show();
 
 
 //                        reference.child(username).setValue(userToBeRegistered);
@@ -246,8 +230,9 @@ public class AuthHandler {
 //                        Toast.makeText(callingActivity, "Gre\u0161ka pri registrovanju. Poku\u0161aj ponovo kasnije...",
 //                                Toast.LENGTH_SHORT).show();
 //                    }
-//                }
-//            );
+                    }
+                }
+            );
         }
     }
 }

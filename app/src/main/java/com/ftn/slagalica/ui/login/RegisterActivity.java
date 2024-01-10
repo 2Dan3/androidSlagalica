@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements IThemeHandler
         }
         if ( !credentialsFields[2].getText().toString().equals(credentialsFields[3].getText().toString()) ){
             Toast.makeText(this, "Lozinka i ponovljena lozinka se ne poklapaju.", Toast.LENGTH_SHORT).show();
-            resetFields(view);
+            resetPasswordFields(view);
             return;
         }
 
@@ -57,6 +57,12 @@ public class RegisterActivity extends AppCompatActivity implements IThemeHandler
 //        } else{
 //              ...
 //        }
+    }
+
+    private void resetPasswordFields(View view) {
+        credentialsFields[2].setText("");
+        credentialsFields[3].setText("");
+        view.setEnabled(true);
     }
 
     private void resetFields(View view) {

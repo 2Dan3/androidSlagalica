@@ -38,22 +38,24 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     private TabbedMainFragment tabbedMainFragment;
     private Fragment profileFragment;
 //    Todo : load from Firebase in "onCreate"
-    private Player loggedPlayerFetched;
+    private Player loggedPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        Todo : load from Firebase here (this is for testing) :
-//        loggedPlayerFetched = new Player("Test", "test@gmail.com", "test", "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2w", 255, 11, 1);
-        AuthBearer ab = AuthHandler.Login.getLoggedPlayerAuth(this);
+//        loggedPlayer = new Player("Test", "test@gmail.com", "test", "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2w", 255, 11, 1);
+
+        AuthBearer ab = AuthHandler.Login.getLoggedPlayerCache(this);
         if (ab != null)
-            loggedPlayerFetched = new Player(ab.getUsername(), ab.getEmail(), ab.getPassword(), ab.getImageURI(), 255, 11, 1);
+            loggedPlayer = new Player(ab.getUsername(), ab.getEmail(), ab.getPassword(), ab.getImageURI(), 255, 11, 1);
+//        loggedPlayer = AuthHandler.Login.getLoggedPlayerCache(this);
 
         boolean darkThemeOn = setupTheme(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        AuthBearer loggedPlayerAuthData = AuthHandler.Login.getLoggedPlayerAuth(this);
+//        AuthBearer loggedPlayerAuthData = AuthHandler.Login.getLoggedPlayerCache(this);
 
         setupSessionBasedUI(ab, darkThemeOn);
 
@@ -183,8 +185,8 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
             Activity currentParent = MainActivity.this;
 
             startActivity(new Intent(currentParent, GameActivity.class));
-            if (loggedPlayerFetched != null)
-                loggedPlayerFetched.spendToken();
+            if (loggedPlayer != null)
+                loggedPlayer.spendToken();
 
             currentParent.finish();
         }else{
@@ -193,12 +195,12 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private boolean hasTokens() {
-        return loggedPlayerFetched == null ? true : loggedPlayerFetched.getTokens() > 0;
+        return loggedPlayer == null ? true : loggedPlayer.getTokens() > 0;
     }
 
     public void showAvailableFriends(View v){
 
-        if (AuthHandler.Login.getLoggedPlayerAuth(this) == null) {
+        if (AuthHandler.Login.getLoggedPlayerCache(this) == null) {
             Toast.makeText(MainActivity.this, getString(R.string.friendly_match_btn_alt), Toast.LENGTH_LONG).show();
         }
         else{
@@ -238,11 +240,11 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
         }else{
             loggedUserCreditsToolbar.setVisibility(View.VISIBLE);
             TextView toolbarLoggedUserPoints = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserPoints);
-            toolbarLoggedUserPoints.setText(String.valueOf(loggedPlayerFetched.getPointsCurrentRank()));
+            toolbarLoggedUserPoints.setText(String.valueOf(loggedPlayer.getPointsCurrentRank()));
             TextView toolbarLoggedUserStars = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserStars);
-            toolbarLoggedUserStars.setText(String.valueOf(loggedPlayerFetched.getStars()));
+            toolbarLoggedUserStars.setText(String.valueOf(loggedPlayer.getStars()));
             TextView toolbarLoggedUserTokens = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserTokens);
-            toolbarLoggedUserTokens.setText(String.valueOf(loggedPlayerFetched.getTokens()));
+            toolbarLoggedUserTokens.setText(String.valueOf(loggedPlayer.getTokens()));
 
             logItem = navMenu.findItem(R.id.nav_login);
 //            Todo

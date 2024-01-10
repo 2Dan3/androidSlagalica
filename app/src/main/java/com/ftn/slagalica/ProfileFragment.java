@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AuthBearer loggedUser = AuthHandler.Login.getLoggedPlayerAuth(getActivity());
+        AuthBearer loggedUser = AuthHandler.Login.getLoggedPlayerCache(getActivity());
 
         imgProfile = view.findViewById(R.id.imgProfile);
 
