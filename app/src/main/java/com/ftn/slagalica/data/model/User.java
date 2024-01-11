@@ -14,7 +14,7 @@ public class User {
     public String email;
     public String password;
     public String username;
-    public Uri picture;
+    public String picture;
     public int tokens;
     public int stars;
     public int points;
@@ -29,7 +29,7 @@ public class User {
 
     public User(){ }
 
-    public User(String email, String password, String username, Uri picture, int tokens, int stars, int points, int played, int won, int pointsWhoKnows, int pointsConnectTwo, int pointsAssociations, int pointsJumper, int pointsStepByStep, int pointsMyNumber) {
+    public User(String email, String password, String username, String picture, int tokens, int stars, int points, int played, int won, int pointsWhoKnows, int pointsConnectTwo, int pointsAssociations, int pointsJumper, int pointsStepByStep, int pointsMyNumber) {
         this.email = email;
         this.password = password;
         this.username = username;
@@ -117,11 +117,11 @@ public class User {
         this.username = username;
     }
 
-    public Uri getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(Uri picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 

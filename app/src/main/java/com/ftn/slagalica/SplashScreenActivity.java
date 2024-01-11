@@ -63,7 +63,12 @@ public class SplashScreenActivity extends AppCompatActivity implements IThemeHan
             Toast.makeText(SplashScreenActivity.this, "Dobro do\u0161li, " + foundPlayer.getDisplayName(), Toast.LENGTH_SHORT).show();
 //                Toast.makeText(SplashScreenActivity.this, "Dobro do\u0161li, " + foundPlayer.getUsername(), Toast.LENGTH_SHORT).show();
         }
-        startActivity(iMainActivity);
-        finish();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(iMainActivity);
+                finish();
+            }
+        }, SPLASH_TIMEOUT);
     }
 }

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AuthHandler {
 
-    private static final String FIREBASE_URL = "https://slagalica-1b9c9-default-rtdb.europe-west1.firebasedatabase.app/";
+    public static final String FIREBASE_URL = "https://slagalica-1b9c9-default-rtdb.europe-west1.firebasedatabase.app/";
 
     private static void rememberMe(String username, String email, String passwordCredential, Activity callingActivity) {
         SharedPreferences sharedPreferences = callingActivity.getSharedPreferences(Login.FILE_NAME, Context.MODE_PRIVATE);
@@ -46,7 +46,7 @@ public class AuthHandler {
 //
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //
-            mAuth.signInWithEmailAndPassword(usernameOrEmailCredential, passwordCredential)
+            mAuth.signInWithEmailAndPassword(usernameOrEmailCredential.toLowerCase(), passwordCredential)
                     .addOnCompleteListener(callingActivity,
                             task -> {
                                 if (task.isSuccessful()) {
@@ -154,8 +154,9 @@ public class AuthHandler {
         static DatabaseReference reference;
 
 //        Todo : make it all transactional (if all does not persist - has to rollback changes)
-        public static void execute(String username, String email, String password, String repeatedPassword, Activity callingActivity) {
+        public static void execute(String idCredential, String email, String password, String repeatedPassword, Activity callingActivity) {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            String username = idCredential.toLowerCase();
 
             mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(callingActivity,
@@ -173,10 +174,10 @@ public class AuthHandler {
 //                                                  Log.d(TAG, "User profile updated.");
                                                 database = FirebaseDatabase.getInstance(FIREBASE_URL);
                                                 reference = database.getReference("users");
-                                                String uidKey = reference.push().getKey();
+//                                                String uidKey = reference.push().getKey();
                                                 User userToBeRegistered = new User(email, password, username);
 
-                                                reference.child(uidKey).setValue(userToBeRegistered.toMap())
+                                                reference.child(username).setValue(userToBeRegistered)
                                                         .addOnCompleteListener(
                                                                 task2 -> {
                                                                     if (task2.isSuccessful()) {
