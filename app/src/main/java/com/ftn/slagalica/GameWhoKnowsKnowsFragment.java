@@ -1,5 +1,7 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ftn.slagalica.data.model.DTO.WhoKnowsQuestionsDTO;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,9 +93,9 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
             view.findViewById(R.id.who_knows_answer4)
         };
 
-        prepareUpcomingRoundUI();
-
-        startTimerCountdown(6*SECOND);
+//        prepareUpcomingRoundUI();
+//
+//        startTimerCountdown(6*SECOND);
     }
 
     private void startTimerCountdown(int msTimeFrom) {
@@ -136,9 +144,38 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 
     private void requestAndStoreGameData() {
 //        Todo : request actual Game values from Firebase for all 5 questions
+        questionsValues = new WhoKnowsQuestionsDTO();
+
+        DatabaseReference gameDataRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("whoknows").child("-NoHjK2hB9eLjLY3kYFq");
+        gameDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for (DataSnapshot questionRoundSnapshot : snapshot.getChildren()) {
+                        HashMap<String, String[]> questionPack = new HashMap<String, String[]>();
+
+                        String[] answers = new String[6];
+                        Iterable<DataSnapshot> answersUnfiltered = questionRoundSnapshot.getChildren();
+                        int counter = 0;
+                        while (answersUnfiltered.iterator().hasNext()){
+                            answers[counter++] = answersUnfiltered.iterator().next().getValue().toString();
+                        }
+
+                        questionPack.put(questionRoundSnapshot.getKey(), answers);
+                        questionsValues.add(questionPack);
+                    }
+//                    Toast.makeText(getActivity(), gameValues.toString(), Toast.LENGTH_SHORT).show();
+                    prepareUpcomingRoundUI();
+
+                    startTimerCountdown(6*SECOND);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
 
 //        Mock/Test data initialized :
-        questionsValues = new WhoKnowsQuestionsDTO();
+//        questionsValues = new WhoKnowsQuestionsDTO();
     }
 
     private void onAnswerClick(View v){

@@ -87,6 +87,8 @@ public class GameConnectTwoFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         countDownTimer.cancel();
+        if (rightColumnFieldRepaintTimer != null)
+            rightColumnFieldRepaintTimer.cancel();
     }
 
     private void showFieldsWithValues() {
@@ -106,9 +108,6 @@ public class GameConnectTwoFragment extends Fragment {
     }
 
     private void prepNextGame() {
-        countDownTimer.cancel();
-
-        if (rightColumnFieldRepaintTimer != null) rightColumnFieldRepaintTimer.cancel() ;
 //        showSolution();
 
         new Timer().schedule(new TimerTask() {
@@ -222,6 +221,10 @@ public class GameConnectTwoFragment extends Fragment {
         if (selectedLeftField != null) {
 
             if (solutionViewPairs.get(selectedLeftField).equals(clickedRightField)) {
+
+                if (rightColumnFieldRepaintTimer != null)
+                    rightColumnFieldRepaintTimer.cancel();
+
                 selectedLeftField.setOnClickListener(null);
                 ((TextView)selectedLeftField).setTextColor(getResources().getColor(R.color.teal_200));
                 selectedLeftField.setEnabled(false);
@@ -248,7 +251,7 @@ public class GameConnectTwoFragment extends Fragment {
                     public void run() {
                         ((TextView)clickedRightField).setTextColor(getResources().getColor(R.color.white_smoked));
                     }
-                }, SECOND);
+                }, SECOND/2);
             }
 
             selectedLeftField = null;

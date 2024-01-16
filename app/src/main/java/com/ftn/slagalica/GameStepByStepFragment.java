@@ -1,5 +1,7 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -9,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -17,11 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,11 +37,15 @@ public class GameStepByStepFragment extends Fragment {
     private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
 
 //    MOCK GAME VALUES - LATER WILL BE LOADED FROM DataBase
-    Object[] gameValues = {"Ima veze sa Savom i Dunavom", "Svih devet slova ove reci je razlicito", "Ima veze sa zdravljem", "Moze se odnositi na zivot", "Ima svog agenta i svoju premiju", "Za vozila je obavezno", "Postoji i Kasko varijanta", "Osiguranje"};
+    ArrayList<String> gameValuesRound1;
+    ArrayList<String> gameValuesRound2;
+//    = {"Ima veze sa Savom i Dunavom", "Svih devet slova ove reci je razlicito", "Ima veze sa zdravljem", "Moze se odnositi na zivot", "Ima svog agenta i svoju premiju", "Za vozila je obavezno", "Postoji i Kasko varijanta", "Osiguranje"};
     TextView[] fieldTextViews;
 
     public TextView timer;
+    private Timer round2StartTimer = new Timer();
     private int step = 1;
+    private boolean round2 = false;
     private CountDownTimer countDownTimer;
 
     private final TextWatcher solutionWatcher = new TextWatcher() {
@@ -54,7 +63,8 @@ public class GameStepByStepFragment extends Fragment {
 
             if( s.length() != 0 && solutionIsGuessed() ) {
                 assignPoints(step, null);
-                prepNextGame();
+                step = 8;
+                countDownTimer.onFinish();
             }
         }
     };
@@ -78,7 +88,21 @@ public class GameStepByStepFragment extends Fragment {
 
 //      TODO* - use AsyncTask to request data from FireBase
 //              - store received data in "gameValues" variable
+        DatabaseReference gameDataRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("stepbystep").child("-NoHLDSqsU6Njxmi5laB");
 
+        gameDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    gameValuesRound1 = (ArrayList<String>) snapshot.child("round1").getValue();
+                    gameValuesRound2 = (ArrayList<String>) snapshot.child("round2").getValue();
+//                    Toast.makeText(getActivity(), gameValues.toString(), Toast.LENGTH_SHORT).show();
+                    startTimerCountdown(10*SECOND);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
 
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
@@ -97,7 +121,7 @@ public class GameStepByStepFragment extends Fragment {
 
         timer = getActivity().findViewById(R.id.textViewTimer);
         fieldTextViews = new TextView[]{getActivity().findViewById(R.id.clue1), getActivity().findViewById(R.id.clue2), getActivity().findViewById(R.id.clue3), getActivity().findViewById(R.id.clue4), getActivity().findViewById(R.id.clue5), getActivity().findViewById(R.id.clue6), getActivity().findViewById(R.id.clue7), getActivity().findViewById(R.id.stepFinalSolution)};
-        startTimerCountdown(10*SECOND);
+//        startTimerCountdown(10*SECOND);
         setupSolutionListener();
     }
 
@@ -105,6 +129,7 @@ public class GameStepByStepFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         countDownTimer.cancel();
+        round2StartTimer.cancel();
     }
 
     private void setupSolutionListener() {
@@ -113,10 +138,6 @@ public class GameStepByStepFragment extends Fragment {
     }
 
     private void prepNextGame() {
-        fieldTextViews[fieldTextViews.length - 1].removeTextChangedListener(solutionWatcher);
-        countDownTimer.cancel();
-        showSolution();
-
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -137,7 +158,25 @@ public class GameStepByStepFragment extends Fragment {
             public void onFinish() {
 
                 if(step > 7) {
-                    prepNextGame();
+                    fieldTextViews[fieldTextViews.length - 1].removeTextChangedListener(solutionWatcher);
+                    showSolution();
+
+                    if (round2) {
+                        prepNextGame();
+                    }else{
+                        round2StartTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                step = 1;
+                                resetFields();
+                                setupSolutionListener();
+                                round2 = true;
+                                gameValuesRound1 = gameValuesRound2;
+                                countDownTimer.start();
+                                showStep(step++);
+                            }
+                        }, SECOND*3);
+                    }
                 }else {
                     showStep(step++);
                     this.start();
@@ -147,17 +186,17 @@ public class GameStepByStepFragment extends Fragment {
     }
 
     private boolean solutionIsGuessed() {
-        return fieldTextViews[fieldTextViews.length-1].getText().toString().trim().equalsIgnoreCase( (gameValues[gameValues.length-1].toString()) );
+        return fieldTextViews[fieldTextViews.length-1].getText().toString().trim().equalsIgnoreCase( (gameValuesRound1.get(gameValuesRound1.size()-1).toString()) );
     }
 
     private void showStep(int step){
         TextView clueView = fieldTextViews[step-1];
-        clueView.setText(gameValues[step-1].toString());
+        clueView.setText(gameValuesRound1.get(step-1).toString());
     }
     private void showSolution(){
         TextView solutionField = fieldTextViews[fieldTextViews.length-1];
-        solutionField.setText(gameValues[gameValues.length-1].toString());
-        solutionField.setInputType(InputType.TYPE_NULL);
+        solutionField.setText(gameValuesRound1.get(gameValuesRound1.size()-1).toString());
+//        solutionField.setInputType(InputType.TYPE_NULL);
         solutionField.clearFocus();
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(solutionField.getWindowToken(), 0);
@@ -173,13 +212,25 @@ public class GameStepByStepFragment extends Fragment {
 
         GameActivity gameActivity = (GameActivity) getActivity();
 
-        int playersCurrentTotal = gameActivity.getPlayer1PointsView();
+        int playersCurrentTotal = round2 ? gameActivity.getPlayer2PointsView() : gameActivity.getPlayer1PointsView();
 
 //        *NOTE: changes
 //          STEP - 1 -> STEP - 2; fixed an offset when assigning points
         int playersNewTotal = playersCurrentTotal + (MAX_POINTS_ACHIEVABLE - ((step-2) * POINTS_LOST_PER_CLUE_SHOWN));
 
 //        GameActivity's points-display update
-        gameActivity.setPlayer1PointsView(playersNewTotal);
+        if (round2)
+            gameActivity.setPlayer2PointsView(playersNewTotal);
+        else
+            gameActivity.setPlayer1PointsView(playersNewTotal);
+    }
+
+    private void resetFields(){
+        for (TextView tv : fieldTextViews) {
+            tv.setText("");
+        }
+        TextView solutionField = fieldTextViews[fieldTextViews.length-1];
+//        solutionField.setInputType(InputType.TYPE_CLASS_TEXT);
+        solutionField.setBackgroundColor(getResources().getColor(R.color.white_smoked));
     }
 }
