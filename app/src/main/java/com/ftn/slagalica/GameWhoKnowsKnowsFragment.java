@@ -1,5 +1,8 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.GameActivity.GAME_ID;
+import static com.ftn.slagalica.GameActivity.MY_USERNAME_KEY;
+import static com.ftn.slagalica.GameActivity.OPPONENT_USERNAME_KEY;
 import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
 
 import android.os.Bundle;
@@ -18,16 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ftn.slagalica.data.model.DTO.WhoKnowsQuestionsDTO;
+import com.ftn.slagalica.data.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,17 +41,25 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
     private TextView timer;
     private CountDownTimer countDownTimer;
     private WhoKnowsQuestionsDTO questionsValues;
+    private GameActivity gameActivity;
 
     private int currentQuestionNum = 1;
     private String currentQuestion;
+//    private String gameID;
+//    private User loggedPlayer;
+//    private User opponentPlayer;
+//    private User playerOnTurn;
 
     public GameWhoKnowsKnowsFragment() { }
 
-    public static GameWhoKnowsKnowsFragment newInstance(String param1, String param2) {
+    public static GameWhoKnowsKnowsFragment newInstance(GameActivity gameActivity) {
         GameWhoKnowsKnowsFragment fragment = new GameWhoKnowsKnowsFragment();
 //        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM2, param2);
+//        args.putString(MY_USERNAME_KEY, myUsername);
+//        args.putString(OPPONENT_USERNAME_KEY, opponentUsername);
+//        args.putString(GAME_ID, gameID);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
@@ -62,6 +71,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
         requestAndStoreGameData();
+//        setupSolutionListener();
     }
 
     @Override
@@ -183,15 +193,38 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
             answerButtons[i].setEnabled(false);
             answerButtons[i].setOnClickListener(null);
         }
-
         Button clickedAnswerBtn = (Button) v;
+//        String answerAttempt = clickedAnswerBtn.getText().toString();
+
+        validateClickedAnswer(clickedAnswerBtn);
+//        submitAnswer(answerAttempt);
+    }
+
+    private boolean validateClickedAnswer(Button clickedAnswerBtn) {
 //        Validates answer with real solution
-        if (clickedAnswerBtn.getText().toString().equals(questionsValues.get(currentQuestionNum-1).get(currentQuestion)[4])){
+        if (clickedAnswerBtn.getText().toString().equals(questionsValues.get(currentQuestionNum-1).get(currentQuestion)[4])) {
             clickedAnswerBtn.setTextColor(getResources().getColor(R.color.teal_200));
 //          Todo :  assign points to this logged player if he was first to answer correctly
+//            assignPoints();
+            return true;
         }else{
             clickedAnswerBtn.setTextColor(getResources().getColor(R.color.orange_dark));
+            return false;
         }
     }
 
+    private void setupSolutionListener() {
+        FirebaseDatabase.getInstance(FIREBASE_URL).getReference("active_matches").child(gameActivity.getGameID()).child("answer").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Toast.makeText(getActivity(), "::onDataChange:: new answer detected", Toast.LENGTH_SHORT).show();
+//                validateClickedAnswer();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

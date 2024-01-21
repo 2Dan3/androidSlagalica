@@ -1,5 +1,7 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.GameActivity.FIRST_ROUND_PLAYER_USERNAME;
+import static com.ftn.slagalica.GameActivity.GAME_ID;
 import static com.ftn.slagalica.GameActivity.MY_USERNAME_KEY;
 import static com.ftn.slagalica.GameActivity.OPPONENT_USERNAME_KEY;
 import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
@@ -44,6 +46,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
@@ -53,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 //    Todo : load from Firebase in "onCreate"
     private Player loggedPlayer;
     private FirebaseDatabase database;
+    private Timer matchStartTimerSyncer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,13 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
         loadMainFragment();
         Toast.makeText(MainActivity.this, "Po\u010detna", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (matchStartTimerSyncer != null)
+            matchStartTimerSyncer.cancel();
     }
 
     @Override
@@ -197,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
     public void toGameActivity(View v){
         if (hasTokens()) {
+            v.setEnabled(false);
+            ((View)v.getParent()).setBackgroundColor(getResources().getColor(R.color.grey));
             DatabaseReference queueReference = database.getReference("queue");
 //            String uidKey = reference.push().getKey();
             String matchRepresentingUsername = loggedPlayer != null ? loggedPlayer.getUsername() : ("gost" + System.currentTimeMillis()).substring(0, 14);
@@ -304,37 +320,76 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private void matchUpWithOpponent(String myUsername, String opponentUsername) {
-        Activity currentParent = MainActivity.this;
-
-        Intent toGameIntent = new Intent(currentParent, GameActivity.class);
-        toGameIntent.putExtra(MY_USERNAME_KEY, myUsername);
-        toGameIntent.putExtra(OPPONENT_USERNAME_KEY, opponentUsername);
-
-        startActivity(toGameIntent);
-        if (loggedPlayer != null)
-            loggedPlayer.spendToken(database.getReference("users").child(loggedPlayer.getUsername()).child("tokens"));
-
         DatabaseReference activeMatchRef = database.getReference("active_matches");
-        activeMatchRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        final String[] firstRoundPlayerUsername = {null};
+        database.getReference("queue").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot playerInMatch : snapshot.getChildren()) {
-                    if (myUsername.equals(playerInMatch.getChildren().iterator().next().getValue(String.class))) {
-                        return;
+
+                matchStartTimerSyncer = new Timer();
+                matchStartTimerSyncer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                    activeMatchRef.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            for (DataSnapshot activeMatch : snapshot.getChildren()) {
+                                String activeMatchPlayerUsername = activeMatch.getValue(String.class);
+//                                Toast.makeText(MainActivity.this, activeMatch.getValue(String.class), Toast.LENGTH_LONG).show();
+                                if ( firstRoundPlayerUsername[0] == null ) {
+                                    firstRoundPlayerUsername[0] = activeMatchPlayerUsername;
+                                }
+
+                                if (myUsername.equals(activeMatchPlayerUsername)) {
+
+                                    activeMatchRef.removeEventListener(this);
+
+                                    Activity currentParent = MainActivity.this;
+
+                                    Intent toGameIntent = new Intent(currentParent, GameActivity.class);
+                                    toGameIntent.putExtra(MY_USERNAME_KEY, myUsername);
+                                    toGameIntent.putExtra(OPPONENT_USERNAME_KEY, opponentUsername);
+                                    toGameIntent.putExtra(GAME_ID, activeMatch.getKey());
+                                    toGameIntent.putExtra(FIRST_ROUND_PLAYER_USERNAME, firstRoundPlayerUsername[0]);
+
+                                    startActivity(toGameIntent);
+                                    if (loggedPlayer != null)
+                                        loggedPlayer.spendToken(database.getReference("users").child(loggedPlayer.getUsername()).child("tokens"));
+
+                                    currentParent.finish();
+                                    break;
+                                }
+                            }
+                        }
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        }
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        }
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
                     }
+                }, 4000);
+
+                DataSnapshot playerInMatch = snapshot.getChildren().iterator().next();
+                if (myUsername.equals(playerInMatch.getValue(String.class))) {
+                    String activeMatchKey = activeMatchRef.push().getKey();
+                    activeMatchRef.child(activeMatchKey).push().setValue(myUsername);
+                    activeMatchRef.child(activeMatchKey).push().setValue(opponentUsername);
                 }
-                String activeMatchKey = activeMatchRef.push().getKey();
-                activeMatchRef.child(activeMatchKey).push().setValue(myUsername);
-                activeMatchRef.child(activeMatchKey).push().setValue(opponentUsername);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(MainActivity.this, "active_match writing canceled...", Toast.LENGTH_LONG).show();
             }
         });
-
-        currentParent.finish();
-
+//        Query matchedPlayerFinder = activeMatchRef.orderByChild("username").equalTo(loggedUser.getUsername());
     }
 
     private boolean hasTokens() {
