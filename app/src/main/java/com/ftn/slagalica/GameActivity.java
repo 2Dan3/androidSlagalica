@@ -168,7 +168,15 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
 //         change textView's text color from white to dark_blue
     }
 
+    public void addOverallPointsToPlayer(int points, User player){
+        player.setPoints(player.getPoints() + points);
+        if (player.equals(loggedPlayer)){
+            setPlayer1PointsView(player.getPoints());
+        }else{
+            setPlayer2PointsView(player.getPoints());
+        }
 
+    }
     public int getPlayer1PointsView() {
         return Integer.valueOf(String.valueOf(player1PointsView.getText()));
     }

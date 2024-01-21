@@ -1,8 +1,5 @@
 package com.ftn.slagalica;
 
-import static com.ftn.slagalica.GameActivity.GAME_ID;
-import static com.ftn.slagalica.GameActivity.MY_USERNAME_KEY;
-import static com.ftn.slagalica.GameActivity.OPPONENT_USERNAME_KEY;
 import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
 
 import android.os.Bundle;
@@ -29,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,6 +40,8 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private WhoKnowsQuestionsDTO questionsValues;
     private GameActivity gameActivity;
+    private FirebaseDatabase db;
+    private DatabaseReference answerRef;
 
     private int currentQuestionNum = 1;
     private String currentQuestion;
@@ -70,8 +70,10 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
+        Toast.makeText(gameActivity, gameActivity.getGameID(), Toast.LENGTH_LONG).show();
+        db = FirebaseDatabase.getInstance(FIREBASE_URL);
+        answerRef = db.getReference("active_matches").child(gameActivity.getGameID()).child("answer");
         requestAndStoreGameData();
-//        setupSolutionListener();
     }
 
     @Override
@@ -121,11 +123,22 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
                     prepNextGame();
                     return;
                 }
-                currentQuestionNum += 1;
-                prepareUpcomingRoundUI();
-                this.start();
+                resetLastAnswerDB(this);
             }
         }.start();
+    }
+
+    private void resetLastAnswerDB(CountDownTimer countDownTimer) {
+        answerRef.removeValue()
+                .addOnCompleteListener(gameActivity,
+                    task -> {
+                        if (task.isSuccessful()) {
+                            currentQuestionNum += 1;
+                            prepareUpcomingRoundUI();
+                            countDownTimer.start();
+                        }
+                    }
+                );
     }
 
     private void prepNextGame() {
@@ -138,6 +151,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
     }
 
     private void prepareUpcomingRoundUI() {
+        setupSolutionListener();
         textViewQuestionNum.setText(String.format("Pitanje %d / 5", currentQuestionNum));
 
         currentQuestion = questionsValues.get(currentQuestionNum-1).keySet().toArray()[0].toString();
@@ -189,42 +203,82 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
     }
 
     private void onAnswerClick(View v){
-        for (int i = 0; i < answerButtons.length; i++) {
-            answerButtons[i].setEnabled(false);
-            answerButtons[i].setOnClickListener(null);
-        }
+        makeButtonsUnclickable();
+
         Button clickedAnswerBtn = (Button) v;
 //        String answerAttempt = clickedAnswerBtn.getText().toString();
 
-        validateClickedAnswer(clickedAnswerBtn);
-//        submitAnswer(answerAttempt);
+        submitAnswer(clickedAnswerBtn.getId());
     }
 
-    private boolean validateClickedAnswer(Button clickedAnswerBtn) {
+    private boolean validateClickedAnswer(String providerUsername, Integer btnViewResourceID, ValueEventListener registeredListener) {
+        int btnPrimitiveID = btnViewResourceID.intValue();
+        Button clickedAnswerBtn = getActivity().findViewById(btnPrimitiveID);
+        String answer = clickedAnswerBtn.getText().toString();
 //        Validates answer with real solution
-        if (clickedAnswerBtn.getText().toString().equals(questionsValues.get(currentQuestionNum-1).get(currentQuestion)[4])) {
+        boolean solutionGuessed = answer.equals(questionsValues.get(currentQuestionNum-1).get(currentQuestion)[4]);
+
+        if (solutionGuessed) {
+            answerRef.removeEventListener(registeredListener);
+            makeButtonsUnclickable();
             clickedAnswerBtn.setTextColor(getResources().getColor(R.color.teal_200));
-//          Todo :  assign points to this logged player if he was first to answer correctly
-//            assignPoints();
-            return true;
+            Toast.makeText(gameActivity, providerUsername + " je 1. ta\u010dno odgovorio!", Toast.LENGTH_SHORT).show();
         }else{
-            clickedAnswerBtn.setTextColor(getResources().getColor(R.color.orange_dark));
-            return false;
+            if (providerUsername.equals(gameActivity.getLoggedPlayer().getUsername())){
+                makeButtonsUnclickable();
+                clickedAnswerBtn.setTextColor(getResources().getColor(R.color.orange_dark));
+            }
         }
+        assignPoints(providerUsername, solutionGuessed);
+        return solutionGuessed;
+    }
+
+    private void assignPoints(String providerUsername, boolean solutionGuessed) {
+        User localSessionPlayer = gameActivity.getLoggedPlayer();
+        User opponentPlayer = gameActivity.getOpponentPlayer();
+
+        int points = solutionGuessed ? 10 : -5;
+        User receiver = providerUsername.equals(localSessionPlayer.getUsername()) ? localSessionPlayer : opponentPlayer;
+        gameActivity.addOverallPointsToPlayer(points, receiver);
+        receiver.setPointsWhoKnows(receiver.getPointsWhoKnows() + points);
     }
 
     private void setupSolutionListener() {
-        FirebaseDatabase.getInstance(FIREBASE_URL).getReference("active_matches").child(gameActivity.getGameID()).child("answer").addValueEventListener(new ValueEventListener() {
+//      Todo check if needed
+//        answerRef.removeEventListener(this.valueEventListener);
+//        this.valueEventListener = new ValueEventListener();
+        answerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(getActivity(), "::onDataChange:: new answer detected", Toast.LENGTH_SHORT).show();
-//                validateClickedAnswer();
+                if (snapshot.exists()) {
+//                  Toast.makeText(getActivity(), "snap: "+snapshot.toString(), Toast.LENGTH_LONG).show();
+                    Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                    if (iterator.hasNext()){
+                        DataSnapshot providerAnswerBtnIDPair = iterator.next();
+                        validateClickedAnswer(providerAnswerBtnIDPair.getKey(), providerAnswerBtnIDPair.getValue(Integer.class), this);
+                    }
+//                    validateClickedAnswer(snapshot.getKey(), snapshot.getValue(Integer.class), this);
+                }
+//                if (providerAnswerBtnIDPair != null) {
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+    }
+
+    private void submitAnswer(int answerViewID) {
+        HashMap<String, Integer> providerAndAnswerFieldID = new HashMap<>();
+        providerAndAnswerFieldID.put(gameActivity.getLoggedPlayer().getUsername(), answerViewID);
+        answerRef.setValue(providerAndAnswerFieldID);
+
+    }
+
+    private void makeButtonsUnclickable() {
+        for (int i = 0; i < answerButtons.length; i++) {
+            answerButtons[i].setEnabled(false);
+            answerButtons[i].setOnClickListener(null);
+        }
     }
 }

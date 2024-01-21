@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
                                     Intent toGameIntent = new Intent(currentParent, GameActivity.class);
                                     toGameIntent.putExtra(MY_USERNAME_KEY, myUsername);
                                     toGameIntent.putExtra(OPPONENT_USERNAME_KEY, opponentUsername);
-                                    toGameIntent.putExtra(GAME_ID, activeMatch.getKey());
+                                    toGameIntent.putExtra(GAME_ID, snapshot.getKey());
                                     toGameIntent.putExtra(FIRST_ROUND_PLAYER_USERNAME, firstRoundPlayerUsername[0]);
 
                                     startActivity(toGameIntent);
