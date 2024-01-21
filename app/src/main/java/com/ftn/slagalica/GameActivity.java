@@ -168,12 +168,13 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
 //         change textView's text color from white to dark_blue
     }
 
-    public void addOverallPointsToPlayer(int points, User player){
-        player.setPoints(player.getPoints() + points);
+    public void addOverallPointsForCurrentMatchToPlayer(int points, User player){
+        int currPointsOverall = player.getPointsCurrentMatch();
+        player.setPointsCurrentMatch(currPointsOverall + points);
         if (player.equals(loggedPlayer)){
-            setPlayer1PointsView(player.getPoints());
+            setPlayer1PointsView(player.getPointsCurrentMatch());
         }else{
-            setPlayer2PointsView(player.getPoints());
+            setPlayer2PointsView(player.getPointsCurrentMatch());
         }
 
     }
@@ -199,9 +200,13 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     loggedPlayer = snapshot.child(myUsername).getValue(User.class);
-                    if (firstRoundPlayerUsername.equals(loggedPlayer.getUsername()))
-                        firstRoundPlayer = loggedPlayer;
+                }else{
+                    loggedPlayer = new User("", "", myUsername);
                 }
+
+                if (firstRoundPlayerUsername.equals(loggedPlayer.getUsername()))
+                    firstRoundPlayer = loggedPlayer;
+                loggedPlayer.setPointsCurrentMatch(0);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -213,9 +218,13 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     opponentPlayer = snapshot.child(opponentUsername).getValue(User.class);
-                    if (firstRoundPlayerUsername.equals(opponentPlayer.getUsername()))
-                        firstRoundPlayer = opponentPlayer;
+                }else{
+                    opponentPlayer = new User("", "", opponentUsername);
                 }
+
+                if (firstRoundPlayerUsername.equals(opponentPlayer.getUsername()))
+                    firstRoundPlayer = opponentPlayer;
+                opponentPlayer.setPointsCurrentMatch(0);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

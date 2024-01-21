@@ -18,7 +18,11 @@ public class User {
     public int tokens;
     public int stars;
     public int points;
+    @Exclude
+    private int pointsCurrentMatch;
+
     public int played;
+
     public int won;
     public int pointsWhoKnows;
     public int pointsConnectTwo;
@@ -26,7 +30,6 @@ public class User {
     public int pointsJumper;
     public int pointsStepByStep;
     public int pointsMyNumber;
-
     public User(){ }
 
     public User(String email, String password, String username, String picture, int tokens, int stars, int points, int played, int won, int pointsWhoKnows, int pointsConnectTwo, int pointsAssociations, int pointsJumper, int pointsStepByStep, int pointsMyNumber) {
@@ -211,5 +214,13 @@ public class User {
 
     public void setPointsMyNumber(int pointsMyNumber) {
         this.pointsMyNumber = pointsMyNumber;
+    }
+    @Exclude
+    public int getPointsCurrentMatch() {
+        return pointsCurrentMatch;
+    }
+    @Exclude
+    public void setPointsCurrentMatch(int pointsCurrentMatch) {
+        this.pointsCurrentMatch = pointsCurrentMatch;
     }
 }

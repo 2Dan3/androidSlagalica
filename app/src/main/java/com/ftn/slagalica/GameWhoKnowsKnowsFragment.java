@@ -45,6 +45,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 
     private int currentQuestionNum = 1;
     private String currentQuestion;
+    private ValueEventListener valueEventListener;
 //    private String gameID;
 //    private User loggedPlayer;
 //    private User opponentPlayer;
@@ -70,7 +71,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
-        Toast.makeText(gameActivity, gameActivity.getGameID(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(gameActivity, gameActivity.getGameID(), Toast.LENGTH_LONG).show();
         db = FirebaseDatabase.getInstance(FIREBASE_URL);
         answerRef = db.getReference("active_matches").child(gameActivity.getGameID()).child("answer");
         requestAndStoreGameData();
@@ -151,7 +152,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
     }
 
     private void prepareUpcomingRoundUI() {
-        setupSolutionListener();
+//        setupSolutionListener();
         textViewQuestionNum.setText(String.format("Pitanje %d / 5", currentQuestionNum));
 
         currentQuestion = questionsValues.get(currentQuestionNum-1).keySet().toArray()[0].toString();
@@ -189,6 +190,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
                         questionsValues.add(questionPack);
                     }
 //                    Toast.makeText(getActivity(), gameValues.toString(), Toast.LENGTH_SHORT).show();
+                    setupSolutionListener();
                     prepareUpcomingRoundUI();
 
                     startTimerCountdown(6*SECOND);
@@ -219,7 +221,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
         boolean solutionGuessed = answer.equals(questionsValues.get(currentQuestionNum-1).get(currentQuestion)[4]);
 
         if (solutionGuessed) {
-            answerRef.removeEventListener(registeredListener);
+//            answerRef.removeEventListener(registeredListener);
             makeButtonsUnclickable();
             clickedAnswerBtn.setTextColor(getResources().getColor(R.color.teal_200));
             Toast.makeText(gameActivity, providerUsername + " je 1. ta\u010dno odgovorio!", Toast.LENGTH_SHORT).show();
@@ -239,14 +241,36 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 
         int points = solutionGuessed ? 10 : -5;
         User receiver = providerUsername.equals(localSessionPlayer.getUsername()) ? localSessionPlayer : opponentPlayer;
-        gameActivity.addOverallPointsToPlayer(points, receiver);
+        gameActivity.addOverallPointsForCurrentMatchToPlayer(points, receiver);
         receiver.setPointsWhoKnows(receiver.getPointsWhoKnows() + points);
     }
 
     private void setupSolutionListener() {
 //      Todo check if needed
-//        answerRef.removeEventListener(this.valueEventListener);
-//        this.valueEventListener = new ValueEventListener();
+//        if (this.valueEventListener != null) {
+//            answerRef.removeEventListener(this.valueEventListener);
+//            this.valueEventListener = new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    if (snapshot.exists()) {
+////                  Toast.makeText(getActivity(), "snap: "+snapshot.toString(), Toast.LENGTH_LONG).show();
+//                        Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+//                        if (iterator.hasNext()){
+//                            DataSnapshot providerAnswerBtnIDPair = iterator.next();
+//                            validateClickedAnswer(providerAnswerBtnIDPair.getKey(), providerAnswerBtnIDPair.getValue(Integer.class), this);
+//                        }
+////                    validateClickedAnswer(snapshot.getKey(), snapshot.getValue(Integer.class), this);
+//                    }
+////                if (providerAnswerBtnIDPair != null) {
+//                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            };
+
+//            answerRef.addValueEventListener(this.valueEventListener);
+
         answerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -266,6 +290,8 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
 
             }
         });
+//        }
+
     }
 
     private void submitAnswer(int answerViewID) {
