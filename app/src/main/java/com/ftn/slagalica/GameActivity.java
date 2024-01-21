@@ -9,13 +9,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ftn.slagalica.data.model.Player;
 import com.ftn.slagalica.util.IThemeHandler;
 
 import java.util.Timer;
@@ -26,6 +26,18 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
     private static final int SECOND = 1000;
     private static final int MINUTE = 60*SECOND;
     private static final String LEAVE_GAME_DIALOG_TAG = "LEAVE_GAME_DIALOG";
+    public static final String MY_USERNAME_KEY = "my_username";
+    public static final String OPPONENT_USERNAME_KEY = "opponent_username";
+    private Player loggedPlayer;
+    private Player opponentPlayer;
+
+    public Player getLoggedPlayer() {
+        return loggedPlayer;
+    }
+
+    public Player getOpponentPlayer() {
+        return opponentPlayer;
+    }
 
     private OnBackPressedCallback callback;
     public void resetCallback() {
@@ -44,6 +56,8 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
 
     private TextView player1PointsView;
     private TextView player2PointsView;
+    private TextView player1MatchNameView;
+    private TextView player2MatchNameView;
 
     private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
     private static final int COLOR_WRONG_MATCH = 0XFFF44336;
@@ -55,7 +69,14 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
         setContentView(R.layout.activity_game);
         player1PointsView = findViewById(R.id.textViewPlayer1Points);
         player2PointsView = findViewById(R.id.textViewPlayer2Points);
-        startMatch();
+
+        player1MatchNameView = findViewById(R.id.textViewPlayer1Username);
+        player2MatchNameView = findViewById(R.id.textViewPlayer2Username);
+// Todo
+//        loggedPlayer = getGamePlayerByUsername(getIntent().getStringExtra(MY_USERNAME_KEY));
+//        opponentPlayer = getGamePlayerByUsername(getIntent().getStringExtra(OPPONENT_USERNAME_KEY));
+
+        startMatch(getIntent().getStringExtra(MY_USERNAME_KEY), getIntent().getStringExtra(OPPONENT_USERNAME_KEY));
 
         // This callback is only called when MyFragment is at least started
         callback = new OnBackPressedCallback(true) {
@@ -77,11 +98,14 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
 //         skipped for Player that left, OR game can end for the remaining Player who gets the won points!
     }
 
-    private void startMatch() {
+    private void startMatch(String myUsername, String opponentUsername) {
 //        Match postavke
 //              ...
         player1PointsView.setText("0");
         player2PointsView.setText("0");
+
+        player1MatchNameView.setText(myUsername);
+        player2MatchNameView.setText(opponentUsername);
 
         prepFirstGame();
     }

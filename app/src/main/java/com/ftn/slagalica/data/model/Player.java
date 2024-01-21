@@ -1,5 +1,7 @@
 package com.ftn.slagalica.data.model;
 
+import com.google.firebase.database.DatabaseReference;
+
 public class Player {
 
     private String username;
@@ -103,7 +105,8 @@ public class Player {
                 '}';
     }
 
-    public void spendToken() {
+    public void spendToken(DatabaseReference myTokensRef) {
         this.tokens -= 1;
+        myTokensRef.setValue(this.tokens);
     }
 }

@@ -1,5 +1,8 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.GameActivity.MY_USERNAME_KEY;
+import static com.ftn.slagalica.GameActivity.OPPONENT_USERNAME_KEY;
+import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
 import static com.ftn.slagalica.util.AuthHandler.Login.FILE_NAME;
 
 import android.app.Activity;
@@ -15,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -26,10 +31,18 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ftn.slagalica.data.model.AuthBearer;
 import com.ftn.slagalica.data.model.Player;
+import com.ftn.slagalica.data.model.User;
 import com.ftn.slagalica.ui.login.LoginActivity;
 import com.ftn.slagalica.util.AuthHandler;
 import com.ftn.slagalica.util.IThemeHandler;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements IThemeHandler {
@@ -39,15 +52,17 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     private Fragment profileFragment;
 //    Todo : load from Firebase in "onCreate"
     private Player loggedPlayer;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        Todo : load from Firebase here (this is for testing) :
 //        loggedPlayer = new Player("Test", "test@gmail.com", "test", "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2w", 255, 11, 1);
+        database = FirebaseDatabase.getInstance(FIREBASE_URL);
 
         AuthBearer ab = AuthHandler.Login.getLoggedPlayerCache(this);
         if (ab != null)
-            loggedPlayer = new Player(ab.getUsername(), ab.getEmail(), ab.getPassword(), ab.getImageURI(), 255, 11, 1);
+            loggedPlayer = new Player(ab.getUsername(), ab.getEmail(), ab.getPassword(), ab.getImageURI(), 0, 0, 0);
 //        loggedPlayer = AuthHandler.Login.getLoggedPlayerCache(this);
 
         boolean darkThemeOn = setupTheme(this);
@@ -182,16 +197,144 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
 
     public void toGameActivity(View v){
         if (hasTokens()) {
-            Activity currentParent = MainActivity.this;
+            DatabaseReference queueReference = database.getReference("queue");
+//            String uidKey = reference.push().getKey();
+            String matchRepresentingUsername = loggedPlayer != null ? loggedPlayer.getUsername() : ("gost" + System.currentTimeMillis()).substring(0, 14);
 
-            startActivity(new Intent(currentParent, GameActivity.class));
-            if (loggedPlayer != null)
-                loggedPlayer.spendToken();
+            queueReference.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                    for (DataSnapshot queuertest : snapshot.getChildren()) {
+//                        Toast.makeText(MainActivity.this, ((DataSnapshot)queuertest.getValue()).getValue().toString(), Toast.LENGTH_SHORT).show();
+//                    }
 
-            currentParent.finish();
+//                    if (previousChildName != null) {
+//                        Toast.makeText(MainActivity.this, "2nd:" + previousChildName,Toast.LENGTH_SHORT).show();
+//                        for (DataSnapshot queuer : snapshot.getChildren()) {
+//                            Toast.makeText(MainActivity.this, queuer.getValue().toString(),Toast.LENGTH_SHORT).show();
+//                            if (previousChildName.equals(queuer.getKey())) {
+//                                matchUpWithOpponent(snapshot, queuer.getValue().toString(), matchRepresentingUsername);
+//                                break;
+//                            }
+//                        }
+//                    }else{
+//                        Iterator<DataSnapshot> queuersIter = snapshot.getChildren().iterator();
+//                        Toast.makeText(MainActivity.this, "1st:" + previousChildName,Toast.LENGTH_SHORT).show();
+//                        while (queuersIter.hasNext()){
+//                            if (!matchRepresentingUsername.equals(queuersIter.next().getValue().toString())) {
+//
+//                                matchUpWithOpponent(snapshot, queuersIter.next().getValue().toString(), matchRepresentingUsername);
+//                                break;
+//                            }
+//                        }
+//                    }
+                    String newlyAddedQueuer = snapshot.getValue(String.class);
+//                    Toast.makeText(MainActivity.this, "prev "+ previousChildName, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, "new "+ snapshot.getKey(), Toast.LENGTH_LONG).show();
+
+                    if (matchRepresentingUsername.equals(newlyAddedQueuer) && previousChildName != null) {
+//                        Toast.makeText(MainActivity.this, "2.",Toast.LENGTH_LONG).show();
+                        queueReference.child(previousChildName).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                String opponentUsername = snapshot.getValue(String.class);
+//                                Toast.makeText(MainActivity.this, "oppo: " + opponentUsername,Toast.LENGTH_LONG).show();
+
+                                if (!matchRepresentingUsername.equals(opponentUsername)) {
+                                    queueReference.removeEventListener(this);
+                                    matchUpWithOpponent(matchRepresentingUsername, opponentUsername);
+    //                              Todo uncomment
+                                    queueReference.child(snapshot.getKey()).removeValue();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+//                    }
+                    }else{
+                        if (!matchRepresentingUsername.equals(newlyAddedQueuer)) {
+                            queueReference.removeEventListener(this);
+    //                      Todo uncomment
+                            if (matchRepresentingUsername.equals(newlyAddedQueuer))
+                                queueReference.child(snapshot.getKey()).removeValue();
+//                            Toast.makeText(MainActivity.this, "1.", Toast.LENGTH_LONG).show();
+                            matchUpWithOpponent(matchRepresentingUsername, newlyAddedQueuer);
+                        }
+                    }
+                }
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+//            new Timer().schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+                    queueReference.push().setValue(matchRepresentingUsername)
+                            .addOnCompleteListener(
+                                    task2 -> {
+                                        if (task2.isSuccessful()) {
+
+                                            Toast.makeText(MainActivity.this, "Pronalazimo protivnika...", Toast.LENGTH_LONG).show();
+
+                                        }
+                                    }
+                            );
+//                }
+//            }, 1000);
+
         }else{
             Toast.makeText(MainActivity.this, getString(R.string.not_enough_tokens_to_play), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void matchUpWithOpponent(String myUsername, String opponentUsername) {
+        Activity currentParent = MainActivity.this;
+
+        Intent toGameIntent = new Intent(currentParent, GameActivity.class);
+        toGameIntent.putExtra(MY_USERNAME_KEY, myUsername);
+        toGameIntent.putExtra(OPPONENT_USERNAME_KEY, opponentUsername);
+
+        startActivity(toGameIntent);
+        if (loggedPlayer != null)
+            loggedPlayer.spendToken(database.getReference("users").child(loggedPlayer.getUsername()).child("tokens"));
+
+        DatabaseReference activeMatchRef = database.getReference("active_matches");
+        activeMatchRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot playerInMatch : snapshot.getChildren()) {
+                    if (myUsername.equals(playerInMatch.getChildren().iterator().next().getValue(String.class))) {
+                        return;
+                    }
+                }
+                String activeMatchKey = activeMatchRef.push().getKey();
+                activeMatchRef.child(activeMatchKey).push().setValue(myUsername);
+                activeMatchRef.child(activeMatchKey).push().setValue(opponentUsername);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "active_match writing canceled...", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        currentParent.finish();
+
     }
 
     private boolean hasTokens() {
@@ -217,6 +360,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
     }
 
     private void setupSessionBasedUI(AuthBearer loggedPlayerAuthData, boolean darkThemeOn) {
+
         View loggedUserCreditsToolbar = findViewById(R.id.toolbarLoggedUserCreditsContainer);
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
@@ -238,13 +382,7 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
             navMenu.findItem(R.id.nav_profile).setVisible(false);
             navMenu.findItem(R.id.nav_search_users).setVisible(false);
         }else{
-            loggedUserCreditsToolbar.setVisibility(View.VISIBLE);
-            TextView toolbarLoggedUserPoints = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserPoints);
-            toolbarLoggedUserPoints.setText(String.valueOf(loggedPlayer.getPointsCurrentRank()));
-            TextView toolbarLoggedUserStars = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserStars);
-            toolbarLoggedUserStars.setText(String.valueOf(loggedPlayer.getStars()));
-            TextView toolbarLoggedUserTokens = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserTokens);
-            toolbarLoggedUserTokens.setText(String.valueOf(loggedPlayer.getTokens()));
+            setupLoggedUserCredits(loggedUserCreditsToolbar);
 
             logItem = navMenu.findItem(R.id.nav_login);
 //            Todo
@@ -267,5 +405,33 @@ public class MainActivity extends AppCompatActivity implements IThemeHandler {
                     finish();
                 }
         );
+    }
+
+    private void setupLoggedUserCredits(View loggedUserCreditsToolbar){
+        Query loggedUserFinder = database.getReference("users").orderByChild("username").equalTo(loggedPlayer.getUsername());
+        loggedUserFinder.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User fetchedUser = snapshot.child(loggedPlayer.getUsername()).getValue(User.class);
+//
+                    loggedPlayer.setPointsCurrentRank(fetchedUser.getPoints());
+                    loggedPlayer.setStars(fetchedUser.getStars());
+                    loggedPlayer.setTokens(fetchedUser.getTokens());
+//
+                    loggedUserCreditsToolbar.setVisibility(View.VISIBLE);
+                    TextView toolbarLoggedUserPoints = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserPoints);
+                    toolbarLoggedUserPoints.setText(String.valueOf(fetchedUser.getPoints()));
+                    TextView toolbarLoggedUserStars = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserStars);
+                    toolbarLoggedUserStars.setText(String.valueOf(fetchedUser.getStars()));
+                    TextView toolbarLoggedUserTokens = loggedUserCreditsToolbar.findViewById(R.id.toolbarLoggedUserTokens);
+                    toolbarLoggedUserTokens.setText(String.valueOf(fetchedUser.getTokens()));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
