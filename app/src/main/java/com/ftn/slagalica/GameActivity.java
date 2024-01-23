@@ -52,6 +52,14 @@ public class GameActivity extends AppCompatActivity implements IThemeHandler {
     public User getPlayerOnTurn() {
         return playerOnTurn;
     }
+    public User switchAndGetPlayerOnTurn() {
+        if (loggedPlayer.equals(playerOnTurn)) {
+            setPlayerOnTurn(opponentPlayer);
+        }else{
+            setPlayerOnTurn(loggedPlayer);
+        }
+        return playerOnTurn;
+    }
     public void setPlayerOnTurn(User playerReceivingTheirTurn){
         this.playerOnTurn = playerReceivingTheirTurn;
     }

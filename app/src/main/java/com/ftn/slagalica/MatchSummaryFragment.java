@@ -1,5 +1,7 @@
 package com.ftn.slagalica;
 
+import static com.ftn.slagalica.util.AuthHandler.FIREBASE_URL;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,11 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ftn.slagalica.data.model.Player;
-
-import org.w3c.dom.Text;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import com.ftn.slagalica.data.model.User;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MatchSummaryFragment extends Fragment {
 
@@ -38,28 +37,30 @@ public class MatchSummaryFragment extends Fragment {
 
     private Player winner;
     private Player loser;
+    private GameActivity gameActivity;
 
     public MatchSummaryFragment() { }
 
     public MatchSummaryFragment(boolean gameWasQuit) { this.gameWasQuit = gameWasQuit; }
 
-    public static MatchSummaryFragment newInstance(String param1, String param2) {
+    public static MatchSummaryFragment newInstance(GameActivity gameActivity) {
         MatchSummaryFragment fragment = new MatchSummaryFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GameActivity gameActivity = (GameActivity) getActivity();
 //        player1Points = gameActivity.getPlayer1PointsView();
 //        player2Points = gameActivity.getPlayer2PointsView();
         gameActivity.resetCallback();
-
+        removeCurrentMatch();
+        saveLoggedPlayerAccomplishments();
     }
 
     @Override
@@ -77,13 +78,49 @@ public class MatchSummaryFragment extends Fragment {
 //
 //        TextView wonStarsPlayer1 = (TextView) v.findViewById(R.id.tvStarsWonPlayer1);
 //        wonStarsPlayer1.setText(String.valueOf());
+        TextView finalPointsPlayer1 = v.findViewById(R.id.tvPointsWonPlayer1);
+        TextView wonStarsPlayer1 = v.findViewById(R.id.tvStarsWonPlayer1);
+        TextView wonTokensPlayer1 = v.findViewById(R.id.tvTokensWonPlayer1);
+        TextView tvWinnerUsername = v.findViewById(R.id.tvWinnerUsername);
+
+        String winnerUsername;
+
         if (gameWasQuit) {
-            TextView finalPointsPlayer1 = (TextView) v.findViewById(R.id.tvPointsWonPlayer1);
+            winnerUsername = gameActivity.getOpponentPlayer().getUsername();
+            tvWinnerUsername.setText(String.format("Pobednik: %s!", winnerUsername));
             finalPointsPlayer1.setText("+0");
-            TextView wonStarsPlayer1 = (TextView) v.findViewById(R.id.tvStarsWonPlayer1);
             wonStarsPlayer1.setText("+0");
-            TextView wonTokensPlayer1 = (TextView) v.findViewById(R.id.tvTokensWonPlayer1);
             wonTokensPlayer1.setText("+0");
+        }else{
+            User loggedPlayer = gameActivity.getLoggedPlayer();
+            User opponentPlayer = gameActivity.getOpponentPlayer();
+            if (loggedPlayer.getPointsCurrentMatch() > gameActivity.getOpponentPlayer().getPointsCurrentMatch()) {
+                winnerUsername = loggedPlayer.getUsername();
+                tvWinnerUsername.setText(String.format("Pobednik: %s!", winnerUsername));
+            }else if (loggedPlayer.getPointsCurrentMatch() < opponentPlayer.getPointsCurrentMatch()) {
+                winnerUsername = opponentPlayer.getUsername();
+                tvWinnerUsername.setText(String.format("Pobednik: %s!", winnerUsername));
+            }else {
+                tvWinnerUsername.setText("Izjedna\u010deno!");
+            }
+
+            String scoreFormat = "%d";
+            int pointsCurrMatch = gameActivity.getLoggedPlayer().getPointsCurrentMatch();
+            if (pointsCurrMatch > 0)
+                scoreFormat = "+%d";
+            else
+                scoreFormat = "%d";
+            finalPointsPlayer1.setText(String.format(scoreFormat, pointsCurrMatch));
+            int starAdditionByPoints = gameActivity.getLoggedPlayer().getPointsCurrentMatch() / 40;
+            int starAdditionByWin = gameActivity.getLoggedPlayer().getPointsCurrentMatch() >= gameActivity.getOpponentPlayer().getPointsCurrentMatch() ? 10 : -10;
+            int starTotalCalc = starAdditionByPoints + starAdditionByWin;
+            if (starTotalCalc > 0)
+                scoreFormat = "+%d";
+            else
+                scoreFormat = "%d";
+            wonStarsPlayer1.setText(String.format(scoreFormat, starTotalCalc));
+//          //          //
+            wonTokensPlayer1.setText(String.format("+%d", 0));
         }
 
         return v;
@@ -134,14 +171,19 @@ public class MatchSummaryFragment extends Fragment {
     }
 
     public void endMatch() {
-        savePlayerAccomplishments();
-
-//        if (successful Save):
         toMainActivity();
     }
 
-    private void savePlayerAccomplishments() {
-//        Todo save match results for both players to Database
+    private void saveLoggedPlayerAccomplishments() {
+//        Todo save match results for logged (local session) player to Database
+        User loggedPlayer = gameActivity.getLoggedPlayer();
+        if ( !"".equals(loggedPlayer.getEmail())) {
+            loggedPlayer.setPlayed(loggedPlayer.getPlayed() + 1);
+            if (loggedPlayer.getPointsCurrentMatch() > gameActivity.getOpponentPlayer().getPointsCurrentMatch()) {
+                loggedPlayer.setWon(loggedPlayer.getWon() + 1);
+            }
+            FirebaseDatabase.getInstance(FIREBASE_URL).getReference("users").child(gameActivity.getLoggedPlayer().getUsername()).setValue(gameActivity.getLoggedPlayer());
+        }
     }
 
     private void toMainActivity() {
@@ -161,5 +203,13 @@ public class MatchSummaryFragment extends Fragment {
             }
         }.start();
         Toast.makeText(getActivity(), "Igra je zavr\u0161ena", Toast.LENGTH_SHORT).show();
+    }
+
+    private void removeCurrentMatch() {
+        FirebaseDatabase db = FirebaseDatabase.getInstance(FIREBASE_URL);
+
+        db.getReference("active_matches").child(gameActivity.getGameID()).removeValue();
+
+        db.getReference("queue").removeValue();
     }
 }

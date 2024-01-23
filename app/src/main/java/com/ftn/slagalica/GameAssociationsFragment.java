@@ -36,6 +36,7 @@ public class GameAssociationsFragment extends Fragment {
     public TextView timer;
     private CountDownTimer countDownTimer;
     private boolean round2Ongoing = false;
+    private GameActivity gameActivity;
 
     private final TextWatcher solutionWatcher = new TextWatcher() {
 
@@ -73,12 +74,13 @@ public class GameAssociationsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static GameAssociationsFragment newInstance(String param1, String param2) {
+    public static GameAssociationsFragment newInstance(GameActivity gameActivity) {
         GameAssociationsFragment fragment = new GameAssociationsFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
@@ -109,7 +111,7 @@ public class GameAssociationsFragment extends Fragment {
 
         timer = getActivity().findViewById(R.id.textViewTimer);
 
-        startTimerCountdown(15*SECOND);
+        startTimerCountdown(11*SECOND);
 
         requestAndStoreGameData();
         prepareUpcomingRoundUI();
@@ -217,7 +219,7 @@ public class GameAssociationsFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameJumperFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, GameJumperFragment.newInstance(gameActivity)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 3*SECOND);
     }

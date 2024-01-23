@@ -25,14 +25,16 @@ public class GameJumperFragment extends Fragment {
     private TextView timer;
     private CountDownTimer countDownTimer;
     private int attemptNum = 1;
+    private GameActivity gameActivity;
 
     public GameJumperFragment() { }
 
-    public static GameJumperFragment newInstance(String param1, String param2) {
+    public static GameJumperFragment newInstance(GameActivity gameActivity) {
         GameJumperFragment fragment = new GameJumperFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
@@ -61,7 +63,7 @@ public class GameJumperFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameStepByStepFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, GameStepByStepFragment.newInstance(gameActivity)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 2*SECOND);
     }

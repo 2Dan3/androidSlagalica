@@ -146,7 +146,7 @@ public class GameWhoKnowsKnowsFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameConnectTwoFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, GameConnectTwoFragment.newInstance(gameActivity)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 2*SECOND);
     }

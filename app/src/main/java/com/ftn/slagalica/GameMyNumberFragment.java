@@ -32,13 +32,15 @@ public class GameMyNumberFragment extends Fragment {
     private Button btnCheckSolution;
     private boolean lastClickedWasOperand;
     private boolean lastClickedWasNum;
+    private GameActivity gameActivity;
 
-    public static GameMyNumberFragment newInstance(String param1, String param2) {
+    public static GameMyNumberFragment newInstance(GameActivity gameActivity) {
         GameMyNumberFragment fragment = new GameMyNumberFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
@@ -154,7 +156,7 @@ public class GameMyNumberFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new MatchSummaryFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, MatchSummaryFragment.newInstance(gameActivity)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 2*SECOND);
     }

@@ -38,6 +38,7 @@ public class GameConnectTwoFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private Timer rightColumnFieldRepaintTimer;
     private boolean everythingIsPaired;
+    private GameActivity gameActivity;
 //    private final FragmentActivity gameActivity = getActivity();
 
     private Map solutionViewPairs;
@@ -46,12 +47,13 @@ public class GameConnectTwoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static GameConnectTwoFragment newInstance(String param1, String param2) {
+    public static GameConnectTwoFragment newInstance(GameActivity gameActivity) {
         GameConnectTwoFragment fragment = new GameConnectTwoFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
@@ -113,7 +115,7 @@ public class GameConnectTwoFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameAssociationsFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, GameAssociationsFragment.newInstance(gameActivity)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
         }, 3*SECOND);
     }

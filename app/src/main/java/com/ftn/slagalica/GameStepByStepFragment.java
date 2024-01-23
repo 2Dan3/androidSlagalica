@@ -12,14 +12,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.CountDownTimer;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ftn.slagalica.data.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,11 +36,10 @@ public class GameStepByStepFragment extends Fragment {
     private static final int MAX_POINTS_ACHIEVABLE = 20;
     private static final int POINTS_LOST_PER_CLUE_SHOWN = 2;
     private static final int COLOR_RIGHT_MATCH = 0xFF03DAC5;
-
-//    MOCK GAME VALUES - LATER WILL BE LOADED FROM DataBase
-    ArrayList<String> gameValuesRound1;
     ArrayList<String> gameValuesRound2;
-//    = {"Ima veze sa Savom i Dunavom", "Svih devet slova ove reci je razlicito", "Ima veze sa zdravljem", "Moze se odnositi na zivot", "Ima svog agenta i svoju premiju", "Za vozila je obavezno", "Postoji i Kasko varijanta", "Osiguranje"};
+    ArrayList<String> gameValuesRound1;
+    //    MOCK GAME VALUES - LATER WILL BE LOADED FROM DataBase
+    //    = {"Ima veze sa Savom i Dunavom", "Svih devet slova ove reci je razlicito", "Ima veze sa zdravljem", "Moze se odnositi na zivot", "Ima svog agenta i svoju premiju", "Za vozila je obavezno", "Postoji i Kasko varijanta", "Osiguranje"};
     TextView[] fieldTextViews;
 
     public TextView timer;
@@ -47,6 +47,8 @@ public class GameStepByStepFragment extends Fragment {
     private int step = 1;
     private boolean round2 = false;
     private CountDownTimer countDownTimer;
+    private GameActivity gameActivity;
+    private DatabaseReference answerRef;
 
     private final TextWatcher solutionWatcher = new TextWatcher() {
 
@@ -62,6 +64,7 @@ public class GameStepByStepFragment extends Fragment {
                                   int before, int count) {
 
             if( s.length() != 0 && solutionIsGuessed() ) {
+                submitSolution();
                 assignPoints(step, null);
                 step = 8;
                 countDownTimer.onFinish();
@@ -69,44 +72,75 @@ public class GameStepByStepFragment extends Fragment {
         }
     };
 
+    private void submitSolution() {
+        String solution = fieldTextViews[fieldTextViews.length-1].getText().toString().trim();
+        answerRef.setValue(solution);
+    }
+
     public GameStepByStepFragment() {
         // Required empty public constructor
     }
 
-    public static GameStepByStepFragment newInstance(String param1, String param2) {
+    public static GameStepByStepFragment newInstance(GameActivity gameActivity) {
         GameStepByStepFragment fragment = new GameStepByStepFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 //        fragment.setArguments(args);
+        fragment.gameActivity = gameActivity;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseReference gameDataRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("stepbystep").child("-NoHLDSqsU6Njxmi5laB");
+
+        answerRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("active_matches").child(gameActivity.getGameID()).child("answer");
+
+        answerRef.removeValue().addOnCompleteListener(gameActivity,
+                task -> {
+                    if (task.isSuccessful()) {
+                        setupSolutionSubmitDBListener();
+                        gameDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()){
+                                    gameValuesRound1 = (ArrayList<String>) snapshot.child("round1").getValue();
+                                    gameValuesRound2 = (ArrayList<String>) snapshot.child("round2").getValue();
+//                    Toast.makeText(getActivity(), gameValues.toString(), Toast.LENGTH_SHORT).show();
+                                    startTimerCountdown(10*SECOND);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) { }
+                        });
+                    }
+                });
 
 //      TODO* - use AsyncTask to request data from FireBase
 //              - store received data in "gameValues" variable
-        DatabaseReference gameDataRef = FirebaseDatabase.getInstance(FIREBASE_URL).getReference("stepbystep").child("-NoHLDSqsU6Njxmi5laB");
-
-        gameDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    gameValuesRound1 = (ArrayList<String>) snapshot.child("round1").getValue();
-                    gameValuesRound2 = (ArrayList<String>) snapshot.child("round2").getValue();
-//                    Toast.makeText(getActivity(), gameValues.toString(), Toast.LENGTH_SHORT).show();
-                    startTimerCountdown(10*SECOND);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
 
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
+    }
+
+    private void setupSolutionSubmitDBListener() {
+        answerRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists() && snapshot.getValue(String.class) != null && !"".equals(snapshot.getValue(String.class))) {
+                    String solutionFetched = snapshot.getValue(String.class);
+                    Toast.makeText(gameActivity, solutionFetched, Toast.LENGTH_SHORT).show();
+                    fieldTextViews[fieldTextViews.length-1].setText(solutionFetched);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -122,7 +156,16 @@ public class GameStepByStepFragment extends Fragment {
         timer = getActivity().findViewById(R.id.textViewTimer);
         fieldTextViews = new TextView[]{getActivity().findViewById(R.id.clue1), getActivity().findViewById(R.id.clue2), getActivity().findViewById(R.id.clue3), getActivity().findViewById(R.id.clue4), getActivity().findViewById(R.id.clue5), getActivity().findViewById(R.id.clue6), getActivity().findViewById(R.id.clue7), getActivity().findViewById(R.id.stepFinalSolution)};
 //        startTimerCountdown(10*SECOND);
-        setupSolutionListener();
+        disableSolutionInteraction();
+
+        setupSolutionFieldListener();
+    }
+
+    private void disableSolutionInteraction() {
+        fieldTextViews[fieldTextViews.length-1].setEnabled(false);
+    }
+    private void enableSolutionInteraction() {
+        fieldTextViews[fieldTextViews.length-1].setEnabled(true);
     }
 
     @Override
@@ -132,7 +175,7 @@ public class GameStepByStepFragment extends Fragment {
         round2StartTimer.cancel();
     }
 
-    private void setupSolutionListener() {
+    private void setupSolutionFieldListener() {
         TextView solutionField = fieldTextViews[fieldTextViews.length-1];
         solutionField.addTextChangedListener(solutionWatcher);
     }
@@ -141,9 +184,9 @@ public class GameStepByStepFragment extends Fragment {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, new GameMyNumberFragment()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.game_fragment_container, GameMyNumberFragment.newInstance(gameActivity)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();
             }
-        }, 3 * SECOND);
+        }, 2 * SECOND);
     }
 
     private void startTimerCountdown(int msTimeFrom){
@@ -169,9 +212,15 @@ public class GameStepByStepFragment extends Fragment {
                             public void run() {
                                 step = 1;
                                 resetFields();
-                                setupSolutionListener();
+                                setupSolutionFieldListener();
                                 round2 = true;
                                 gameValuesRound1 = gameValuesRound2;
+
+                                if (gameActivity.switchAndGetPlayerOnTurn().equals(gameActivity.getLoggedPlayer()))
+                                    gameActivity.runOnUiThread(() -> enableSolutionInteraction());
+                                else
+                                    gameActivity.runOnUiThread(() -> disableSolutionInteraction());
+
                                 countDownTimer.start();
                                 showStep(step++);
                             }
@@ -182,7 +231,12 @@ public class GameStepByStepFragment extends Fragment {
                     this.start();
                 }
             }
-        }.start();
+        };
+        gameActivity.setPlayerOnTurn(gameActivity.getFirstRoundPlayer());
+        if (gameActivity.getFirstRoundPlayer().equals(gameActivity.getLoggedPlayer())) {
+            gameActivity.runOnUiThread(() -> enableSolutionInteraction());
+        }
+        countDownTimer.start();
     }
 
     private boolean solutionIsGuessed() {
@@ -207,22 +261,20 @@ public class GameStepByStepFragment extends Fragment {
 //      - add points to real instance of the receiving player;
 //          * Total match points (for both players) are stored in DB after all the games end *
     private void assignPoints(int step, Object player){
-
 //        player is assigned amount of points based on Game rules
-
-        GameActivity gameActivity = (GameActivity) getActivity();
-
-        int playersCurrentTotal = round2 ? gameActivity.getPlayer2PointsView() : gameActivity.getPlayer1PointsView();
 
 //        *NOTE: changes
 //          STEP - 1 -> STEP - 2; fixed an offset when assigning points
-        int playersNewTotal = playersCurrentTotal + (MAX_POINTS_ACHIEVABLE - ((step-2) * POINTS_LOST_PER_CLUE_SHOWN));
+        int points = MAX_POINTS_ACHIEVABLE - ((step-2) * POINTS_LOST_PER_CLUE_SHOWN);
 
+        User playerOnTurn = gameActivity.getPlayerOnTurn();
+        playerOnTurn.setPointsStepByStep(playerOnTurn.getPointsStepByStep() + points);
+        gameActivity.addOverallPointsForCurrentMatchToPlayer(points, playerOnTurn);
 //        GameActivity's points-display update
-        if (round2)
-            gameActivity.setPlayer2PointsView(playersNewTotal);
+        if (playerOnTurn.equals(gameActivity.getLoggedPlayer()))
+            gameActivity.setPlayer1PointsView(playerOnTurn.getPointsCurrentMatch());
         else
-            gameActivity.setPlayer1PointsView(playersNewTotal);
+            gameActivity.setPlayer2PointsView(playerOnTurn.getPointsCurrentMatch());
     }
 
     private void resetFields(){
