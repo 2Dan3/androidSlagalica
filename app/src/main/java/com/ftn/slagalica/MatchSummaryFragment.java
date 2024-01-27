@@ -119,8 +119,15 @@ public class MatchSummaryFragment extends Fragment {
             else
                 scoreFormat = "%d";
             wonStarsPlayer1.setText(String.format(scoreFormat, starTotalCalc));
+
+            if ( (loggedPlayer.getStars() + starTotalCalc) < 0)
+                loggedPlayer.setStars(0);
+            else
+                loggedPlayer.setStars(starTotalCalc);
 //          //          //
-            wonTokensPlayer1.setText(String.format("+%d", 0));
+            int wonTokens = 0;
+            loggedPlayer.setTokens(loggedPlayer.getTokens() + wonTokens);
+            wonTokensPlayer1.setText(String.format("+%d", wonTokens));
         }
 
         return v;
@@ -182,7 +189,8 @@ public class MatchSummaryFragment extends Fragment {
             if (loggedPlayer.getPointsCurrentMatch() > gameActivity.getOpponentPlayer().getPointsCurrentMatch()) {
                 loggedPlayer.setWon(loggedPlayer.getWon() + 1);
             }
-            FirebaseDatabase.getInstance(FIREBASE_URL).getReference("users").child(gameActivity.getLoggedPlayer().getUsername()).setValue(gameActivity.getLoggedPlayer());
+
+            FirebaseDatabase.getInstance(FIREBASE_URL).getReference("users").child(loggedPlayer.getUsername()).setValue(loggedPlayer.sumUpTotalPoints());
         }
     }
 

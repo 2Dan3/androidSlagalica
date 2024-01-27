@@ -96,6 +96,10 @@ public class User {
         return result;
     }
 
+    public User sumUpTotalPoints(){
+        this.points = pointsWhoKnows + pointsConnectTwo + pointsAssociations + pointsJumper + pointsStepByStep + pointsMyNumber;
+    }
+
     public String getEmail() {
         return email;
     }
